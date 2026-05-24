@@ -1,0 +1,387 @@
+/* ============================================================
+   IK Saudi Manufacturing — RTL (Arabic) Stylesheet
+   Applied when dir="rtl" is set on the body/html
+   ============================================================ */
+
+/* ============================================================
+   Base RTL Overrides
+   ============================================================ */
+[dir="rtl"] {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  font-family: 'Cairo', sans-serif;
+  letter-spacing: 0;
+}
+
+[dir="rtl"] .section-eyebrow {
+  flex-direction: row-reverse;
+}
+
+/* ============================================================
+   Navbar RTL
+   ============================================================ */
+[dir="rtl"] .nav-links > li > a::after {
+  left: auto;
+  right: 50%;
+  transform: translateX(50%) scaleX(0);
+}
+
+[dir="rtl"] .nav-links > li > a:hover::after,
+[dir="rtl"] .nav-links > li > a.active::after {
+  transform: translateX(50%) scaleX(1);
+}
+
+[dir="rtl"] .nav-dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .nav-dropdown-menu li a {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-dropdown-menu li a:hover {
+  padding-left: 14px;
+  padding-right: 20px;
+}
+
+[dir="rtl"] .nav-logo-text {
+  text-align: right;
+}
+
+/* ============================================================
+   Hero RTL
+   ============================================================ */
+[dir="rtl"] .hero-content {
+  text-align: center;
+}
+
+[dir="rtl"] .hero-eyebrow {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hero-cta {
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+
+[dir="rtl"] .hero-stats {
+  right: auto;
+  left: 60px;
+}
+
+[dir="rtl"] .hero-accent-line {
+  right: auto;
+  left: 30%;
+}
+
+[dir="rtl"] .hero-shape-1,
+[dir="rtl"] .hero-shape-2 {
+  right: auto;
+  left: -80px;
+  top: -80px;
+}
+
+[dir="rtl"] .scroll-indicator-line::after {
+  left: auto;
+  right: 0;
+}
+
+/* ============================================================
+   Services RTL
+   ============================================================ */
+[dir="rtl"] .service-icon-float {
+  right: auto;
+  left: 20px;
+}
+
+[dir="rtl"] .service-link {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .service-link:hover i {
+  transform: translateX(-5px);
+}
+
+/* ============================================================
+   About RTL
+   ============================================================ */
+[dir="rtl"] .about-img-float {
+  right: auto;
+  left: -20px;
+}
+
+[dir="rtl"] .about-badge {
+  left: auto;
+  right: 30px;
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .about-mv-item {
+  text-align: right;
+}
+
+[dir="rtl"] .about-mv-icon {
+  margin-right: 0;
+}
+
+/* ============================================================
+   Industries RTL
+   ============================================================ */
+[dir="rtl"] .industry-card-content {
+  text-align: right;
+}
+
+[dir="rtl"] .industry-card-link {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .industry-card-link:hover i {
+  transform: translateX(-4px);
+}
+
+/* ============================================================
+   Clients & Partners RTL
+   ============================================================ */
+[dir="rtl"] .clients-marquee {
+  animation: marqueeRTL 30s linear infinite;
+}
+
+@keyframes marqueeRTL {
+  from { transform: translateX(0); }
+  to   { transform: translateX(50%); }
+}
+
+[dir="rtl"] .clients-marquee-wrap::before {
+  left: auto;
+  right: 0;
+  background: linear-gradient(to left, var(--c-dark), transparent);
+}
+
+[dir="rtl"] .clients-marquee-wrap::after {
+  right: auto;
+  left: 0;
+  background: linear-gradient(to right, var(--c-dark), transparent);
+}
+
+/* ============================================================
+   FAQ RTL
+   ============================================================ */
+[dir="rtl"] .faq-question {
+  flex-direction: row-reverse;
+  font-family: 'Cairo', sans-serif;
+}
+
+[dir="rtl"] .faq-answer-inner {
+  font-family: 'Cairo', sans-serif;
+}
+
+/* ============================================================
+   Testimonials RTL
+   ============================================================ */
+[dir="rtl"] .testimonial-quote-icon {
+  right: auto;
+  left: 30px;
+}
+
+[dir="rtl"] .testimonial-author {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .testimonial-author-info {
+  text-align: right;
+}
+
+/* ============================================================
+   Footer RTL
+   ============================================================ */
+[dir="rtl"] .footer-heading {
+  text-align: right;
+}
+
+[dir="rtl"] .footer-heading::after {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .footer-links a {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-links a:hover {
+  padding-left: 0;
+  padding-right: 6px;
+}
+
+[dir="rtl"] .footer-links a::before {
+  content: '‹';
+}
+
+[dir="rtl"] .footer-contact-list li {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-contact-text {
+  text-align: right;
+}
+
+[dir="rtl"] .footer-bottom-inner {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-bottom-links {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-socials {
+  flex-direction: row-reverse;
+}
+
+/* ============================================================
+   Scroll To Top / WhatsApp RTL
+   ============================================================ */
+[dir="rtl"] #scroll-top,
+[dir="rtl"] #whatsapp-btn {
+  right: auto;
+  left: 30px;
+}
+
+/* ============================================================
+   Breadcrumb RTL
+   ============================================================ */
+[dir="rtl"] .custom-breadcrumb {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .custom-breadcrumb li:not(:last-child)::after {
+  content: '‹';
+}
+
+/* ============================================================
+   Contact RTL
+   ============================================================ */
+[dir="rtl"] .contact-card {
+  text-align: right;
+}
+
+[dir="rtl"] .contact-form-wrap {
+  text-align: right;
+}
+
+[dir="rtl"] .form-control-custom {
+  text-align: right;
+}
+
+/* ============================================================
+   Mobile Menu RTL
+   ============================================================ */
+[dir="rtl"] .mobile-menu {
+  left: auto;
+  right: -100%;
+  border-right: none;
+  border-left: 1px solid rgba(201,162,39,0.15);
+  transition: right 0.4s var(--ease);
+}
+
+[dir="rtl"] .mobile-menu.open {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .mobile-nav-links li a {
+  text-align: right;
+}
+
+[dir="rtl"] .mobile-nav-links li a:hover {
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+/* ============================================================
+   Buttons RTL
+   ============================================================ */
+[dir="rtl"] .btn-gold,
+[dir="rtl"] .btn-blue,
+[dir="rtl"] .btn-outline-light,
+[dir="rtl"] .btn-outline-gold {
+  flex-direction: row-reverse;
+}
+
+/* ============================================================
+   Section Eyebrow RTL
+   ============================================================ */
+[dir="rtl"] .section-eyebrow::before {
+  order: 1;
+}
+
+[dir="rtl"] .section-eyebrow::after {
+  order: -1;
+}
+
+/* ============================================================
+   Service Link RTL
+   ============================================================ */
+[dir="rtl"] .footer-social-btn {
+  transform-origin: center;
+}
+
+/* ============================================================
+   Page Hero RTL
+   ============================================================ */
+[dir="rtl"] .page-hero-content {
+  text-align: right;
+}
+
+[dir="rtl"] .page-hero-tag {
+  flex-direction: row-reverse;
+}
+
+/* ============================================================
+   Nav Logo RTL
+   ============================================================ */
+[dir="rtl"] .nav-logo {
+  flex-direction: row-reverse;
+}
+
+/* ============================================================
+   About Badge RTL
+   ============================================================ */
+[dir="rtl"] .about-badge {
+  left: auto;
+  right: 30px;
+}
+
+/* ============================================================
+   Dropdown Arrow RTL
+   ============================================================ */
+[dir="rtl"] .nav-dropdown > a::after {
+  margin-left: 0;
+  margin-right: 4px;
+}
+
+/* ============================================================
+   Mobile at 992px RTL
+   ============================================================ */
+@media (max-width: 992px) {
+  [dir="rtl"] .hero-stats {
+    left: 20px;
+    right: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  [dir="rtl"] #scroll-top,
+  [dir="rtl"] #whatsapp-btn {
+    left: 16px;
+    right: auto;
+  }
+}

@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'contact_us' => 'Contact us',
+    'start_project' => 'Start your project',
+    'explore_capabilities' => 'Explore capabilities',
+    'our_full_story' => 'Our full story',
+    'view_projects' => 'View projects',
+    'all_projects' => 'All projects',
+    'view_project' => 'View project',
+    'service_details' => 'Service details',
+    'request_consultation' => 'Request consultation',
+    'book_consultation' => 'Book consultation',
+    'book_a_consultation' => 'Book a consultation',
+    'call_now' => 'Call now',
+    'send_message' => 'Send message',
+    'related_services' => 'Related services',
+    'discuss_similar' => 'Discuss a similar project',
+    'all_services' => 'All services',
+    'request_quote' => 'Request a Quote',
+    'discuss_project' => 'Discuss Your Project',
+    'go_home' => 'Go to Homepage',
+    'contact_support' => 'Contact Support',
+    'chat_whatsapp' => 'Chat on WhatsApp',
+    'view_on_map' => 'View on Google Maps',
+    'send_message_quote' => 'Send Message & Request Quote',
+];

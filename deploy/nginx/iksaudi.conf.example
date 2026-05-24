@@ -1,0 +1,89 @@
+# IK Saudi — Nginx production example (TLS termination + Laravel)
+# Copy to /etc/nginx/sites-available/iksaudi.conf and symlink to sites-enabled.
+
+upstream php_fpm {
+    server unix:/run/php/php8.2-fpm.sock;
+    keepalive 16;
+}
+
+# Rate limit zones
+limit_req_zone $binary_remote_addr zone=contact:10m rate=5r/m;
+limit_req_zone $binary_remote_addr zone=login:10m rate=5r/m;
+limit_conn_zone $binary_remote_addr zone=conn:10m;
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name iksaudi.com www.iksaudi.com;
+    return 301 https://iksaudi.com$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name iksaudi.com;
+
+    root /var/www/iksaudi/public;
+    index index.php;
+
+    # TLS — use certbot or corporate PKI
+    ssl_certificate     /etc/letsencrypt/live/iksaudi.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/iksaudi.com/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 1d;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    client_max_body_size 6M;
+    limit_conn conn 20;
+
+    # Block sensitive paths
+    location ~ /\.(?!well-known) {
+        deny all;
+    }
+
+    location ~ ^/(storage|vendor|node_modules|\.env) {
+        deny all;
+    }
+
+    # Contact form rate limit
+    location ~ ^/(ar|en)/contact$ {
+        limit_req zone=contact burst=3 nodelay;
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # Admin login rate limit
+    location ~ ^/ik-admin/login {
+        limit_req zone=login burst=3 nodelay;
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass php_fpm;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_hide_header X-Powered-By;
+        fastcgi_read_timeout 60;
+    }
+
+    location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg|webp|woff2?)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+        try_files $uri =404;
+    }
+
+    access_log /var/log/nginx/iksaudi.access.log;
+    error_log  /var/log/nginx/iksaudi.error.log warn;
+}

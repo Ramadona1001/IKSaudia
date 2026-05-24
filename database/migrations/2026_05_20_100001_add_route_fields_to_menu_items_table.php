@@ -1,0 +1,24 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('menu_items', function (Blueprint $table) {
+            $table->string('route_name')->nullable()->after('url');
+            $table->json('route_params')->nullable()->after('route_name');
+            $table->boolean('is_mega_menu')->default(false)->after('is_active');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('menu_items', function (Blueprint $table) {
+            $table->dropColumn(['route_name', 'route_params', 'is_mega_menu']);
+        });
+    }
+};

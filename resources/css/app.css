@@ -1,0 +1,624 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* ─── Design tokens (IK Saudi — Enterprise Industrial) ─────────────────────── */
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-arabic: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --color-navy-950: #030a12;
+    --color-navy-900: #071420;
+    --color-navy-800: #0c1f38;
+    --color-navy-700: #122d4d;
+    --color-navy-600: #1a3d66;
+    --color-navy-500: #225080;
+
+    --color-steel-100: #eef3f8;
+    --color-steel-200: #c8d6e4;
+    --color-steel-300: #94a8bc;
+    --color-steel-400: #6b8299;
+    --color-steel-500: #4a6278;
+
+    --color-accent: #c9a227;
+    --color-accent-light: #e4c65a;
+    --color-accent-dark: #9a7b1a;
+    --color-copper: #b87333;
+
+    --color-surface: #f4f7fa;
+    --color-surface-muted: #e8eef4;
+
+    --color-brand-950: var(--color-navy-950);
+    --color-brand-900: var(--color-navy-900);
+    --color-brand-800: var(--color-navy-800);
+    --color-brand-700: var(--color-navy-700);
+    --color-brand-accent: var(--color-accent);
+    --color-brand-steel: var(--color-steel-300);
+
+    --shadow-glow: 0 0 60px -12px color-mix(in srgb, var(--color-accent) 45%, transparent);
+    --shadow-glow-sm: 0 0 24px -4px color-mix(in srgb, var(--color-accent) 30%, transparent);
+    --shadow-card: 0 8px 32px -8px rgb(0 0 0 / 0.45);
+    --shadow-card-hover: 0 24px 48px -12px rgb(0 0 0 / 0.55);
+    --shadow-elevated: 0 32px 64px -20px rgb(0 0 0 / 0.6);
+    --shadow-inset-gold: inset 0 1px 0 0 color-mix(in srgb, var(--color-accent-light) 25%, transparent);
+
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.25rem;
+    --radius-3xl: 1.5rem;
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-in-out-smooth: cubic-bezier(0.45, 0, 0.55, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --duration-instant: 100ms;
+    --duration-fast: 180ms;
+    --duration-normal: 320ms;
+    --duration-slow: 600ms;
+    --duration-cinematic: 900ms;
+
+    --width-container: 80rem;
+    --spacing-section: 6rem;
+    --spacing-section-lg: 8.5rem;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+
+        .reveal {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    [dir='rtl'] body {
+        font-family: var(--font-arabic);
+    }
+
+    [dir='ltr'] body {
+        font-family: var(--font-sans);
+    }
+
+    body {
+        @apply bg-navy-950 text-steel-100 antialiased;
+    }
+
+    body.is-loading {
+        overflow: hidden;
+    }
+
+    :focus-visible {
+        @apply outline-2 outline-offset-2 outline-accent;
+    }
+
+    ::selection {
+        @apply bg-accent/30 text-white;
+    }
+}
+
+@layer components {
+    /* ── Typography scale ── */
+    .text-display-2xl {
+        font-size: clamp(2.75rem, 6vw, 5rem);
+        line-height: 1.02;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+    }
+
+    .text-display-xl {
+        font-size: clamp(2.25rem, 4.5vw, 4rem);
+        line-height: 1.08;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+    }
+
+    .text-display-lg {
+        font-size: clamp(1.875rem, 3.5vw, 3.25rem);
+        line-height: 1.12;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+
+    .text-display-md {
+        font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+        line-height: 1.2;
+        font-weight: 700;
+    }
+
+    .text-lead {
+        font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+        line-height: 1.75;
+        color: var(--color-steel-200);
+    }
+
+    .text-body-lg {
+        font-size: 1.125rem;
+        line-height: 1.75;
+    }
+
+    .text-overline {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+    }
+
+    .text-caption {
+        font-size: 0.75rem;
+        line-height: 1.45;
+    }
+
+    .text-gradient-gold {
+        background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 50%, var(--color-copper) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* ── Layout ── */
+    .container-iks {
+        @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .container-iks-wide {
+        @apply mx-auto w-full max-w-[90rem] px-4 sm:px-6 lg:px-8;
+    }
+
+    .section-padding {
+        @apply py-24 lg:py-32;
+    }
+
+    .section-padding-sm {
+        @apply py-16 lg:py-24;
+    }
+
+    .section-padding-tight {
+        @apply py-12 lg:py-16;
+    }
+
+    /* ── Industrial surfaces ── */
+    .bg-industrial-grid {
+        background-image:
+            linear-gradient(rgb(255 255 255 / 0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgb(255 255 255 / 0.025) 1px, transparent 1px);
+        background-size: 64px 64px;
+    }
+
+    .bg-industrial-grid-fine {
+        background-image:
+            linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+        background-size: 24px 24px;
+    }
+
+    .bg-industrial-gradient {
+        background:
+            radial-gradient(ellipse 100% 80% at 70% -30%, color-mix(in srgb, var(--color-navy-600) 55%, transparent), transparent 55%),
+            radial-gradient(ellipse 60% 50% at 10% 80%, color-mix(in srgb, var(--color-accent) 8%, transparent), transparent 50%),
+            linear-gradient(185deg, var(--color-navy-900) 0%, var(--color-navy-950) 65%);
+    }
+
+    .hero-cinematic {
+        @apply relative min-h-[100svh] flex items-center overflow-hidden;
+        background:
+            radial-gradient(ellipse 120% 100% at 50% 0%, color-mix(in srgb, var(--color-navy-700) 40%, transparent), transparent 60%),
+            linear-gradient(180deg, var(--color-navy-900) 0%, var(--color-navy-950) 100%);
+    }
+
+    .hero-slider {
+        @apply relative min-h-[100svh] overflow-hidden bg-navy-950;
+    }
+
+    .hero-slider__track {
+        @apply relative min-h-[100svh];
+    }
+
+    .hero-slider__slide {
+        @apply absolute inset-0;
+    }
+
+    .hero-slider__image {
+        @apply absolute inset-0 h-full w-full object-cover;
+    }
+
+    .hero-slider__overlay {
+        @apply absolute inset-0;
+        background:
+            radial-gradient(ellipse 80% 60% at 50% 45%, color-mix(in srgb, var(--color-navy-950) 35%, transparent) 0%, color-mix(in srgb, var(--color-navy-950) 75%, transparent) 100%),
+            linear-gradient(to top, var(--color-navy-950) 0%, transparent 45%),
+            linear-gradient(to bottom, color-mix(in srgb, var(--color-navy-950) 50%, transparent) 0%, transparent 35%);
+    }
+
+    .hero-slider__content {
+        @apply relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 py-28 text-center lg:py-40;
+    }
+
+    .hero-slider__copy {
+        @apply flex w-full flex-col items-center;
+    }
+
+    .hero-slider__copy .text-overline,
+    .hero-slider__copy h1,
+    .hero-slider__copy p {
+        @apply mx-auto;
+    }
+
+    .hero-slider__grid {
+        @apply absolute inset-0 opacity-25;
+        background-image:
+            linear-gradient(rgb(255 255 255 / 0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgb(255 255 255 / 0.025) 1px, transparent 1px);
+        background-size: 64px 64px;
+    }
+
+    .hero-slider__controls {
+        @apply absolute bottom-28 end-6 z-20 hidden gap-2 md:flex;
+    }
+
+    .hero-slider__arrow {
+        @apply flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-navy-950/50 text-steel-200 backdrop-blur transition hover:border-accent hover:text-white;
+    }
+
+    .hero-slider__dots {
+        @apply absolute bottom-24 start-1/2 z-20 flex -translate-x-1/2 gap-2;
+    }
+
+    .hero-slider__dot {
+        @apply h-1.5 w-2 rounded-full bg-white/25 transition-all duration-300 hover:bg-white/50;
+    }
+
+    .hero-slider__dot.is-active {
+        @apply w-8 bg-accent;
+    }
+
+    .hero-beam {
+        position: absolute;
+        inset: -50% -20%;
+        background: conic-gradient(from 200deg at 50% 50%, transparent 0deg, color-mix(in srgb, var(--color-accent) 6%, transparent) 60deg, transparent 120deg);
+        animation: heroBeam 18s linear infinite;
+        pointer-events: none;
+    }
+
+    .hero-grid-animate {
+        background-size: 64px 64px;
+        animation: gridDrift 40s linear infinite;
+    }
+
+    .hero-scanline {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            color-mix(in srgb, var(--color-accent) 4%, transparent) 48%,
+            transparent 52%
+        );
+        background-size: 100% 200%;
+        animation: scanline 8s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    .hero-noise {
+        position: absolute;
+        inset: 0;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        pointer-events: none;
+    }
+
+  .glass-panel {
+        @apply border border-white/10 bg-navy-900/50 backdrop-blur-2xl;
+        box-shadow: var(--shadow-inset-gold), var(--shadow-card);
+    }
+
+    .glass-panel-elevated {
+        @apply border border-white/15 bg-navy-800/40 backdrop-blur-2xl;
+        box-shadow: var(--shadow-elevated), var(--shadow-inset-gold);
+    }
+
+    .section-divider {
+        @apply relative;
+    }
+
+    .section-divider::before {
+        content: '';
+        @apply absolute inset-x-0 top-0 h-px;
+        background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-accent) 40%, transparent), transparent);
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+        opacity: 0;
+        transform: translateY(32px);
+        transition:
+            opacity var(--duration-slow) var(--ease-out-expo),
+            transform var(--duration-slow) var(--ease-out-expo);
+    }
+
+    .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .reveal-fade {
+        opacity: 0;
+        transition: opacity var(--duration-slow) var(--ease-out-expo);
+    }
+
+    .reveal-fade.is-visible {
+        opacity: 1;
+    }
+
+    .reveal-scale {
+        opacity: 0;
+        transform: scale(0.96);
+        transition:
+            opacity var(--duration-slow) var(--ease-out-expo),
+            transform var(--duration-slow) var(--ease-out-expo);
+    }
+
+    .reveal-scale.is-visible {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .reveal-stagger-1 { transition-delay: 80ms; }
+    .reveal-stagger-2 { transition-delay: 160ms; }
+    .reveal-stagger-3 { transition-delay: 240ms; }
+    .reveal-stagger-4 { transition-delay: 320ms; }
+    .reveal-stagger-5 { transition-delay: 400ms; }
+    .reveal-stagger-6 { transition-delay: 480ms; }
+
+    /* ── Interactive cards ── */
+    .card-premium {
+        @apply relative overflow-hidden rounded-2xl border border-white/10 bg-navy-900/40;
+        transition:
+            transform var(--duration-normal) var(--ease-out-expo),
+            border-color var(--duration-normal) var(--ease-out-expo),
+            box-shadow var(--duration-normal) var(--ease-out-expo);
+    }
+
+    .card-premium::before {
+        content: '';
+        @apply absolute inset-0 opacity-0 transition-opacity duration-500;
+        background: linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 12%, transparent) 0%, transparent 50%);
+    }
+
+    .card-premium:hover {
+        @apply border-accent/35 -translate-y-1;
+        box-shadow: var(--shadow-card-hover), var(--shadow-glow-sm);
+    }
+
+    .card-premium:hover::before {
+        opacity: 1;
+    }
+
+    .hover-shine {
+        @apply relative overflow-hidden;
+    }
+
+    .hover-shine::after {
+        content: '';
+        @apply absolute inset-0 -translate-x-full;
+        background: linear-gradient(105deg, transparent 40%, rgb(255 255 255 / 0.06) 50%, transparent 60%);
+        transition: transform var(--duration-cinematic) var(--ease-out-expo);
+    }
+
+    .hover-shine:hover::after {
+        transform: translateX(100%);
+    }
+
+    /* ── Skeleton loading ── */
+    .skeleton {
+        @apply relative overflow-hidden rounded-lg bg-navy-800/80;
+    }
+
+    .skeleton::after {
+        content: '';
+        @apply absolute inset-0;
+        background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.06), transparent);
+        animation: skeletonShimmer 1.8s ease-in-out infinite;
+    }
+
+    /* ── Nav & mega menu ── */
+    .nav-link {
+        @apply relative rounded-lg px-4 py-2.5 text-sm font-medium text-steel-300 transition-colors duration-200;
+    }
+
+    .nav-link:hover {
+        @apply text-white bg-white/5;
+    }
+
+    .nav-link-active {
+        @apply text-white bg-white/10;
+    }
+
+    .nav-link-active::after {
+        content: '';
+        @apply absolute bottom-1 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full bg-accent;
+    }
+
+    .mega-panel {
+        @apply rounded-3xl border border-white/12 bg-navy-900/95 p-8 shadow-elevated backdrop-blur-2xl;
+        box-shadow: var(--shadow-elevated), var(--shadow-inset-gold);
+    }
+
+    /* ── Timeline ── */
+    .timeline-line {
+        @apply absolute top-0 bottom-0 w-px bg-gradient-to-b from-accent/60 via-white/20 to-transparent;
+        inset-inline-start: 1.25rem;
+    }
+
+    @media (min-width: 1024px) {
+        .timeline-line {
+            inset-inline-start: 50%;
+            transform: translateX(-50%);
+        }
+
+        [dir='rtl'] .timeline-line {
+            transform: translateX(50%);
+        }
+    }
+
+    .timeline-dot {
+        @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-accent/50 bg-navy-900 text-sm font-bold text-accent;
+        box-shadow: var(--shadow-glow-sm);
+    }
+
+    /* ── Stats ── */
+    .stat-value {
+        font-variant-numeric: tabular-nums;
+        font-size: clamp(1.75rem, 3vw, 3rem);
+        line-height: 1.15;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 50%, var(--color-copper) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* ── Prose ── */
+    .prose-iks {
+        @apply text-steel-200 leading-relaxed;
+    }
+
+    .prose-iks h2 {
+        @apply text-white text-2xl font-semibold mt-10 mb-4;
+    }
+
+    .prose-iks p {
+        @apply mb-4;
+    }
+
+    .prose-iks a {
+        @apply text-accent hover:text-accent-light underline-offset-4 hover:underline;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* ── Page loader ── */
+    .page-loader {
+        @apply fixed inset-0 z-[200] flex flex-col items-center justify-center gap-6 bg-navy-950 transition-opacity duration-500;
+    }
+
+    .page-loader.is-done {
+        @apply pointer-events-none opacity-0;
+    }
+
+    .loader-ring {
+        @apply h-12 w-12 rounded-full border-2 border-white/10 border-t-accent;
+        animation: spin 0.9s linear infinite;
+    }
+
+    /* Pagination */
+    nav[role='navigation'][aria-label='Pagination Navigation'] {
+        @apply flex justify-center;
+    }
+
+    nav[role='navigation'][aria-label='Pagination Navigation'] a,
+    nav[role='navigation'][aria-label='Pagination Navigation'] span {
+        @apply mx-1 rounded-lg border border-white/10 px-4 py-2 text-sm text-steel-300 transition;
+    }
+
+    nav[role='navigation'][aria-label='Pagination Navigation'] a:hover {
+        @apply border-accent text-white;
+    }
+
+    nav[role='navigation'][aria-label='Pagination Navigation'] span[aria-current='page'] {
+        @apply border-accent bg-accent/10 text-accent;
+    }
+}
+
+@layer utilities {
+    .animate-fade-in {
+        animation: fadeIn var(--duration-slow) var(--ease-out-expo) forwards;
+    }
+
+    .animate-hero-enter {
+        animation: heroEnter var(--duration-cinematic) var(--ease-out-expo) forwards;
+    }
+
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .animate-pulse-soft {
+        animation: pulseSoft 4s ease-in-out infinite;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroEnter {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroBeam {
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes gridDrift {
+        0% { background-position: 0 0; }
+        100% { background-position: 64px 64px; }
+    }
+
+    @keyframes scanline {
+        0%, 100% { background-position: 0 -100%; }
+        50% { background-position: 0 100%; }
+    }
+
+    @keyframes skeletonShimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+
+    @keyframes pulseSoft {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+}

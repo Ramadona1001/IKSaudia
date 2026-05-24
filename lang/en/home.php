@@ -1,0 +1,116 @@
+<?php
+
+return [
+    'meta_title' => 'IK Saudi For Industries',
+    'hero' => [
+        'badge' => 'Industrial manufacturing · Kingdom of Saudi Arabia',
+        'section_overline' => 'Industrial manufacturing',
+        'default_title' => 'IK Saudi For Industries',
+        'default_subtitle' => 'Pipeline intervention and industrial manufacturing for Oil & Gas — engineered to world-class standards for Saudi energy sector partners.',
+        'why_title' => 'Why IK Saudi',
+        'slider_label' => 'Homepage hero',
+        'slider_dots' => 'Choose slide',
+        'slide_label' => 'Slide :number',
+        'points' => [
+            'facility' => 'Dammam 2nd Industrial City manufacturing facility',
+            'expertise' => 'Pipeline intervention & Oil & Gas expertise',
+            'standards' => 'International safety & quality standards',
+            'partners' => 'Trusted partner to major energy operators',
+        ],
+    ],
+    'stats' => [
+        'years_experience' => 'Years experience',
+        'projects_delivered' => 'Projects delivered',
+        'energy_clients' => 'Energy sector clients',
+        'safety_commitment' => 'Safety commitment',
+    ],
+    'about' => [
+        'overline' => 'About us',
+        'default_title' => 'Leaders in Saudi industrial manufacturing',
+        'default_subtitle' => 'From Dammam to the global energy sector — we build solutions that support critical infrastructure.',
+        'default_body' => 'IK Saudi For Industries is a Saudi manufacturing company in Dammam 2nd Industrial City, specializing in pipeline intervention solutions and polyurethane products for industrial and Oil & Gas applications.',
+        'snippet_fallback' => 'Saudi manufacturing company in Dammam 2nd Industrial City.',
+        'location_city' => 'Dammam, Saudi Arabia',
+        'location_detail' => '2nd Industrial City · Bldg. 3744',
+        'sector_label' => 'Sector',
+        'sector_value' => 'Oil & Gas',
+    ],
+    'services' => [
+        'overline' => 'Capabilities',
+        'default_subtitle' => 'Manufacturing and technical intervention for the energy sector.',
+    ],
+    'industries' => [
+        'overline' => 'Industries',
+        'title' => 'Serving energy & industrial sectors',
+        'subtitle' => 'Specialized solutions tailored to each sector\'s operational and regulatory requirements.',
+        'fallback' => [
+            'oil_gas' => 'Oil & Gas',
+            'mining' => 'Mining',
+            'subsea' => 'Subsea',
+            'petrochemicals' => 'Petrochemicals',
+        ],
+    ],
+    'process' => [
+        'overline' => 'Our process',
+        'title' => 'From concept to execution',
+        'subtitle' => 'A structured methodology ensuring quality and safety at every stage.',
+        'steps' => [
+            'consult_assessment' => [
+                'title' => 'Consultation & assessment',
+                'description' => 'Understanding operational asset requirements and defining scope.',
+            ],
+            'engineering_design' => [
+                'title' => 'Engineering design',
+                'description' => 'Tailored solutions to international standards and client specs.',
+            ],
+            'manufacturing_supply' => [
+                'title' => 'Manufacturing & supply',
+                'description' => 'Production at our Dammam facility with strict QA controls.',
+            ],
+            'field_execution' => [
+                'title' => 'Field execution',
+                'description' => 'Certified teams for safe on-site deployment and operations.',
+            ],
+            'support_maintenance' => [
+                'title' => 'Support & maintenance',
+                'description' => 'Post-delivery follow-up and performance continuity.',
+            ],
+        ],
+    ],
+    'projects' => [
+        'overline' => 'Our work',
+        'default_title' => 'Delivered projects',
+        'default_subtitle' => 'Partnerships with leading energy operators across the region.',
+        'navigation' => 'Project navigation',
+        'slide_label' => 'Project :number',
+    ],
+    'certifications' => [
+        'overline' => 'Quality & compliance',
+        'title' => 'Globally recognized standards',
+        'subtitle' => 'We adhere to the highest safety and quality standards in energy and manufacturing.',
+        'safety_title' => 'Safety first',
+        'safety_caption' => 'Zero incidents — our ongoing target',
+        'local_title' => 'Local manufacturing',
+        'local_caption' => 'Dammam · Kingdom of Saudi Arabia',
+        'field_title' => 'Field readiness',
+        'field_caption' => 'Certified technical teams',
+    ],
+    'trust' => [
+        'title' => 'Globally recognized standards & certifications',
+    ],
+    'cta' => [
+        'ready' => 'Ready when you are',
+        'default_title' => 'Talk to our engineering team',
+        'partner_overline' => 'Ready to partner',
+        'default_title_long' => 'Let\'s build industrial solutions for your assets',
+        'default_subtitle' => 'Share your technical requirements — our engineering team will respond within one business day.',
+        'partner_subtitle' => 'Connect with our team to discuss your Oil & Gas and mining project requirements.',
+        'partner_subtitle_commercial' => 'Connect with our engineering and commercial team to discuss your Oil & Gas and mining project requirements.',
+        'response_24h' => '24h response',
+        'response_24h_time' => '24h response time',
+        'certified_teams' => 'Certified teams',
+        'certified_team' => 'Certified technical team',
+        'footer_title' => 'Client assets are our top priority',
+        'footer_subtitle' => 'From consultation to delivery — one partner for manufacturing, repair, and field support.',
+    ],
+];

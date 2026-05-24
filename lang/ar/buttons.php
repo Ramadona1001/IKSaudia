@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'contact_us' => 'تواصل معنا',
+    'start_project' => 'ابدأ مشروعك',
+    'explore_capabilities' => 'استكشف القدرات',
+    'our_full_story' => 'قصتنا الكاملة',
+    'view_projects' => 'مشاريعنا',
+    'all_projects' => 'جميع المشاريع',
+    'view_project' => 'عرض المشروع',
+    'service_details' => 'تفاصيل الخدمة',
+    'request_consultation' => 'اطلب استشارة',
+    'book_consultation' => 'احجز استشارة',
+    'book_a_consultation' => 'احجز استشارة',
+    'call_now' => 'اتصل الآن',
+    'send_message' => 'إرسال',
+    'related_services' => 'الخدمات ذات الصلة',
+    'discuss_similar' => 'ناقش مشروعاً مشابهاً',
+    'all_services' => 'جميع الخدمات',
+    'request_quote' => 'اطلب عرض سعر',
+    'discuss_project' => 'ناقش مشروعك',
+    'go_home' => 'الذهاب للرئيسية',
+    'contact_support' => 'تواصل مع الدعم',
+    'chat_whatsapp' => 'تحدث عبر واتساب',
+    'view_on_map' => 'عرض على خرائط Google',
+    'send_message_quote' => 'إرسال الرسالة وطلب عرض السعر',
+];

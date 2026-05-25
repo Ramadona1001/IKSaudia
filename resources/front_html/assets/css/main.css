@@ -4,6 +4,7 @@
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Alexandria:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap');
 
 /* ============================================================
    CSS Custom Properties
@@ -52,7 +53,7 @@
   --glow-blue:   0 0 30px color-mix(in srgb, var(--c-blue-light) 45%, transparent);
 
   /* Typography */
-  --font-head:   'Poppins', sans-serif;
+  --font-head:   "Alexandria", sans-serif;
   --font-body:   'Inter', sans-serif;
   --font-ar:     'Alexandria', sans-serif;
 

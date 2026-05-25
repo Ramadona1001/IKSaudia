@@ -51,7 +51,7 @@
     </div>
 
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:start-4 focus:z-[100] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-navy-950">
-        {{ __('common.skip_to_content') }}
+        {{-- {{ __('common.skip_to_content') }} --}}
     </a>
 
     <x-layout.site-header :featured-services="$featuredServices ?? collect()" />

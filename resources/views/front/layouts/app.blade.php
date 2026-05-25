@@ -86,8 +86,8 @@
 <body dir="{{ $dir }}" data-server-locale class="@yield('body_class')">
 
     {{-- Skip link --}}
-    <a href="#main-content" class="visually-hidden-focusable" style="position:absolute;top:8px;inset-inline-start:8px;z-index:9999;background:var(--c-gold);color:var(--c-dark);padding:8px 14px;border-radius:6px;">
-        {{ __('common.skip_to_content') }}
+    <a href="#main-content" class="visually-hidden-focusable">
+        {{-- {{ __('common.skip_to_content') }} --}}
     </a>
 
     @include('front.partials.loader')

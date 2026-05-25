@@ -83,10 +83,10 @@
                     <text x="50%" y="57%" dominant-baseline="middle" text-anchor="middle" font-family="Poppins,Arial" font-weight="900" font-size="14" fill="#c9a227">IK</text>
                 </svg>
             @endif
-            <div class="nav-logo-text">
+            {{-- <div class="nav-logo-text">
                 <span class="nav-logo-main">IK <span>{{ Str::limit(Str::after($brand, 'IK '), 12, '') ?: 'Saudi' }}</span></span>
                 <span class="nav-logo-sub">{{ $brandSub }}</span>
-            </div>
+            </div> --}}
         </a>
 
         {{-- Desktop Nav Links --}}

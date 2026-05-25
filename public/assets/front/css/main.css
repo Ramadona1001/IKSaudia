@@ -1,5 +1,5 @@
 /* ============================================================
-   IK Saudi Manufacturing â€” Main Stylesheet
+   IK Saudi Manufacturing Ã¢â‚¬â€ Main Stylesheet
    Premium Industrial Corporate Design System
    ============================================================ */
 
@@ -9,12 +9,12 @@
       CSS Custom Properties
       ============================================================ */
    :root {
-     /* Admin branding (Website Settings → Branding); overridden on <html> from DB */
+     /* Admin branding (Website Settings â†’ Branding); overridden on <html> from DB */
      --brand-primary:   #060c1a;
      --brand-secondary: #1a2d4a;
      --brand-accent:    #c9a227;
    
-     /* Core Brand Colors — mapped from settings */
+     /* Core Brand Colors â€” mapped from settings */
      --c-dark:        var(--brand-primary);
      --c-dark2:       color-mix(in srgb, var(--brand-primary) 55%, var(--brand-secondary) 45%);
      --c-dark3:       var(--brand-secondary);
@@ -276,8 +276,8 @@
      align-items: center;
      gap: 10px;
      padding: 14px 32px;
-     background: var(--grad-gold);
-     color: var(--c-dark);
+     background: var(--brand-secondary);
+     color: var(--c-white);
      font-family: var(--font-head);
      font-size: 0.9rem;
      font-weight: 700;
@@ -407,11 +407,8 @@
    }
    
    .main-nav.scrolled .nav-inner {
-     background: rgba(6,12,26,0.97);
-     backdrop-filter: blur(20px);
-     -webkit-backdrop-filter: blur(20px);
+     background: white;
      border-bottom: 1px solid rgba(201,162,39,0.15);
-     box-shadow: 0 4px 30px rgba(0,0,0,0.4);
    }
    
    .nav-inner {
@@ -481,7 +478,7 @@
      font-size: 1rem;
      font-weight: 600;
      letter-spacing: 0.5px;
-     color: rgba(255,255,255,0.85);
+     color: var(--brand-primary);
      border-radius: var(--radius);
      transition: var(--trans-fast);
      position: relative;
@@ -502,7 +499,8 @@
    
    .nav-links > li > a:hover,
    .nav-links > li > a.active {
-     color: white;
+     color: var(--brand-secondary);
+     font-weight: bold !important;
    }
    
    .nav-links > li > a:hover::after,
@@ -586,7 +584,7 @@
      display: flex;
      align-items: center;
      justify-content: center;
-     background: rgba(255,255,255,0.06);
+     background: var(--brand-secondary);
      border: 1px solid rgba(255,255,255,0.1);
      border-radius: var(--radius);
      color: var(--c-white);
@@ -605,7 +603,7 @@
      display: flex;
      align-items: center;
      gap: 2px;
-     background: rgba(255,255,255,0.06);
+     background: var(--brand-secondary);
      border: 1px solid rgba(255,255,255,0.1);
      border-radius: var(--radius);
      padding: 4px;
@@ -620,13 +618,13 @@
      border-radius: 8px;
      cursor: pointer;
      border: none;
-     background: transparent;
-     color: rgba(255,255,255,0.6);
+     background: var(--brand-secondary);
+     color: white;
      transition: var(--trans-fast);
    }
    
    .lang-btn.active {
-     background: var(--grad-gold);
+     background: var(--c-white);
      color: var(--c-dark);
    }
    
@@ -3582,7 +3580,7 @@
    }
    
    /* ============================================================
-      Product detail — keep sidebar beside content (Bootstrap row)
+      Product detail â€” keep sidebar beside content (Bootstrap row)
       ============================================================ */
    .product-detail-layout > [class*="col-"] {
      min-width: 0;

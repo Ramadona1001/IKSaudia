@@ -182,7 +182,10 @@
             </a>
         </div>
 
-        <button class="nav-toggle" type="button" aria-label="{{ __('navigation.menu') }}" aria-expanded="false">
+        <button class="nav-toggle" type="button" aria-label="{{ __('navigation.menu') }}" aria-expanded="false"  style="
+        background: var(--brand-secondary);
+        padding: 10px;
+    ">
             <span></span><span></span><span></span>
         </button>
     </div>

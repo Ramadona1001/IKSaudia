@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use BackedEnum;
 use Filament\Facades\Filament;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\AccountWidget as BaseAccountWidget;
@@ -27,7 +28,7 @@ class AccountWidget extends BaseAccountWidget
         return Filament::hasProfile() ? Filament::getProfileUrl() : null;
     }
 
-    public function getProfileIcon(): string
+    public function getProfileIcon(): string | BackedEnum
     {
         return Heroicon::OutlinedUserCircle;
     }

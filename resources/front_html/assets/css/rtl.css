@@ -7,7 +7,7 @@
    Base RTL Overrides
    ============================================================ */
 [dir="rtl"] {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'Alexandria', sans-serif;
   direction: rtl;
   text-align: right;
 }
@@ -18,7 +18,7 @@
 [dir="rtl"] h4,
 [dir="rtl"] h5,
 [dir="rtl"] h6 {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'Alexandria', sans-serif;
   letter-spacing: 0;
 }
 
@@ -178,11 +178,11 @@
    ============================================================ */
 [dir="rtl"] .faq-question {
   flex-direction: row-reverse;
-  font-family: 'Cairo', sans-serif;
+  font-family: 'Alexandria', sans-serif;
 }
 
 [dir="rtl"] .faq-answer-inner {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'Alexandria', sans-serif;
 }
 
 /* ============================================================

@@ -2,8 +2,12 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\EditProfile;
 use App\Filament\Auth\Login;
+use App\Filament\Auth\RequestPasswordReset;
+use App\Filament\Auth\ResetPassword;
 use App\Filament\Navigation\NavigationGroup;
+use App\Filament\Widgets\AccountWidget;
 use App\Filament\Widgets\CmsOverviewWidget;
 use App\Http\Middleware\EnsureUserIsActive;
 use App\Http\Middleware\RestrictAdminByIp;
@@ -15,7 +19,6 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -32,6 +35,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path(config('cms.admin_path', 'ik-admin'))
             ->login(Login::class)
+            ->profile(EditProfile::class, isSimple: false)
+            ->passwordReset(RequestPasswordReset::class, ResetPassword::class)
+            ->authPasswordBroker('users')
             ->brandName('IK Saudi CMS')
             ->colors([
                 'primary' => Color::hex('#c8922a'),

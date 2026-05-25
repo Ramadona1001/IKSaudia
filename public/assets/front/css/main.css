@@ -272,6 +272,7 @@
       Buttons
       ============================================================ */
    .btn-gold {
+     width: 100%;
      display: inline-flex;
      align-items: center;
      gap: 10px;
@@ -290,6 +291,7 @@
      overflow: hidden;
      box-shadow: var(--shadow-gold);
      white-space: nowrap;
+     justify-content: center;
    }
    
    .btn-gold::before {
@@ -3530,7 +3532,7 @@
      :root { --section-py: 70px; }
    
      .hero-title { font-size: 2.8rem; }
-     .hero-cta { flex-direction: column; align-items: flex-start; }
+     .hero-cta {flex-direction: column;align-items: center;}
    
      .about-img-float { width: 140px; height: 140px; }
      .about-img-float-num { font-size: 2.2rem; }

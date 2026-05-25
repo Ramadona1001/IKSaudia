@@ -694,14 +694,18 @@
      right: 0;
    }
    
-   .mobile-overlay {
-     display: none;
-     position: fixed;
-     inset: 0;
-     background: rgba(0,0,0,0.7);
-     z-index: 8998;
-     backdrop-filter: blur(3px);
-   }
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 8998;
+  backdrop-filter: blur(3px);
+}
+
+.mobile-overlay.is-open {
+  display: block;
+}
    
    .mobile-nav-links { list-style: none; }
    
@@ -3510,7 +3514,6 @@
    
      .nav-toggle { display: flex; }
      .mobile-menu { display: block; }
-     .mobile-overlay { display: block; }
    
      .hero-stats {
        display: none;

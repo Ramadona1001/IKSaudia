@@ -61,16 +61,18 @@ function initMobileMenu() {
   function openMenu() {
     toggle.classList.add('open');
     menu.classList.add('open');
-    if (overlay) overlay.style.display = 'block';
+    overlay?.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
 
   function closeMenu() {
     toggle.classList.remove('open');
     menu.classList.remove('open');
-    if (overlay) overlay.style.display = 'none';
+    overlay?.classList.remove('is-open');
     document.body.style.overflow = '';
   }
+
+  closeMenu();
 
   toggle.addEventListener('click', () => {
     menu.classList.contains('open') ? closeMenu() : openMenu();

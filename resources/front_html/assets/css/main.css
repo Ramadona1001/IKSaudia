@@ -703,6 +703,10 @@ body[dir="rtl"] .mobile-menu.open {
   backdrop-filter: blur(3px);
 }
 
+.mobile-overlay.is-open {
+  display: block;
+}
+
 .mobile-nav-links { list-style: none; }
 
 .mobile-nav-links li a {
@@ -3082,7 +3086,6 @@ textarea.form-control-custom {
 
   .nav-toggle { display: flex; }
   .mobile-menu { display: block; }
-  .mobile-overlay { display: block; }
 
   .hero-stats {
     display: none;

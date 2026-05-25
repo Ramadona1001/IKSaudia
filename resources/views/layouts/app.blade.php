@@ -21,6 +21,7 @@
     @endif
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>[x-cloak]{display:none!important}</style>
     <style>
         :root {
             --color-navy-950: color-mix(in srgb, {{ $brandPrimary }} 92%, #000 8%);

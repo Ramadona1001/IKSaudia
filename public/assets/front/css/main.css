@@ -409,6 +409,7 @@
    .main-nav.scrolled .nav-inner {
      background: white;
      border-bottom: 1px solid rgba(201,162,39,0.15);
+     box-shadow: 0 0 10px 0 #00000059;
    }
    
    .nav-inner {

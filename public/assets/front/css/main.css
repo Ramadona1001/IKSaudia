@@ -1242,6 +1242,32 @@
      transition: var(--trans);
    }
    
+   .service-icon-float--brand {
+     background: rgba(6, 12, 26, 0.92);
+     border: 1px solid rgba(201, 162, 39, 0.4);
+     color: var(--c-gold);
+   }
+   
+   .service-icon-float--brand .iks-brand-dot {
+     --brand-dot-size: 18px;
+   }
+   
+   .iks-brand-dot {
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     width: var(--brand-dot-size, 14px);
+     height: var(--brand-dot-size, 14px);
+     color: inherit;
+     flex-shrink: 0;
+   }
+   
+   .iks-brand-dot svg {
+     display: block;
+     width: 100%;
+     height: 100%;
+   }
+   
    body[dir="rtl"] .service-icon-float {
      right: auto;
      left: 20px;

@@ -9,7 +9,9 @@
     $st = $service->translate($locale);
     if (! $st) { return; }
 
-    $icon = $service->icon ?: 'bi-gear-fill';
+    $icon = $service->icon;
+    $legacyGearIcons = ['bi-gear-fill', 'bi-gear-wide-connected', 'bi-gear'];
+    $useBrandIcon = blank($icon) || in_array($icon, $legacyGearIcons, true);
     $bgClass = 'svc-bg-'.((($index - 1) % 6) + 1);
     $img = $service->featured_image_url ?? null;
 @endphp
@@ -22,7 +24,9 @@
             <div class="service-img-bg {{ $bgClass }}"></div>
         @endif
         <div class="service-img-overlay"></div>
-        <div class="service-icon-float"><i class="bi {{ $icon }}" aria-hidden="true"></i></div>
+        <div class="service-icon-float {{ $useBrandIcon ? 'service-icon-float--brand' : '' }}">
+            <x-front.service-icon :icon="$icon" dot-size="lg" />
+        </div>
     </div>
     <div class="service-body">
         <div class="service-num">{{ str_pad((string) $index, 2, '0', STR_PAD_LEFT) }}</div>

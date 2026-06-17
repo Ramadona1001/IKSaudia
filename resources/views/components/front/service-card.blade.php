@@ -9,11 +9,9 @@
     $st = $service->translate($locale);
     if (! $st) { return; }
 
-    $icon = $service->icon;
-    $legacyGearIcons = ['bi-gear-fill', 'bi-gear-wide-connected', 'bi-gear'];
-    $useBrandIcon = blank($icon) || in_array($icon, $legacyGearIcons, true);
     $bgClass = 'svc-bg-'.((($index - 1) % 6) + 1);
     $img = $service->featured_image_url ?? null;
+    $favicon = setting_url('general.favicon') ?? setting_url('general.logo');
 @endphp
 
 <article {{ $attributes->merge(['class' => 'service-card']) }} data-aos="fade-up" data-aos-delay="{{ $delay }}">
@@ -24,8 +22,12 @@
             <div class="service-img-bg {{ $bgClass }}"></div>
         @endif
         <div class="service-img-overlay"></div>
-        <div class="service-icon-float {{ $useBrandIcon ? 'service-icon-float--brand' : '' }}">
-            <x-front.service-icon :icon="$icon" dot-size="lg" />
+        <div class="service-icon-float service-icon-float--brand">
+            @if ($favicon)
+                <img src="{{ $favicon }}" alt="" class="service-icon-favicon" loading="lazy" decoding="async" aria-hidden="true">
+            @else
+                <x-front.brand-dot size="lg" />
+            @endif
         </div>
     </div>
     <div class="service-body">

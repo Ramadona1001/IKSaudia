@@ -1,5 +1,5 @@
 /* ============================================================
-   IK Saudi Manufacturing Ã¢â‚¬â€ Main Stylesheet
+   IK Saudi Manufacturing ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Main Stylesheet
    Premium Industrial Corporate Design System
    ============================================================ */
 
@@ -9,12 +9,12 @@
       CSS Custom Properties
       ============================================================ */
    :root {
-     /* Admin branding (Website Settings â†’ Branding); overridden on <html> from DB */
+     /* Admin branding (Website Settings Ã¢â€ â€™ Branding); overridden on <html> from DB */
      --brand-primary:   #060c1a;
      --brand-secondary: #1a2d4a;
      --brand-accent:    #c9a227;
    
-     /* Core Brand Colors â€” mapped from settings */
+     /* Core Brand Colors Ã¢â‚¬â€ mapped from settings */
      --c-dark:        var(--brand-primary);
      --c-dark2:       color-mix(in srgb, var(--brand-primary) 55%, var(--brand-secondary) 45%);
      --c-dark3:       var(--brand-secondary);
@@ -1243,13 +1243,20 @@
    }
    
    .service-icon-float--brand {
-     background: rgba(6, 12, 26, 0.92);
-     border: 1px solid rgba(201, 162, 39, 0.4);
-     color: var(--c-gold);
+     background: var(--brand-secondary);
+     border: 1px solid var(--bs-body-bg);
+     color: var(--bs-body-bg);
    }
    
    .service-icon-float--brand .iks-brand-dot {
      --brand-dot-size: 18px;
+   }
+   
+   .service-icon-favicon {
+     display: block;
+     width: 32px;
+     height: 32px;
+     object-fit: contain;
    }
    
    .iks-brand-dot {
@@ -1304,7 +1311,7 @@
      font-size: 0.7rem;
      font-weight: 700;
      letter-spacing: 3px;
-     color: var(--c-gold);
+     color: var(--bs-body-bg);
      margin-bottom: 12px;
    }
    
@@ -1335,7 +1342,7 @@
      font-weight: 700;
      letter-spacing: 1px;
      text-transform: uppercase;
-     color: var(--c-gold);
+     color: var(--bs-body-bg);
      transition: var(--trans-fast);
    }
    
@@ -1808,9 +1815,18 @@
    
    .clients-header {
      text-align: center;
-     margin-bottom: 60px;
+     margin-bottom: 48px;
    }
-   
+
+   .clients-marquee-wrap--standalone {
+     width: 100vw;
+     max-width: 100vw;
+     margin-inline: calc(50% - 50vw);
+     margin-top: 0;
+     padding: 36px 0;
+     border-block: 1px solid rgba(255, 255, 255, 0.06);
+     background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 100%);
+   }
    .clients-logo-grid {
      display: grid;
      grid-template-columns: repeat(5, 1fr);
@@ -1895,6 +1911,10 @@
      position: relative;
      margin-top: 50px;
    }
+
+   .clients-marquee-wrap--standalone {
+     margin-top: 0;
+   }
    
    .clients-marquee-wrap::before,
    .clients-marquee-wrap::after {
@@ -1917,9 +1937,11 @@
    
    .clients-marquee {
      display: flex;
-     gap: 40px;
-     animation: marquee 30s linear infinite;
+     align-items: center;
+     gap: 56px;
+     animation: marquee 40s linear infinite;
      width: max-content;
+     padding-inline: 28px;
    }
    
    .clients-marquee:hover { animation-play-state: paused; }
@@ -1932,30 +1954,49 @@
    .marquee-client {
      display: flex;
      align-items: center;
-     gap: 12px;
-     background: rgba(255,255,255,0.03);
-     border: 1px solid rgba(255,255,255,0.06);
-     border-radius: var(--radius-pill);
-     padding: 14px 24px;
+     justify-content: center;
+     flex: 0 0 auto;
+     min-width: 120px;
+     height: 72px;
+     padding: 10px 28px;
+     background: transparent;
+     border: none;
+     border-radius: 0;
      white-space: nowrap;
-     transition: var(--trans-fast);
+     transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+     text-decoration: none;
    }
-   
+
    .marquee-client:hover {
-     border-color: rgba(201,162,39,0.2);
-     background: rgba(201,162,39,0.05);
+     transform: scale(1.04);
    }
-   
-   .marquee-client i {
-     font-size: 1.4rem;
-     color: var(--c-gold);
+
+   .marquee-client-logo {
+     display: block;
+     max-height: 56px;
+     max-width: 180px;
+     width: auto;
+     height: auto;
+     object-fit: contain;
+     opacity: 0.82;
+     transition: opacity 0.3s var(--ease);
    }
-   
-   .marquee-client span {
+
+   .marquee-client:hover .marquee-client-logo {
+     opacity: 1;
+   }
+
+   .marquee-client-name {
      font-family: var(--font-head);
-     font-size: 0.85rem;
+     font-size: 0.82rem;
      font-weight: 600;
-     color: rgba(255,255,255,0.7);
+     letter-spacing: 0.12em;
+     text-transform: uppercase;
+     color: rgba(255, 255, 255, 0.55);
+   }
+
+   .marquee-client:hover .marquee-client-name {
+     color: rgba(255, 255, 255, 0.85);
    }
    
    /* ============================================================
@@ -2138,6 +2179,10 @@
      color: rgba(255, 255, 255, 0.65);
    }
    
+
+   .clients-header .section-title{
+    color: var(--bs-body-bg) !important;
+   }
    /* ============================================================
       FAQ Section
       ============================================================ */
@@ -3625,7 +3670,7 @@
    }
    
    /* ============================================================
-      Product detail â€” keep sidebar beside content (Bootstrap row)
+      Product detail Ã¢â‚¬â€ keep sidebar beside content (Bootstrap row)
       ============================================================ */
    .product-detail-layout > [class*="col-"] {
      min-width: 0;

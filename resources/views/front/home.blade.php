@@ -345,55 +345,63 @@
                     :description="__('front.home.clients.desc')"
                 />
             </div>
+        </div>
 
-            <div class="clients-logo-grid" data-aos="fade-up" data-aos-delay="100" role="list" aria-label="Client logos">
-                @php
-                    $defaultClients = [
-                        ['name' => 'ARAMCO',  'icon' => 'bi-droplet-fill'],
-                        ['name' => 'SABIC',   'icon' => 'bi-flask-fill'],
-                        ['name' => 'SEC',     'icon' => 'bi-lightning-fill'],
-                        ['name' => 'NEOM',    'icon' => 'bi-building-fill'],
-                        ['name' => 'MAADEN',  'icon' => 'bi-gem'],
-                        ['name' => 'STC',     'icon' => 'bi-wifi'],
-                        ['name' => 'ACWA',    'icon' => 'bi-sun-fill'],
-                        ['name' => 'SBG',     'icon' => 'bi-hammer'],
-                        ['name' => 'SIPCHEM', 'icon' => 'bi-cpu-fill'],
-                        ['name' => 'TASNEE',  'icon' => 'bi-gear-fill'],
+        @php
+            $locale = app()->getLocale();
+            $defaultClients = [
+                ['name' => 'ARAMCO',  'icon' => 'bi-droplet-fill'],
+                ['name' => 'SABIC',   'icon' => 'bi-flask-fill'],
+                ['name' => 'SEC',     'icon' => 'bi-lightning-fill'],
+                ['name' => 'NEOM',    'icon' => 'bi-building-fill'],
+                ['name' => 'MAADEN',  'icon' => 'bi-gem'],
+                ['name' => 'STC',     'icon' => 'bi-wifi'],
+                ['name' => 'ACWA',    'icon' => 'bi-sun-fill'],
+                ['name' => 'SBG',     'icon' => 'bi-hammer'],
+                ['name' => 'SIPCHEM', 'icon' => 'bi-cpu-fill'],
+                ['name' => 'TASNEE',  'icon' => 'bi-gear-fill'],
+            ];
+
+            $marqueeItems = $featuredClients->isNotEmpty()
+                ? $featuredClients->map(function ($client) use ($locale) {
+                    $translation = $client->translate($locale);
+
+                    return [
+                        'name' => $translation?->name,
+                        'image' => $client->featured_image_url,
+                        'url' => $client->website_url,
                     ];
-                @endphp
+                })->filter(fn (array $item) => filled($item['name']))->values()
+                : collect($defaultClients)->map(fn (array $client) => [
+                    'name' => $client['name'],
+                    'image' => null,
+                    'url' => null,
+                ]);
+        @endphp
 
-                @if ($featuredClients->isNotEmpty())
-                    @foreach ($featuredClients as $client)
-                        @php $ct = $client->translate(app()->getLocale()); @endphp
-                        <x-front.client-logo
-                            :name="$ct?->name ?? '—'"
-                            :url="$client->website_url ?? '#'"
-                            :image="$client->featured_image_url"
-                            icon="bi-building-fill"
-                        />
-                    @endforeach
-                @else
-                    @foreach ($defaultClients as $c)
-                        <x-front.client-logo :name="$c['name']" :icon="$c['icon']" url="#" />
-                    @endforeach
-                @endif
-            </div>
-
-            <div class="clients-marquee-wrap" aria-hidden="true" data-aos="fade-up" data-aos-delay="200">
-                <div class="clients-marquee">
-                    @php
-                        $marqueeItems = $featuredClients->isNotEmpty()
-                            ? $featuredClients->map(fn ($c) => ['icon' => 'bi-building-fill', 'name' => $c->translate(app()->getLocale())?->name])->filter(fn ($i) => $i['name'])->values()
-                            : collect($defaultClients);
-                    @endphp
-                    @foreach ($marqueeItems as $item)
-                        <div class="marquee-client"><i class="bi {{ $item['icon'] ?? 'bi-building-fill' }}" aria-hidden="true"></i><span>{{ $item['name'] }}</span></div>
-                    @endforeach
-                    {{-- Duplicate for infinite loop --}}
-                    @foreach ($marqueeItems as $item)
-                        <div class="marquee-client"><i class="bi {{ $item['icon'] ?? 'bi-building-fill' }}" aria-hidden="true"></i><span>{{ $item['name'] }}</span></div>
-                    @endforeach
-                </div>
+        <div
+            class="clients-marquee-wrap clients-marquee-wrap--standalone"
+            role="region"
+            aria-label="{{ __('front.home.clients.eyebrow') }}"
+            data-aos="fade-up"
+            data-aos-delay="100"
+        >
+            <div class="clients-marquee">
+                @foreach ($marqueeItems as $item)
+                    <x-front.client-marquee-item
+                        :name="$item['name']"
+                        :image="$item['image']"
+                        :url="$item['url']"
+                    />
+                @endforeach
+                @foreach ($marqueeItems as $item)
+                    <x-front.client-marquee-item
+                        :name="$item['name']"
+                        :image="$item['image']"
+                        :url="$item['url']"
+                        aria-hidden="true"
+                    />
+                @endforeach
             </div>
         </div>
     </section>

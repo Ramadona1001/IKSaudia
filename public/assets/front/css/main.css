@@ -1535,7 +1535,7 @@
      margin-bottom: 6px;
    }
    
-   .about-stat-num.gold { color: var(--c-gold); }
+   .about-stat-num.gold { color: var(--bs-body-bg); }
    .about-stat-num.blue { color: var(--c-blue-light); }
    
    .about-stat-label {
@@ -2074,7 +2074,7 @@
    }
    
    .partners-section .partner-card:hover {
-     border-color: rgba(201, 162, 39, 0.45);
+     border-color: rgb(0 0 0 / 7%);
      background: #fff;
      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.1), var(--glow-gold);
    }
@@ -2181,6 +2181,10 @@
    
 
    .clients-header .section-title{
+    color: var(--bs-body-bg) !important;
+   }
+  
+   .about-section .section-title{
     color: var(--bs-body-bg) !important;
    }
    /* ============================================================

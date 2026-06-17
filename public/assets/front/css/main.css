@@ -1,5 +1,5 @@
 /* ============================================================
-   IK Saudi Manufacturing ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Main Stylesheet
+   IK Saudi Manufacturing ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â Main Stylesheet
    Premium Industrial Corporate Design System
    ============================================================ */
 
@@ -9,12 +9,12 @@
       CSS Custom Properties
       ============================================================ */
    :root {
-     /* Admin branding (Website Settings ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Branding); overridden on <html> from DB */
+     /* Admin branding (Website Settings ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ Branding); overridden on <html> from DB */
      --brand-primary:   #060c1a;
      --brand-secondary: #1a2d4a;
      --brand-accent:    #c9a227;
    
-     /* Core Brand Colors ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â mapped from settings */
+     /* Core Brand Colors ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â mapped from settings */
      --c-dark:        var(--brand-primary);
      --c-dark2:       color-mix(in srgb, var(--brand-primary) 55%, var(--brand-secondary) 45%);
      --c-dark3:       var(--brand-secondary);
@@ -427,7 +427,7 @@
    .main-nav.scrolled .nav-inner {
      background: white;
      border-bottom: 1px solid rgba(201,162,39,0.15);
-     box-shadow: 0 0 10px 0 #00000059;
+     box-shadow: unset;
    }
    
    .nav-inner {
@@ -1785,7 +1785,7 @@
      z-index: 2;
    }
 
-   /* Swiper adds absolute positioning to nav buttons — keep them in the row below slides */
+   /* Swiper adds absolute positioning to nav buttons â€” keep them in the row below slides */
    .industries-swiper-nav .ind-nav-btn,
    .industries-swiper-nav .swiper-button-prev,
    .industries-swiper-nav .swiper-button-next {
@@ -3777,7 +3777,7 @@
    }
    
    /* ============================================================
-      Product detail ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â keep sidebar beside content (Bootstrap row)
+      Product detail ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â keep sidebar beside content (Bootstrap row)
       ============================================================ */
    .product-detail-layout > [class*="col-"] {
      min-width: 0;

@@ -3033,6 +3033,7 @@
      background-image: var(--page-hero-pattern-image);
      background-size: var(--page-hero-pattern-size, 60px 60px);
      pointer-events: none;
+     opacity: 0.02;
    }
    
    .page-hero::after {

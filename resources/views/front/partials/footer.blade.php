@@ -66,7 +66,7 @@
 
                     <p class="footer-about-text">{{ $aboutText }}</p>
 
-                    @if (count($certBadges))
+                    {{-- @if (count($certBadges))
                         <div class="footer-cert-badges">
                             @foreach ($certBadges as $badge)
                                 <span class="footer-cert-badge">
@@ -74,7 +74,25 @@
                                 </span>
                             @endforeach
                         </div>
-                    @endif
+                    @endif --}}
+
+                    <div class="footer-newsletter-card">
+                        <p class="footer-newsletter-title">
+                            <i class="bi bi-newspaper" aria-hidden="true"></i>
+                            {{ __('footer.newsletter_blurb') }}
+                        </p>
+                        <form class="newsletter-form" novalidate>
+                            <label class="visually-hidden" for="footer-newsletter-email">{{ __('footer.newsletter_placeholder') }}</label>
+                            <input type="email"
+                                   id="footer-newsletter-email"
+                                   class="newsletter-input"
+                                   placeholder="{{ __('footer.newsletter_placeholder') }}"
+                                   required>
+                            <button type="submit" class="newsletter-btn" aria-label="{{ __('footer.subscribe') }}">
+                                <i class="bi bi-send-fill" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
 
                     @if (count($socialLinks))
                         <x-front.social-links :links="$socialLinks" />
@@ -167,23 +185,7 @@
                         </div>
                     @endif --}}
 
-                    <div class="footer-newsletter-card">
-                        <p class="footer-newsletter-title">
-                            <i class="bi bi-newspaper" aria-hidden="true"></i>
-                            {{ __('footer.newsletter_blurb') }}
-                        </p>
-                        <form class="newsletter-form" novalidate>
-                            <label class="visually-hidden" for="footer-newsletter-email">{{ __('footer.newsletter_placeholder') }}</label>
-                            <input type="email"
-                                   id="footer-newsletter-email"
-                                   class="newsletter-input"
-                                   placeholder="{{ __('footer.newsletter_placeholder') }}"
-                                   required>
-                            <button type="submit" class="newsletter-btn" aria-label="{{ __('footer.subscribe') }}">
-                                <i class="bi bi-send-fill" aria-hidden="true"></i>
-                            </button>
-                        </form>
-                    </div>
+                    
                 </div>
 
             </div>

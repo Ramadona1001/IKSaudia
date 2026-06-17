@@ -82,7 +82,7 @@
                         <x-front.social-links :links="$socialLinks" />
                     @endif
 
-                    <div class="footer-newsletter-card">
+                    <div class="footer-newsletter-card mt-3">
                         <p class="footer-newsletter-title">
                             <i class="bi bi-newspaper" aria-hidden="true"></i>
                             {{ __('footer.newsletter_blurb') }}

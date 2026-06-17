@@ -151,11 +151,6 @@ function initIndustriesSwiper() {
       nextEl: '.ind-nav-next',
       prevEl: '.ind-nav-prev'
     },
-    pagination: {
-      el: '.ind-swiper-pagination',
-      clickable: true,
-      dynamicBullets: true
-    },
     breakpoints: {
       576: { slidesPerView: 2, spaceBetween: 20 },
       992: { slidesPerView: 3, spaceBetween: 24 },

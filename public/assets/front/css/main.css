@@ -1822,28 +1822,6 @@
      opacity: 0.35 !important;
      cursor: not-allowed;
    }
-
-   .ind-swiper-pagination {
-     position: static !important;
-     width: auto !important;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     gap: 8px;
-   }
-
-   .ind-swiper-pagination .swiper-pagination-bullet {
-     width: 8px;
-     height: 8px;
-     background: color-mix(in srgb, var(--brand-primary) 25%, transparent);
-     opacity: 1;
-   }
-
-   .ind-swiper-pagination .swiper-pagination-bullet-active {
-     width: 24px;
-     border-radius: 4px;
-     background: var(--c-gold);
-   }
    
    /* ============================================================
       Clients Section

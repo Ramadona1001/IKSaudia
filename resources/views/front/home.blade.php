@@ -321,7 +321,6 @@
                     <button class="ind-nav-btn ind-nav-prev" type="button" aria-label="{{ __('common.previous') }}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i>
                     </button>
-                    <div class="ind-swiper-pagination"></div>
                     <button class="ind-nav-btn ind-nav-next" type="button" aria-label="{{ __('common.next') }}">
                         <i class="bi bi-arrow-right" aria-hidden="true"></i>
                     </button>

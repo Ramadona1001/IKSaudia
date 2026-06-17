@@ -19,8 +19,12 @@
 
             @if ($title || $highlight)
                 <h1 class="page-hero-title">
-                    @if ($title){!! $title !!} @endif
-                    @if ($highlight)<span class="text-gold">{{ $highlight }}</span>@endif
+                    @if ($title)
+                        {!! $title !!}
+                    @endif
+                    @if ($highlight)
+                        <span class="text-gold">{{ $highlight }}</span>
+                    @endif
                 </h1>
             @endif
 

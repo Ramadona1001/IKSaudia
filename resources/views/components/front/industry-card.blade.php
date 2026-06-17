@@ -25,7 +25,13 @@
     @endif
     <div class="industry-card-overlay"></div>
     <div class="industry-card-content">
-        <div class="industry-icon {{ $iconClass }}"><i class="bi {{ $icon }}" aria-hidden="true"></i></div>
+        <div class="industry-icon {{ $iconClass }}">
+            @if ($favicon)
+                <img src="{{ $favicon }}" alt="" class="service-icon-favicon" loading="lazy" decoding="async" aria-hidden="true">
+            @else
+                <x-front.brand-dot size="lg" />
+            @endif
+        </div>
         <h3 class="industry-card-title">{{ $it->title }}</h3>
         @if ($it->summary)
             <p class="industry-card-desc" @if ($expanded) style="opacity:1;max-height:none;" @endif>

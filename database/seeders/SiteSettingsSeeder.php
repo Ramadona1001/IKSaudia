@@ -36,6 +36,9 @@ class SiteSettingsSeeder extends Seeder
                 'font_arabic' => 'IBM Plex Sans Arabic',
                 'hero_background_image' => null,
                 'hero_background_video' => null,
+                'page_hero_pattern' => 'hexagon',
+                'page_hero_pattern_image' => null,
+                'page_hero_pattern_size' => 60,
                 'loading_logo' => null,
             ],
             'footer' => [

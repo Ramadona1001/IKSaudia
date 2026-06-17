@@ -50,6 +50,9 @@ return [
         'branding.font_arabic' => ['group' => 'branding', 'type' => 'text', 'translatable' => false, 'label' => 'Arabic font family'],
         'branding.hero_background_image' => ['group' => 'branding', 'type' => 'image', 'translatable' => false, 'label' => 'Hero background image'],
         'branding.hero_background_video' => ['group' => 'branding', 'type' => 'text', 'translatable' => false, 'label' => 'Hero background video URL'],
+        'branding.page_hero_pattern' => ['group' => 'branding', 'type' => 'text', 'translatable' => false, 'label' => 'Inner page hero pattern'],
+        'branding.page_hero_pattern_image' => ['group' => 'branding', 'type' => 'image', 'translatable' => false, 'label' => 'Custom page hero pattern image'],
+        'branding.page_hero_pattern_size' => ['group' => 'branding', 'type' => 'text', 'translatable' => false, 'label' => 'Page hero pattern tile size'],
         'branding.loading_logo' => ['group' => 'branding', 'type' => 'image', 'translatable' => false, 'label' => 'Loading screen logo'],
 
         // ── Footer ───────────────────────────────────────────────────────

@@ -155,6 +155,32 @@ final class WebsiteSettingsForm
                 TextInput::make('branding.hero_background_video')->label('Hero video URL')->url(),
                 self::imageUpload('branding.loading_logo', 'Loading screen logo', 'site-settings/logos'),
             ]),
+            Section::make('Inner page hero pattern')
+                ->description('Background pattern on inner page banners (Services, About, Contact, etc.). Uses your accent color for built-in presets.')
+                ->columns(2)
+                ->schema([
+                    Select::make('branding.page_hero_pattern')
+                        ->label('Pattern style')
+                        ->options([
+                            'hexagon' => 'Hexagon (brand)',
+                            'grid' => 'Industrial grid',
+                            'dots' => 'Dots',
+                            'none' => 'None',
+                            'custom' => 'Custom image',
+                        ])
+                        ->default('hexagon')
+                        ->live(),
+                    TextInput::make('branding.page_hero_pattern_size')
+                        ->label('Pattern tile size (px)')
+                        ->numeric()
+                        ->default(60)
+                        ->minValue(16)
+                        ->maxValue(200)
+                        ->helperText('Size of one repeating tile. Hexagon default: 60.'),
+                    self::imageUpload('branding.page_hero_pattern_image', 'Custom pattern image', 'site-settings/patterns')
+                        ->visible(fn ($get) => $get('branding.page_hero_pattern') === 'custom')
+                        ->helperText('Seamless PNG/SVG tile. Transparent patterns work best.'),
+                ]),
         ];
     }
 

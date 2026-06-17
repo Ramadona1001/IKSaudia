@@ -10,12 +10,12 @@
     <div class="page-hero-glow" aria-hidden="true"></div>
     <div class="container">
         <div class="page-hero-content">
-            @if ($tag)
+            {{-- @if ($tag)
                 <div class="page-hero-tag">
                     <i class="bi {{ $icon }}" aria-hidden="true"></i>
                     <span>{{ $tag }}</span>
                 </div>
-            @endif
+            @endif --}}
 
             @if ($title || $highlight)
                 <h1 class="page-hero-title">

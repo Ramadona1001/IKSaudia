@@ -306,24 +306,26 @@
                 />
             </div>
 
-            <div class="swiper industries-swiper" data-aos="fade-up" data-aos-delay="100">
-                <div class="swiper-wrapper">
-                    @foreach ($featuredIndustries as $industry)
-                        <div class="swiper-slide">
-                            <x-front.industry-card :industry="$industry" :index="$loop->iteration" :delay="0" />
-                        </div>
-                    @endforeach
+            <div class="industries-slider" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper industries-swiper">
+                    <div class="swiper-wrapper">
+                        @foreach ($featuredIndustries as $industry)
+                            <div class="swiper-slide">
+                                <x-front.industry-card :industry="$industry" :index="$loop->iteration" :delay="0" />
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
 
-            <div class="industries-swiper-nav" data-aos="fade-up">
-                <button class="ind-nav-btn ind-nav-prev" type="button" aria-label="{{ __('common.previous') }}">
-                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                </button>
-                <div class="ind-swiper-pagination"></div>
-                <button class="ind-nav-btn ind-nav-next" type="button" aria-label="{{ __('common.next') }}">
-                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                </button>
+                <div class="industries-swiper-nav" aria-label="{{ __('navigation.industries') }}">
+                    <button class="ind-nav-btn ind-nav-prev" type="button" aria-label="{{ __('common.previous') }}">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    </button>
+                    <div class="ind-swiper-pagination"></div>
+                    <button class="ind-nav-btn ind-nav-next" type="button" aria-label="{{ __('common.next') }}">
+                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </section>

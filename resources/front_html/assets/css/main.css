@@ -1764,39 +1764,79 @@ body[dir="rtl"] .about-content {
 }
 .industry-card-link:hover i { transform: translateX(4px); }
 
+/* Industries Swiper */
+.industries-slider {
+  position: relative;
+  z-index: 1;
+}
+
+.industries-swiper {
+  overflow: hidden;
+}
+
 /* Industries Swiper Nav */
 .industries-swiper-nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-top: 40px;
+  gap: 20px;
+  margin-top: 32px;
+  padding-top: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Swiper adds absolute positioning to nav buttons — keep them in the row below slides */
+.industries-swiper-nav .ind-nav-btn,
+.industries-swiper-nav .swiper-button-prev,
+.industries-swiper-nav .swiper-button-next {
+  position: static !important;
+  inset: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .ind-nav-btn {
   width: 46px;
   height: 46px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: color-mix(in srgb, var(--brand-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--c-white);
+  color: var(--brand-primary);
   font-size: 1rem;
   cursor: pointer;
   transition: var(--trans);
 }
 
-.ind-nav-btn:hover {
+.ind-nav-btn:hover:not(.swiper-button-disabled) {
   background: var(--grad-gold);
   border-color: var(--c-gold);
   color: var(--c-dark);
 }
 
+.ind-nav-btn.swiper-button-disabled {
+  opacity: 0.35 !important;
+  cursor: not-allowed;
+}
+
+.ind-swiper-pagination {
+  position: static !important;
+  width: auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
 .ind-swiper-pagination .swiper-pagination-bullet {
-  width: 8px; height: 8px;
-  background: rgba(255,255,255,0.3);
+  width: 8px;
+  height: 8px;
+  background: color-mix(in srgb, var(--brand-primary) 25%, transparent);
   opacity: 1;
 }
 

@@ -76,6 +76,12 @@
                         </div>
                     @endif --}}
 
+                   
+
+                    @if (count($socialLinks))
+                        <x-front.social-links :links="$socialLinks" />
+                    @endif
+
                     <div class="footer-newsletter-card">
                         <p class="footer-newsletter-title">
                             <i class="bi bi-newspaper" aria-hidden="true"></i>
@@ -93,10 +99,6 @@
                             </button>
                         </form>
                     </div>
-
-                    @if (count($socialLinks))
-                        <x-front.social-links :links="$socialLinks" />
-                    @endif
                 </div>
 
                 <div class="footer-col footer-col--links">

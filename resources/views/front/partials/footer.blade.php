@@ -160,12 +160,12 @@
                         @endforeach
                     </div>
 
-                    @if (count($socialLinks))
+                    {{-- @if (count($socialLinks))
                         <div class="footer-contact-social">
                             <h4 class="footer-contact-social-title">{{ __('footer.socials') }}</h4>
                             <x-front.social-links :links="$socialLinks" class="footer-socials footer-socials--contact" />
                         </div>
-                    @endif
+                    @endif --}}
 
                     <div class="footer-newsletter-card">
                         <p class="footer-newsletter-title">

@@ -15,6 +15,7 @@
     $iconClass = $iconClasses[($index - 1) % count($iconClasses)];
     $bgClass = 'ind-bg-'.((($index - 1) % 6) + 1);
     $img = $industry->featured_image_url ?? null;
+    $favicon = setting_url('general.favicon') ?? setting_url('general.logo');
 @endphp
 
 <article {{ $attributes->merge(['class' => 'industry-card']) }} data-aos="fade-up" data-aos-delay="{{ $delay }}">
@@ -26,11 +27,7 @@
     <div class="industry-card-overlay"></div>
     <div class="industry-card-content">
         <div class="industry-icon {{ $iconClass }}">
-            @if ($favicon)
-                <img src="{{ $favicon }}" alt="" class="service-icon-favicon" loading="lazy" decoding="async" aria-hidden="true">
-            @else
-                <x-front.brand-dot size="lg" />
-            @endif
+            <img src="{{ $favicon }}" alt="" class="service-icon-favicon" loading="lazy" decoding="async" aria-hidden="true">
         </div>
         <h3 class="industry-card-title">{{ $it->title }}</h3>
         @if ($it->summary)

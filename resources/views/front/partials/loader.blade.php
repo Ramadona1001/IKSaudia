@@ -5,7 +5,7 @@
 <div id="loading-screen" role="status" aria-label="{{ __('common.loading') }}">
     <div class="loader-logo">
         @if ($loaderLogo)
-            <img src="{{ $loaderLogo }}" alt="{{ $brand }}" width="64" height="64" style="height:54px;width:auto;">
+            <img src="{{ $loaderLogo }}" alt="{{ $brand }}" class="loader-logo-img" width="200" height="140">
         @else
             <svg class="loader-hex" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <polygon points="27,3 51,15 51,39 27,51 3,39 3,15" fill="#c9a227" opacity="0.15"/>
@@ -15,5 +15,9 @@
         @endif
         <div class="loader-brand">IK <span>SAUDI</span></div>
     </div>
-    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    <div class="loader-circles" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </div>

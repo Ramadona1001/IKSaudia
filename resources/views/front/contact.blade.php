@@ -22,6 +22,7 @@
             ?: setting('contact.address')
             ?: __('footer.address_short');
         $whatsapp = $siteSettings?->whatsappFormatted('966591154300');
+        $socialLinks = $siteSettings?->socialLinks() ?? [];
         $businessHours = $siteSettings?->businessHours(app()->getLocale()) ?? [];
         $mapQuery = urlencode(strip_tags(str_replace(["\r", "\n"], ' ', $address)));
         $mapsUrl = $mapQuery !== '' ? 'https://www.google.com/maps/search/?api=1&query='.$mapQuery : null;
@@ -173,7 +174,7 @@
                             <div class="form-check-custom">
                                 <input class="form-check-input-custom @error('terms') is-invalid @enderror" type="checkbox" name="terms" id="contact-terms" value="1" {{ old('terms') ? 'checked' : '' }} required>
                                 <label class="form-check-label-custom" for="contact-terms">
-                                    {!! __('front.contact.terms_html') !!}
+                                    {!! __('front.contact.terms_html', ['privacy_url' => \App\Support\LegalLink::url('privacy-policy', app()->getLocale())]) !!}
                                 </label>
                             </div>
                             @error('terms')<small class="form-error d-block mt-2">{{ $message }}</small>@enderror
@@ -214,6 +215,23 @@
                             </div>
                             <i class="bi bi-arrow-right contact-whatsapp-arrow" aria-hidden="true"></i>
                         </a>
+                    @endif
+
+                    @if (count($socialLinks))
+                        <div class="contact-social-card">
+                            <div class="contact-social-header">
+                                <div class="contact-social-icon"><i class="bi bi-share-fill" aria-hidden="true"></i></div>
+                                <div>
+                                    <div class="contact-social-title">{{ __('front.contact.social_title') }}</div>
+                                    <div class="contact-social-desc">{{ __('front.contact.social_desc') }}</div>
+                                </div>
+                            </div>
+                            <x-front.social-links
+                                :links="$socialLinks"
+                                class="contact-social-links"
+                                button-class="contact-social-btn"
+                            />
+                        </div>
                     @endif
                 </div>
             </div>

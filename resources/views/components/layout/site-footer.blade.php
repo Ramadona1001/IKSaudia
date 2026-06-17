@@ -2,7 +2,7 @@
     $locale = app()->getLocale();
     $year = date('Y');
     $footerCtaEnabled = setting('footer.cta_enabled', true);
-    $legalLinks = setting('footer.legal_links', []);
+    $legalLinks = \App\Support\LegalLink::visibleLinks($locale);
     $certBadges = $siteSettings->certificationBadges();
 @endphp
 
@@ -65,7 +65,7 @@
                     <div class="mt-8 flex flex-wrap gap-3">
                         @foreach ($socialLinks as $social)
                             <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/10 px-3 py-2 text-caption text-steel-400 transition hover:border-accent hover:text-accent">
-                                {{ $social['label'] ?? ucfirst($social['platform'] ?? '') }}
+                                {{ \App\Support\SocialPlatform::label($social) }}
                             </a>
                         @endforeach
                     </div>
@@ -135,15 +135,11 @@
         <div class="container-iks flex flex-col items-center justify-between gap-4 py-6 text-caption text-steel-500 sm:flex-row">
             <p>&copy; {{ $year }} {{ setting('footer.copyright') ?: __('footer.copyright', ['year' => $year]) }} {{ __('common.all_rights_reserved') }}</p>
             <div class="flex gap-8">
-                @forelse ($legalLinks as $link)
-                    @if ($link['is_visible'] ?? true)
-                        @php $label = $locale === 'ar' ? ($link['label_ar'] ?? $link['label_en']) : ($link['label_en'] ?? $link['label_ar']); @endphp
-                        <a href="{{ $link['url'] }}" class="transition hover:text-steel-300">{{ $label }}</a>
-                    @endif
-                @empty
-                    <a href="#" class="transition hover:text-steel-300">{{ __('common.privacy') }}</a>
-                    <a href="#" class="transition hover:text-steel-300">{{ __('common.terms') }}</a>
-                @endforelse
+                @foreach ($legalLinks as $link)
+                    <a href="{{ \App\Support\LegalLink::url((string) ($link['url'] ?? ''), $locale) }}" class="transition hover:text-steel-300">
+                        {{ \App\Support\LegalLink::label($link, $locale) }}
+                    </a>
+                @endforeach
             </div>
         </div>
     </div>

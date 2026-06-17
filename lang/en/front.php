@@ -285,7 +285,7 @@ return [
         'email_us' => 'Email Us',
         'whatsapp' => 'WhatsApp',
         'business_hours' => 'Business Hours',
-        'terms_html' => 'I agree to the <a href="#">Privacy Policy</a> and consent to be contacted regarding my enquiry.',
+        'terms_html' => 'I agree to the <a href=":privacy_url">Privacy Policy</a> and consent to be contacted regarding my enquiry.',
         'fields' => [
             'name' => 'Full Name',
             'name_ph' => 'Eng. Mohammed Al-…',
@@ -304,6 +304,8 @@ return [
         'offices_title' => 'Our Offices',
         'whatsapp_title' => 'Chat on WhatsApp',
         'whatsapp_desc' => 'Get instant replies from our team',
+        'social_title' => 'Follow Us',
+        'social_desc' => 'Connect with us on social media',
     ],
 
     'error_404' => [

@@ -3529,6 +3529,90 @@
    body[dir="rtl"] .contact-whatsapp-card:hover .contact-whatsapp-arrow {
      transform: translateX(-4px);
    }
+
+   .contact-social-card {
+     background: rgba(255, 255, 255, 0.02);
+     border: 1px solid rgba(255, 255, 255, 0.07);
+     border-radius: var(--radius-xl);
+     padding: 22px;
+   }
+
+   .contact-social-header {
+     display: flex;
+     align-items: flex-start;
+     gap: 14px;
+     margin-bottom: 18px;
+   }
+
+   .contact-social-icon {
+     width: 44px;
+     height: 44px;
+     border-radius: var(--radius);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-shrink: 0;
+     background: rgba(10, 102, 194, 0.14);
+     border: 1px solid rgba(10, 102, 194, 0.28);
+     color: #0a66c2;
+     font-size: 1.15rem;
+   }
+
+   .contact-social-title {
+     font-size: 0.92rem;
+     font-weight: 700;
+     color: var(--c-white);
+     margin-bottom: 4px;
+   }
+
+   .contact-social-desc {
+     font-size: 0.8rem;
+     color: var(--c-muted);
+     line-height: 1.5;
+   }
+
+   .contact-social-links {
+     justify-content: flex-start;
+     gap: 12px;
+   }
+
+   .contact-social-btn {
+     width: 44px;
+     height: 44px;
+     background: rgba(255, 255, 255, 0.04);
+     border: 1px solid rgba(255, 255, 255, 0.1);
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: var(--c-white);
+     font-size: 1.05rem;
+     transition: var(--trans);
+   }
+
+   .contact-social-btn:hover {
+     background: #0a66c2;
+     border-color: #0a66c2;
+     color: var(--c-white);
+     transform: translateY(-2px);
+   }
+
+   .footer-contact-social {
+     margin-top: 8px;
+   }
+
+   .footer-contact-social-title {
+     font-size: 0.78rem;
+     font-weight: 700;
+     letter-spacing: 0.08em;
+     text-transform: uppercase;
+     color: rgba(255, 255, 255, 0.55);
+     margin-bottom: 12px;
+   }
+
+   .footer-socials--contact {
+     justify-content: flex-start;
+   }
    
    /* ============================================================
       404 Page

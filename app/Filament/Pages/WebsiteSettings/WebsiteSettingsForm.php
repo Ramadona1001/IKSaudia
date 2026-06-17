@@ -395,7 +395,10 @@ final class WebsiteSettingsForm
             ->schema([
                 TextInput::make('label_ar')->label('Label (AR)'),
                 TextInput::make('label_en')->label('Label (EN)'),
-                TextInput::make('url')->label('URL')->url()->required(),
+                TextInput::make('url')
+                    ->label('URL')
+                    ->required()
+                    ->helperText('Full URL (https://…) or page slug (e.g. privacy-policy).'),
                 Toggle::make('is_visible')->label('Visible')->default(true),
                 TextInput::make('sort_order')->label('Sort')->numeric()->default(0),
             ])

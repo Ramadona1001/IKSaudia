@@ -18,6 +18,7 @@
     $socialLinks = $siteSettings->socialLinks();
     $featuredServices = $featuredServices ?? collect();
     $certBadges = $siteSettings->certificationBadges();
+    $legalLinks = \App\Support\LegalLink::visibleLinks($locale);
 @endphp
 
 <footer class="site-footer" role="contentinfo">
@@ -76,16 +77,7 @@
                     @endif
 
                     @if (count($socialLinks))
-                        <div class="footer-socials" aria-label="{{ __('footer.socials') }}">
-                            @foreach ($socialLinks as $link)
-                                <a href="{{ $link['url'] ?? '#' }}"
-                                   class="footer-social-btn"
-                                   aria-label="{{ $link['label'] ?? ($link['platform'] ?? '') }}"
-                                   target="_blank" rel="noopener noreferrer">
-                                    <i class="bi {{ 'bi-' . strtolower($link['platform'] ?? 'globe2') }}"></i>
-                                </a>
-                            @endforeach
-                        </div>
+                        <x-front.social-links :links="$socialLinks" />
                     @endif
                 </div>
 
@@ -168,6 +160,13 @@
                         @endforeach
                     </div>
 
+                    @if (count($socialLinks))
+                        <div class="footer-contact-social">
+                            <h4 class="footer-contact-social-title">{{ __('footer.socials') }}</h4>
+                            <x-front.social-links :links="$socialLinks" class="footer-socials footer-socials--contact" />
+                        </div>
+                    @endif
+
                     <div class="footer-newsletter-card">
                         <p class="footer-newsletter-title">
                             <i class="bi bi-newspaper" aria-hidden="true"></i>
@@ -196,8 +195,13 @@
             <div class="footer-bottom-inner">
                 <p class="footer-copy">© {{ $copyright }}</p>
                 <ul class="footer-bottom-links">
-                    <li><a href="#">{{ __('common.privacy') }}</a></li>
-                    <li><a href="#">{{ __('common.terms') }}</a></li>
+                    @foreach ($legalLinks as $link)
+                        <li>
+                            <a href="{{ \App\Support\LegalLink::url((string) ($link['url'] ?? ''), $locale) }}">
+                                {{ \App\Support\LegalLink::label($link, $locale) }}
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>

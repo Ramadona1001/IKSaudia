@@ -54,8 +54,8 @@ class SiteSettingsSeeder extends Seeder
                 'service_links' => [],
                 'industry_links' => [],
                 'legal_links' => [
-                    ['label_ar' => 'الخصوصية', 'label_en' => 'Privacy', 'url' => '#', 'is_visible' => true, 'sort_order' => 1],
-                    ['label_ar' => 'الشروط', 'label_en' => 'Terms', 'url' => '#', 'is_visible' => true, 'sort_order' => 2],
+                    ['label_ar' => 'الخصوصية', 'label_en' => 'Privacy', 'url' => 'privacy-policy', 'is_visible' => true, 'sort_order' => 1],
+                    ['label_ar' => 'الشروط', 'label_en' => 'Terms', 'url' => 'terms-of-use', 'is_visible' => true, 'sort_order' => 2],
                 ],
                 'certification_badges' => [
                     ['code' => 'ISO', 'label' => 'ISO', 'enabled' => true],
@@ -97,7 +97,7 @@ class SiteSettingsSeeder extends Seeder
             ],
             'social' => [
                 'links' => [
-                    ['platform' => 'linkedin', 'url' => '', 'enabled' => false],
+                    ['platform' => 'linkedin', 'url' => 'https://www.linkedin.com/company/iksforindustries', 'enabled' => true, 'label' => 'LinkedIn'],
                     ['platform' => 'x', 'url' => '', 'enabled' => false],
                 ],
             ],

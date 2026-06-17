@@ -13,7 +13,6 @@
                 <text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle" font-family="Poppins,Arial" font-weight="900" font-size="16" fill="#c9a227">IK</text>
             </svg>
         @endif
-        <div class="loader-brand">IK <span>SAUDI</span></div>
     </div>
     <div class="loader-circles" aria-hidden="true">
         <span></span>

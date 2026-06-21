@@ -32,6 +32,7 @@ class HomeController extends Controller
     {
         return view('front.home', [
             'sections' => $this->homePage->sections($locale),
+            'foundationSection' => $this->homePage->sectionByKey('foundation', $locale),
             'locales' => $this->locales->active(),
             'featuredServices' => $this->services->featured($locale, 6),
             'featuredProjects' => $this->projects->featured($locale, 6),

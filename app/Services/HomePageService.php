@@ -32,10 +32,19 @@ class HomePageService
         });
     }
 
+    public function sectionByKey(string $key, ?string $locale = null): ?HomeSection
+    {
+        return $this->sections($locale)->firstWhere('key', $key)
+            ?? $this->sections($locale)->firstWhere('type', $key);
+    }
+
     public function clearCache(): void
     {
-        foreach ($this->locales->active() as $locale) {
-            Cache::forget("home.sections.{$locale->code}");
+        foreach (array_unique(array_merge(
+            $this->locales->active()->pluck('code')->all(),
+            config('locales.supported', ['ar', 'en']),
+        )) as $code) {
+            Cache::forget("home.sections.{$code}");
         }
     }
 }

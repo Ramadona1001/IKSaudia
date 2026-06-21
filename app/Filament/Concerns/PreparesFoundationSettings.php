@@ -6,13 +6,17 @@ use App\Support\FoundationSection;
 
 trait PreparesFoundationSettings
 {
+    use ResolvesHomeSectionRecordType;
+
     /**
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      */
     protected function prepareFoundationSettings(array $data): array
     {
-        if (($data['type'] ?? null) !== 'foundation') {
+        $type = $data['type'] ?? $this->resolveRecordType();
+
+        if ($type !== 'foundation') {
             return $data;
         }
 

@@ -82,12 +82,14 @@
     {{-- Mission Vision Values (CMS: home-sections › foundation) --}}
     @php
         $locale = app()->getLocale();
-        $foundationSection = ($sections ?? collect())->firstWhere('key', 'foundation')
+        $foundationSection = $foundationSection
+            ?? ($sections ?? collect())->firstWhere('key', 'foundation')
             ?? ($sections ?? collect())->firstWhere('type', 'foundation');
         $foundationSettings = is_array($foundationSection?->settings) ? $foundationSection->settings : [];
         $foundationHeading = \App\Support\FoundationSection::headingForLocale($foundationSettings, $locale);
         $foundationCards = \App\Support\FoundationSection::cardsForLocale($foundationSettings, $locale);
     @endphp
+    @if ($foundationSection && $foundationSection->is_active)
     <section class="section-pad bg-dark1">
         <div class="container">
             <x-front.section-heading
@@ -112,6 +114,7 @@
             </div>
         </div>
     </section>
+    @endif
 
     <x-front.cta-section :title="__('front.about.cta_title')" :description="__('front.about.cta_desc')">
         <a href="{{ route('contact', app()->getLocale()) }}" class="btn-gold">

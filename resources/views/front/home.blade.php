@@ -253,16 +253,17 @@
     <div class="section-divider"></div>
 
      {{-- ============================================================
-         SECTION 3b — MISSION, VISION & VALUES (CMS: home-sections › foundation)
+         SECTION 3b — MISSION, VISION & VALUES (CMS: /ik-admin/home-sections › foundation)
          ============================================================ --}}
     @php
-        $foundationSection = ($sections ?? collect())->firstWhere('key', 'foundation')
+        $foundationSection = $foundationSection
+            ?? ($sections ?? collect())->firstWhere('key', 'foundation')
             ?? ($sections ?? collect())->firstWhere('type', 'foundation');
         $foundationSettings = is_array($foundationSection?->settings) ? $foundationSection->settings : [];
         $foundationHeading = \App\Support\FoundationSection::headingForLocale($foundationSettings, $locale);
         $foundationCards = \App\Support\FoundationSection::cardsForLocale($foundationSettings, $locale);
     @endphp
-    @if ($foundationSection?->is_active ?? true)
+    @if ($foundationSection && $foundationSection->is_active)
         <section id="foundation" class="foundation-section section-pad">
             <div class="container">
                 <x-front.section-heading

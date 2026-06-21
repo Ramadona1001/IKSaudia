@@ -20,6 +20,7 @@ class AboutController extends Controller
     {
         return view('front.about', [
             'sections' => $this->homePage->sections($locale),
+            'foundationSection' => $this->homePage->sectionByKey('foundation', $locale),
             'locales' => $this->locales->active(),
             'certifications' => $this->certifications->featured($locale, 8),
         ]);

@@ -8,6 +8,9 @@ use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
 use App\Models\HomeSectionTranslation;
+use App\Services\HomePageService;
+use App\Support\AboutSectionStats;
+use App\Support\FoundationSection;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
@@ -76,6 +79,10 @@ class EditHomeSection extends EditRecord
             $this->syncSlides($this->record, $this->cachedSlides);
         }
 
+        if (in_array($this->record->type, ['foundation', 'about_snippet'], true)) {
+            $this->persistStructuredSettings();
+        }
+
         $this->syncTranslations(
             $this->record,
             HomeSectionTranslation::class,
@@ -83,6 +90,48 @@ class EditHomeSection extends EditRecord
             $this->cachedTranslations ?? [],
             ['title', 'subtitle', 'content', 'cta_label', 'cta_url'],
         );
+    }
+
+    protected function persistStructuredSettings(): void
+    {
+        $rawSettings = $this->form->getState()['settings'] ?? [];
+
+        $settings = match ($this->record->type) {
+            'foundation' => FoundationSection::normalizeSettings(is_array($rawSettings) ? $rawSettings : []),
+            'about_snippet' => $this->normalizeAboutSettings(is_array($rawSettings) ? $rawSettings : []),
+            default => null,
+        };
+
+        if (! is_array($settings)) {
+            return;
+        }
+
+        $this->record->update(['settings' => $settings]);
+        app(HomePageService::class)->clearCache();
+    }
+
+    /**
+     * @param  array<string, mixed>  $settings
+     * @return array<string, mixed>
+     */
+    protected function normalizeAboutSettings(array $settings): array
+    {
+        $settings = AboutSectionStats::normalizeSettings($settings);
+
+        foreach (['ar', 'en'] as $locale) {
+            if (count($settings['stats'][$locale] ?? []) < 4) {
+                $settings['stats'][$locale] = AboutSectionStats::defaultStatsForLocale($locale);
+            }
+
+            if (empty($settings['years_badge'][$locale])) {
+                $settings['years_badge'][$locale] = AboutSectionStats::defaultYearsBadgeForLocale($locale);
+            }
+        }
+
+        return [
+            'stats' => $settings['stats'],
+            'years_badge' => $settings['years_badge'],
+        ];
     }
 
     /** @var array<string, array<string, mixed>> */

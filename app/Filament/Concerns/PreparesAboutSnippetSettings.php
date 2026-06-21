@@ -6,13 +6,17 @@ use App\Support\AboutSectionStats;
 
 trait PreparesAboutSnippetSettings
 {
+    use ResolvesHomeSectionRecordType;
+
     /**
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      */
     protected function prepareAboutSnippetSettings(array $data): array
     {
-        if (($data['type'] ?? null) !== 'about_snippet') {
+        $type = $data['type'] ?? $this->resolveRecordType();
+
+        if ($type !== 'about_snippet') {
             return $data;
         }
 

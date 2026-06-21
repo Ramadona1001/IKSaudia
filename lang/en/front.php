@@ -41,10 +41,10 @@ return [
 
     'home' => [
         'services' => [
-            'eyebrow' => 'What We Do',
-            'title' => 'Our Core ',
-            'highlight' => 'Services',
-            'desc' => "We provide end-to-end industrial manufacturing services built to the highest international quality standards, serving Saudi Arabia's most critical sectors.",
+            'eyebrow' => '',
+            'title' => 'Our Services',
+            'highlight' => '',
+            'desc' => 'Industrial solutions designed to support energy and industrial projects.',
             'view_all' => 'View All Services',
         ],
         'about' => [
@@ -68,10 +68,10 @@ return [
             'learn_more' => 'Learn More',
         ],
         'industries' => [
-            'eyebrow' => 'Sectors We Serve',
-            'title' => 'Our Key ',
-            'highlight' => 'Industries',
-            'desc' => "We serve Saudi Arabia's most strategic industrial sectors with specialized manufacturing capabilities and domain expertise.",
+            'eyebrow' => '',
+            'title' => 'Sectors We Serve',
+            'highlight' => '',
+            'desc' => '',
         ],
         'clients' => [
             'eyebrow' => 'Trusted By',
@@ -176,9 +176,9 @@ return [
 
     'products' => [
         'tag' => 'Catalog',
-        'title' => 'Our ',
-        'highlight' => 'Products',
-        'subtitle' => 'Pipeline scraping, subsea equipment, mining solutions, and industrial polyurethane products manufactured in Saudi Arabia.',
+        'title' => 'Our Products',
+        'highlight' => '',
+        'subtitle' => 'Pipeline scraping and pigging solutions — from Foam Scraper to our exclusive Non-Metallic Flange Shroud.',
         'breadcrumb' => 'Products',
         'cta_title' => 'Need a Custom Solution?',
         'cta_desc' => 'Contact our engineering team to discuss specifications, certifications, and delivery for your project.',
@@ -191,9 +191,9 @@ return [
 
     'industries' => [
         'tag' => 'Sectors',
-        'title' => 'Key ',
-        'highlight' => 'Industries',
-        'subtitle' => "Specialized manufacturing capabilities for Saudi Arabia's most critical industrial sectors.",
+        'title' => 'Sectors ',
+        'highlight' => 'We Serve',
+        'subtitle' => 'IKS solutions built for energy, industrial, and infrastructure sectors across Saudi Arabia, the Gulf, and the Middle East.',
         'breadcrumb' => 'Industries',
         'cta_title' => "Don't See Your Industry?",
         'cta_desc' => 'We work across many sectors. Contact us to discuss how we can support your specific industrial needs.',

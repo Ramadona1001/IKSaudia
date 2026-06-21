@@ -6,75 +6,26 @@ use App\Models\Service;
 use App\Models\ServiceTranslation;
 use Illuminate\Database\Seeder;
 
+/**
+ * Seeds the four core service categories shown on the homepage and services catalog.
+ *
+ * Run: php artisan db:seed --class=ServiceSeeder
+ */
 class ServiceSeeder extends Seeder
 {
     public function run(): void
     {
-        $services = [
-            [
-                'sort_order' => 1,
-                'is_featured' => true,
-                'translations' => [
-                    'ar' => [
-                        'title' => 'كشط خطوط الأنابيب',
-                        'slug' => 'pipeline-scraping',
-                        'summary' => 'منتجات وخدمات كشط خطوط الأنابيب لقطاع النفط والغاز.',
-                        'body' => '<p>نصمم ونصنع أدوات كشط خطوط الأنابيب وفق أعلى معايير الجودة والسلامة لعمليات خطوط الأنابيب.</p>',
-                    ],
-                    'en' => [
-                        'title' => 'Pipeline Scraping',
-                        'slug' => 'pipeline-scraping',
-                        'summary' => 'Pipeline scraping products and services for the Oil & Gas sector.',
-                        'body' => '<p>We design and manufacture pipeline scraping tools to the highest quality and safety standards for pipeline operations.</p>',
-                    ],
-                ],
-            ],
-            [
-                'sort_order' => 2,
-                'is_featured' => true,
-                'translations' => [
-                    'ar' => [
-                        'title' => 'حلول البولي يوريثان تحت البحرية',
-                        'slug' => 'polyurethane-subsea',
-                        'summary' => 'منتجات بولي يوريثان للتطبيقات تحت البحرية وغير المعدنية.',
-                        'body' => '<p>حلول متقدمة من البولي يوريثان للبنية التحتية تحت البحرية وقطاع التعدين.</p>',
-                    ],
-                    'en' => [
-                        'title' => 'Polyurethane Subsea Solutions',
-                        'slug' => 'polyurethane-subsea',
-                        'summary' => 'Polyurethane products for subsea and non-metallic applications.',
-                        'body' => '<p>Advanced polyurethane solutions for subsea infrastructure and the mining sector.</p>',
-                    ],
-                ],
-            ],
-            [
-                'sort_order' => 3,
-                'is_featured' => false,
-                'translations' => [
-                    'ar' => [
-                        'title' => 'تدخل خطوط الأنابيب',
-                        'slug' => 'pipeline-intervention',
-                        'summary' => 'تقنيات وخدمات تدخل خطوط الأنابيب للعمليات الحرجة.',
-                        'body' => '<p>دعم تشغيلي وتقني شامل لعمليات تدخل خطوط الأنابيب في المنشآت الصناعية.</p>',
-                    ],
-                    'en' => [
-                        'title' => 'Pipeline Intervention',
-                        'slug' => 'pipeline-intervention',
-                        'summary' => 'Intervention technologies and services for critical pipeline operations.',
-                        'body' => '<p>Comprehensive technical and operational support for pipeline intervention in industrial facilities.</p>',
-                    ],
-                ],
-            ],
-        ];
+        $slugs = [];
 
-        foreach ($services as $data) {
+        foreach (self::definition() as $data) {
             $translations = $data['translations'];
             unset($data['translations']);
 
             $slug = $translations['en']['slug'];
+            $slugs[] = $slug;
 
-            $service = Service::query()->firstOrCreate(
-                ['uuid' => 'seed-'.$slug],
+            $service = Service::query()->updateOrCreate(
+                ['uuid' => $data['uuid']],
                 array_merge($data, [
                     'is_published' => true,
                     'published_at' => now(),
@@ -88,5 +39,144 @@ class ServiceSeeder extends Seeder
                 );
             }
         }
+
+        Service::query()
+            ->whereDoesntHave('translations', fn ($query) => $query
+                ->where('locale', 'en')
+                ->whereIn('slug', $slugs))
+            ->update(['is_published' => false]);
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    public static function definition(): array
+    {
+        return [
+            [
+                'uuid' => 'seed-industrial-manufacturing',
+                'sort_order' => 1,
+                'is_featured' => true,
+                'icon' => 'bi-factory',
+                'translations' => [
+                    'ar' => [
+                        'title' => 'التصنيع الصناعي',
+                        'slug' => 'industrial-manufacturing',
+                        'summary' => 'تصميم وإنتاج منتجات صناعية متخصصة بمواصفات دقيقة ومعايير جودة دولية.',
+                        'body' => self::bulletsHtml([
+                            'تصميم وإنتاج منتجات صناعية متخصصة',
+                            'مواصفات دقيقة ومعايير جودة دولية',
+                            'توثيق فني كامل لكل وحدة',
+                        ]),
+                    ],
+                    'en' => [
+                        'title' => 'Industrial Manufacturing',
+                        'slug' => 'industrial-manufacturing',
+                        'summary' => 'Design and production of specialized industrial products with precise specifications and international quality standards.',
+                        'body' => self::bulletsHtml([
+                            'Design and production of specialized industrial products',
+                            'Precise specifications and international quality standards',
+                            'Complete technical documentation for every unit',
+                        ]),
+                    ],
+                ],
+            ],
+            [
+                'uuid' => 'seed-industrial-trading',
+                'sort_order' => 2,
+                'is_featured' => true,
+                'icon' => 'bi-truck',
+                'translations' => [
+                    'ar' => [
+                        'title' => 'التوريد الصناعي',
+                        'slug' => 'industrial-trading',
+                        'summary' => 'توريد المواد والمعدات في الوقت المحدد مع الالتزام بالمواصفات المطلوبة.',
+                        'body' => self::bulletsHtml([
+                            'توريد المواد والمعدات في الوقت المحدد',
+                            'الالتزام بالمواصفات المطلوبة',
+                            'دعم لوجستي ميداني سريع',
+                        ]),
+                    ],
+                    'en' => [
+                        'title' => 'Industrial Trading',
+                        'slug' => 'industrial-trading',
+                        'summary' => 'On-time supply of materials and equipment with full compliance to required specifications.',
+                        'body' => self::bulletsHtml([
+                            'On-time supply of materials and equipment',
+                            'Compliance with required specifications',
+                            'Rapid on-site logistics support',
+                        ]),
+                    ],
+                ],
+            ],
+            [
+                'uuid' => 'seed-technical-support-services',
+                'sort_order' => 3,
+                'is_featured' => true,
+                'icon' => 'bi-tools',
+                'translations' => [
+                    'ar' => [
+                        'title' => 'الدعم الفني والخدمات الهندسية',
+                        'slug' => 'technical-support-services',
+                        'summary' => 'استشارات هندسية متخصصة ودعم ميداني خلال دورة حياة المشروع.',
+                        'body' => self::bulletsHtml([
+                            'استشارات هندسية متخصصة',
+                            'دعم ميداني خلال دورة حياة المشروع',
+                            'متابعة التشغيل والصيانة',
+                        ]),
+                    ],
+                    'en' => [
+                        'title' => 'Technical Support & Engineering Services',
+                        'slug' => 'technical-support-services',
+                        'summary' => 'Specialized engineering consultancy and field support throughout the project lifecycle.',
+                        'body' => self::bulletsHtml([
+                            'Specialized engineering consultancy',
+                            'Field support throughout the project lifecycle',
+                            'Operations and maintenance follow-up',
+                        ]),
+                    ],
+                ],
+            ],
+            [
+                'uuid' => 'seed-custom-solutions',
+                'sort_order' => 4,
+                'is_featured' => true,
+                'icon' => 'bi-puzzle',
+                'translations' => [
+                    'ar' => [
+                        'title' => 'الحلول المخصصة',
+                        'slug' => 'custom-solutions',
+                        'summary' => 'تصميم حلول هندسية مخصصة حسب بيئة المشروع وظروف التشغيل.',
+                        'body' => self::bulletsHtml([
+                            'تصميم حلول حسب بيئة المشروع وظروف التشغيل',
+                            'التعامل مع أنابيب بضغط أو منحنيات غير قياسية',
+                            'إعداد حلول هندسية مخصصة لتقليل الأعطال وزيادة الكفاءة',
+                        ]),
+                    ],
+                    'en' => [
+                        'title' => 'Custom Solutions',
+                        'slug' => 'custom-solutions',
+                        'summary' => 'Tailored engineering solutions designed for your project environment and operating conditions.',
+                        'body' => self::bulletsHtml([
+                            'Solutions designed for project environment and operating conditions',
+                            'Handling pressurized pipelines and non-standard bends',
+                            'Custom engineering solutions to reduce failures and increase efficiency',
+                        ]),
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param  list<string>  $items
+     */
+    private static function bulletsHtml(array $items): string
+    {
+        $lis = collect($items)
+            ->map(fn (string $item): string => '<li>'.e($item).'</li>')
+            ->implode('');
+
+        return '<ul>'.$lis.'</ul>';
     }
 }

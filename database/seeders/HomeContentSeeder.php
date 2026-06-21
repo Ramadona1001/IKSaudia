@@ -37,11 +37,11 @@ class HomeContentSeeder extends Seeder
                 'translations' => [
                     'ar' => [
                         'title' => 'خدماتنا',
-                        'subtitle' => 'حلول تصنيع وتدخل خطوط الأنابيب',
+                        'subtitle' => 'حلول صناعية مصممة لدعم مشاريع الطاقة والصناعة',
                     ],
                     'en' => [
                         'title' => 'Our Services',
-                        'subtitle' => 'Manufacturing & pipeline intervention solutions',
+                        'subtitle' => 'Industrial solutions designed to support energy and industrial projects.',
                     ],
                 ],
             ],

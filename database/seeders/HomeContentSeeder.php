@@ -31,47 +31,6 @@ class HomeContentSeeder extends Seeder
                 ],
             ],
             [
-                'key' => 'about_snippet',
-                'type' => 'about_snippet',
-                'sort_order' => 2,
-                'settings' => [
-                    'years_badge' => [
-                        'ar' => ['count' => 25, 'suffix' => '+', 'label' => 'سنة من التميز'],
-                        'en' => ['count' => 25, 'suffix' => '+', 'label' => 'Years of Excellence'],
-                    ],
-                    'stats' => [
-                        'ar' => [
-                            ['count' => 500, 'suffix' => '+', 'variant' => 'gold', 'label' => 'مشروع منجز'],
-                            ['count' => 150, 'suffix' => '+', 'variant' => 'blue', 'label' => 'عميل مؤسسي'],
-                            ['count' => 12, 'suffix' => '', 'variant' => 'gold', 'label' => 'دولة نخدمها'],
-                            ['count' => 98, 'suffix' => '%', 'variant' => 'blue', 'label' => 'رضا العملاء'],
-                        ],
-                        'en' => [
-                            ['count' => 500, 'suffix' => '+', 'variant' => 'gold', 'label' => 'Projects Delivered'],
-                            ['count' => 150, 'suffix' => '+', 'variant' => 'blue', 'label' => 'Enterprise Clients'],
-                            ['count' => 12, 'suffix' => '', 'variant' => 'gold', 'label' => 'Countries Served'],
-                            ['count' => 98, 'suffix' => '%', 'variant' => 'blue', 'label' => 'Client Satisfaction'],
-                        ],
-                    ],
-                ],
-                'translations' => [
-                    'ar' => [
-                        'title' => 'من نحن',
-                        'subtitle' => 'شركة تصنيع سعودية',
-                        'content' => 'شركة سعودية تضامنية تمتلك منشأة تصنيع في المدينة الصناعية الثانية بالدمام. رؤيتنا أن نكون الخيار الأول لحلول تدخل خطوط الأنابيب في السعودية والشرق الأوسط.',
-                        'cta_label' => 'اعرف المزيد',
-                        'cta_url' => '/ar/about-us',
-                    ],
-                    'en' => [
-                        'title' => 'About us',
-                        'subtitle' => 'Saudi manufacturing company',
-                        'content' => 'IKS is a Saudi JV-based company with a manufacturing facility at Dammam 2nd Industrial City. We provide pipeline scraping products and polyurethane-based solutions for Oil & Gas and mining.',
-                        'cta_label' => 'Learn More',
-                        'cta_url' => '/en/about-us',
-                    ],
-                ],
-            ],
-            [
                 'key' => 'services_grid',
                 'type' => 'services_grid',
                 'sort_order' => 3,
@@ -123,5 +82,7 @@ class HomeContentSeeder extends Seeder
                 );
             }
         }
+
+        $this->call(AboutSnippetHomeSectionSeeder::class);
     }
 }

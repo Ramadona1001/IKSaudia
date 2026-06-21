@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دليل المستخدم — إدارة موقع الشركة السعودية للصناعات (IKS)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0c1f38;
+      --navy-mid: #1a3d66;
+      --gold: #c8922a;
+      --gold-light: #f5e6c8;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --note-bg: #eff6ff;
+      --note-border: #3b82f6;
+      --warn-bg: #fff7ed;
+      --warn-border: #ea580c;
+      --danger-bg: #fef2f2;
+      --danger-border: #dc2626;
+      --success-bg: #f0fdf4;
+      --success-border: #16a34a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @page {
+      size: A4;
+      margin: 18mm 14mm 24mm 14mm;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.75;
+      color: var(--text);
+      background: #fff;
+      direction: rtl;
+    }
+
+    /* Running footer for print */
+    .print-footer {
+      display: none;
+    }
+
+    @media print {
+      .print-footer {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 14mm;
+        padding: 0 14mm;
+        font-size: 8.5pt;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .no-print { display: none !important; }
+
+      a { color: var(--navy-mid); text-decoration: none; }
+
+      .page-break { page-break-before: always; }
+      .avoid-break { page-break-inside: avoid; }
+
+      h2, h3 { page-break-after: avoid; }
+      table { page-break-inside: auto; }
+      tr { page-break-inside: avoid; }
+    }
+
+    /* Cover */
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 55%, #0a1528 100%);
+      color: #fff;
+      padding: 40mm 20mm;
+      position: relative;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(200,146,42,0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .cover-badge {
+      display: inline-block;
+      border: 1px solid rgba(200,146,42,0.5);
+      color: var(--gold);
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 9pt;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .cover h1 {
+      font-size: 26pt;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 16px;
+      max-width: 16cm;
+      position: relative;
+    }
+
+    .cover .company {
+      font-size: 14pt;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .cover .subtitle {
+      font-size: 11pt;
+      color: rgba(255,255,255,0.75);
+      max-width: 14cm;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .cover-meta {
+      position: relative;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 24px;
+      width: 100%;
+      max-width: 12cm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      text-align: center;
+      font-size: 9.5pt;
+    }
+
+    .cover-meta span { display: block; color: rgba(255,255,255,0.55); font-size: 8.5pt; margin-bottom: 4px; }
+    .cover-meta strong { color: #fff; font-weight: 600; }
+
+    .cover-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--gold), #e8b84a, var(--gold));
+    }
+
+    /* Content wrapper */
+    .content { padding: 0; }
+
+    .section {
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 16pt;
+      font-weight: 700;
+      color: var(--navy);
+      border-right: 4px solid var(--gold);
+      padding-right: 12px;
+      margin: 28px 0 14px;
+    }
+
+    h3 {
+      font-size: 12pt;
+      font-weight: 600;
+      color: var(--navy-mid);
+      margin: 18px 0 10px;
+    }
+
+    h4 {
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: var(--text);
+      margin: 12px 0 8px;
+    }
+
+    p { margin-bottom: 10px; }
+
+    a { color: #1d4ed8; word-break: break-all; }
+
+    code, .mono {
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 9pt;
+      background: #f1f5f9;
+      padding: 1px 5px;
+      border-radius: 3px;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    /* TOC */
+    .toc-title {
+      font-size: 20pt;
+      color: var(--navy);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .toc-list {
+      list-style: none;
+    }
+
+    .toc-list li {
+      display: flex;
+      align-items: baseline;
+      padding: 7px 0;
+      border-bottom: 1px dotted var(--border);
+      font-size: 10.5pt;
+    }
+
+    .toc-list li.sub { padding-right: 20px; font-size: 10pt; color: var(--muted); }
+
+    .toc-list a {
+      color: var(--text);
+      text-decoration: none;
+      flex: 1;
+    }
+
+    .toc-num {
+      color: var(--gold);
+      font-weight: 700;
+      min-width: 28px;
+      margin-left: 8px;
+    }
+
+    /* Callouts */
+    .callout {
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 14px 0;
+      border-right: 4px solid;
+      font-size: 10pt;
+    }
+
+    .callout strong { display: block; margin-bottom: 4px; font-size: 10.5pt; }
+
+    .callout-note { background: var(--note-bg); border-color: var(--note-border); }
+    .callout-warn { background: var(--warn-bg); border-color: var(--warn-border); }
+    .callout-danger { background: var(--danger-bg); border-color: var(--danger-border); }
+    .callout-success { background: var(--success-bg); border-color: var(--success-border); }
+
+    /* Flow diagram */
+    .flow {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 20px;
+      text-align: center;
+      font-size: 11pt;
+      font-weight: 500;
+      color: var(--navy);
+      margin: 14px 0;
+      direction: ltr;
+    }
+
+    .flow span { color: var(--gold); font-weight: 700; margin: 0 6px; }
+
+    /* Lists */
+    ol, ul { margin: 8px 24px 14px 0; }
+    li { margin-bottom: 6px; }
+
+    ol.steps { list-style: none; counter-reset: step; margin-right: 0; }
+    ol.steps li {
+      counter-increment: step;
+      position: relative;
+      padding-right: 36px;
+      margin-bottom: 10px;
+    }
+    ol.steps li::before {
+      content: counter(step);
+      position: absolute;
+      right: 0;
+      top: 2px;
+      width: 24px;
+      height: 24px;
+      background: var(--navy);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 9pt;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    ul.bullets { list-style: disc; }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 9.5pt;
+    }
+
+    thead th {
+      background: var(--navy);
+      color: #fff;
+      font-weight: 600;
+      padding: 9px 10px;
+      text-align: right;
+      border: 1px solid var(--navy);
+    }
+
+    tbody td {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tbody tr:nth-child(even) { background: #f8fafc; }
+
+  td.mono-cell code { background: transparent; padding: 0; }
+
+    /* Intro badge */
+    .intro-badge {
+      display: inline-block;
+      background: var(--gold-light);
+      color: #92400e;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 9pt;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    /* Code block */
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: 8.5pt;
+      line-height: 1.6;
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+      margin: 12px 0;
+    }
+
+    /* Summary box */
+    .summary-box {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      color: #fff;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+
+    .summary-box h2 {
+      color: #fff;
+      border-right-color: var(--gold);
+      margin-top: 0;
+    }
+
+    .summary-box ol.steps li::before { background: var(--gold); color: var(--navy); }
+
+    /* Document end */
+    .doc-end {
+      text-align: center;
+      padding: 30px 0 10px;
+      color: var(--muted);
+      font-size: 9pt;
+      border-top: 2px solid var(--gold);
+      margin-top: 30px;
+    }
+
+    .doc-end strong { color: var(--navy); display: block; font-size: 10pt; margin-bottom: 4px; }
+
+    .meta-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      font-size: 10pt;
+    }
+
+    .meta-row .label { color: var(--muted); }
+    .meta-row .value { font-weight: 600; color: var(--navy); }
+    .meta-row .value a { font-weight: 500; }
+  </style>
+</head>
+<body>
+
+<div class="print-footer">
+  <span>IK Saudi For Industries — دليل المستخدم</span>
+  <span>الإصدار 1.0 · مايو 2026</span>
+</div>
+
+<!-- ==================== COVER ==================== -->
+<section class="cover page-break">
+  <div class="cover-badge">دليل المستخدم الرسمي</div>
+  <p class="company">الشركة السعودية للصناعات</p>
+  <p class="company" style="font-size:11pt; opacity:0.8; margin-bottom:24px;">IK Saudi For Industries (IKS)</p>
+  <h1>دليل المستخدم — إدارة موقع الشركة السعودية للصناعات</h1>
+  <p class="subtitle">دليل شامل للمستخدم النهائي (غير التقني) — كيفية إدخال البيانات من لوحة التحكم وظهورها على الموقع العام بالعربية والإنجليزية</p>
+  <div class="cover-meta">
+    <div><span>رقم الإصدار</span><strong>1.0</strong></div>
+    <div><span>تاريخ الإصدار</span><strong>مايو 2026</strong></div>
+    <div><span>لوحة التحكم</span><strong dir="ltr">/ik-admin</strong></div>
+    <div><span>اللغات</span><strong>العربية · English</strong></div>
+  </div>
+  <div class="cover-bar"></div>
+</section>
+
+<!-- ==================== TABLE OF CONTENTS ==================== -->
+<section class="page-break section">
+  <h2 class="toc-title">فهرس المحتويات</h2>
+  <ul class="toc-list">
+    <li><span class="toc-num">—</span><a href="#intro">المقدمة — قبل البدء</a></li>
+    <li><span class="toc-num">—</span><a href="#how-it-works">كيف يعمل النظام؟</a></li>
+    <li><span class="toc-num">—</span><a href="#quick-ref">جدول مرجعي سريع</a></li>
+    <li><span class="toc-num">1</span><a href="#section-1">تسجيل الدخول ولوحة المعلومات</a></li>
+    <li><span class="toc-num">2</span><a href="#section-2">الصفحة الرئيسية — أقسام الصفحة الرئيسية</a></li>
+    <li><span class="toc-num">3</span><a href="#section-3">الخدمات</a></li>
+    <li><span class="toc-num">4</span><a href="#section-4">المنتجات</a></li>
+    <li><span class="toc-num">5</span><a href="#section-5">القطاعات (Industries)</a></li>
+    <li><span class="toc-num">6</span><a href="#section-6">المشاريع · العملاء · الشركاء · الشهادات</a></li>
+    <li><span class="toc-num">7</span><a href="#section-7">الصفحات الثابتة (CMS Pages)</a></li>
+    <li><span class="toc-num">8</span><a href="#section-8">إعدادات الموقع العامة</a></li>
+    <li><span class="toc-num">9</span><a href="#section-9">رسائل التواصل</a></li>
+    <li><span class="toc-num">10</span><a href="#section-10">قواعد مهمة لظهور المحتوى</a></li>
+    <li><span class="toc-num">11</span><a href="#section-11">حل المشاكل الشائعة</a></li>
+    <li><span class="toc-num">12</span><a href="#section-12">روابط لوحة التحكم — مرجع كامل</a></li>
+    <li><span class="toc-num">13</span><a href="#section-13">روابط الموقع العام — مرجع كامل</a></li>
+    <li><span class="toc-num">14</span><a href="#section-14">للمسؤول التقني فقط</a></li>
+    <li><span class="toc-num">—</span><a href="#summary">ملخص سريع — 5 خطوات</a></li>
+  </ul>
+</section>
+
+<div class="content">
+
+<!-- ==================== INTRO ==================== -->
+<section id="intro" class="section">
+  <span class="intro-badge">للمستخدم النهائي (غير التقني)</span>
+  <h2>المقدمة — قبل البدء</h2>
+  <p>يشرح هذا الدليل كيف تُدخل البيانات من لوحة التحكم وكيف تظهر على الموقع العام بالعربية والإنجليزية.</p>
+
+  <table class="avoid-break">
+    <thead><tr><th>البند</th><th>التفاصيل</th></tr></thead>
+    <tbody>
+      <tr><td><strong>عنوان لوحة التحكم</strong></td><td><code>https://YOUR-DOMAIN.com/ik-admin</code></td></tr>
+      <tr><td><strong>تسجيل الدخول</strong></td><td><a href="/ik-admin/login">/ik-admin/login</a></td></tr>
+      <tr><td><strong>الموقع العام (عربي)</strong></td><td><a href="/ar/">/ar/</a></td></tr>
+      <tr><td><strong>الموقع العام (إنجليزي)</strong></td><td><a href="/en/">/en/</a></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-note avoid-break">
+    <strong>ملاحظة</strong>
+    استبدل <code>YOUR-DOMAIN.com</code> بعنوان موقعك الفعلي (مثال: <code>iksaudi.com</code>). الروابط في هذا الدليل تبدأ من جذر الموقع — انسخها وألحقها بنطاقك.
+  </div>
+</section>
+
+<!-- ==================== HOW IT WORKS ==================== -->
+<section id="how-it-works" class="section">
+  <h2>كيف يعمل النظام؟</h2>
+  <div class="flow">لوحة التحكم (ik-admin) <span>→</span> حفظ البيانات <span>→</span> ظهورها على الموقع (/ar أو /en)</div>
+  <ol class="steps">
+    <li>تسجّل الدخول إلى <a href="/ik-admin">لوحة التحكم</a>.</li>
+    <li>تختار القسم المناسب (خدمات، منتجات، أقسام الصفحة الرئيسية…).</li>
+    <li>تملأ الحقول <strong>بالعربية والإنجليزية</strong> في التبويبات المخصصة.</li>
+    <li>تفعّل الخيارات: <strong>منشور (Published)</strong> و/أو <strong>مميز (Featured)</strong> حسب الحاجة.</li>
+    <li>تضغط <strong>حفظ (Save)</strong>.</li>
+    <li>تفتح الموقع العام للتأكد — غالباً يظهر المحتوى فوراً (قد يستغرق دقيقة إذا كان التخزين المؤقت مفعّلاً).</li>
+  </ol>
+</section>
+
+<!-- ==================== QUICK REF ==================== -->
+<section id="quick-ref" class="section page-break">
+  <h2>جدول مرجعي سريع</h2>
+  <table>
+    <thead><tr><th>ماذا تريد تعديله؟</th><th>أين في لوحة التحكم</th><th>أين يظهر على الموقع</th></tr></thead>
+    <tbody>
+      <tr><td>شرائح الهيرو (البانر العلوي)</td><td><a href="/ik-admin/home-sections">أقسام الصفحة الرئيسية → hero</a></td><td><a href="/ar/">الرئيسية</a> — أعلى الصفحة</td></tr>
+      <tr><td>قسم «من نحن» المختصر</td><td><a href="/ik-admin/home-sections">أقسام الصفحة الرئيسية → about_snippet</a></td><td><a href="/ar/">الرئيسية</a> — قسم About</td></tr>
+      <tr><td>الرؤية والرسالة والقيم</td><td><a href="/ik-admin/home-sections">أقسام الصفحة الرئيسية → foundation</a></td><td><a href="/ar/">الرئيسية</a> — قسم Foundation</td></tr>
+      <tr><td>الخدمات (البطاقات)</td><td><a href="/ik-admin/services">الخدمات</a></td><td><a href="/ar/">الرئيسية</a> + <a href="/ar/services">صفحة الخدمات</a></td></tr>
+      <tr><td>المنتجات</td><td><a href="/ik-admin/products">المنتجات</a></td><td><a href="/products">صفحة المنتجات</a></td></tr>
+      <tr><td>القطاعات</td><td><a href="/ik-admin/industries">القطاعات</a></td><td><a href="/ar/">الرئيسية</a> + <a href="/ar/industries">صفحة القطاعات</a></td></tr>
+      <tr><td>المشاريع</td><td><a href="/ik-admin/projects">المشاريع</a></td><td><a href="/ar/">الرئيسية</a> + <a href="/ar/projects">صفحة المشاريع</a></td></tr>
+      <tr><td>العملاء</td><td><a href="/ik-admin/clients">العملاء</a></td><td><a href="/ar/">الرئيسية</a> — شريط العملاء</td></tr>
+      <tr><td>الشركاء</td><td><a href="/ik-admin/partners">الشركاء</a></td><td><a href="/ar/">الرئيسية</a> — قسم الشركاء</td></tr>
+      <tr><td>الشهادات</td><td><a href="/ik-admin/certifications">الشهادات</a></td><td><a href="/ar/">الرئيسية</a> — قسم الشهادات</td></tr>
+      <tr><td>صفحة من نحن (التصميم الرئيسي)</td><td>أقسام الصفحة الرئيسية + <a href="/ik-admin/pages">الصفحات</a></td><td><a href="/ar/about">من نحن</a></td></tr>
+      <tr><td>سياسة الخصوصية</td><td><a href="/ik-admin/pages">الصفحات → privacy-policy</a></td><td><a href="/ar/privacy-policy">عربي</a> · <a href="/en/privacy-policy">إنجليزي</a></td></tr>
+      <tr><td>شروط الاستخدام</td><td><a href="/ik-admin/pages">الصفحات → terms-of-use</a></td><td><a href="/ar/terms-of-use">عربي</a> · <a href="/en/terms-of-use">إنجليزي</a></td></tr>
+      <tr><td>الشعار والهوية والفوتر</td><td><a href="/ik-admin/website-settings">إعدادات الموقع</a></td><td>كل صفحات الموقع</td></tr>
+      <tr><td>بيانات التواصل</td><td><a href="/ik-admin/website-settings">إعدادات الموقع → Contact</a></td><td><a href="/ar/contact">تواصل معنا</a> + الفوتر</td></tr>
+      <tr><td>رسائل نموذج التواصل</td><td><a href="/ik-admin/contact-submissions">رسائل التواصل</a></td><td>— (للقراءة فقط من الإدارة)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== SECTION 1 ==================== -->
+<section id="section-1" class="section page-break">
+  <h2>1. تسجيل الدخول ولوحة المعلومات</h2>
+  <h3>تسجيل الدخول</h3>
+  <ol class="steps">
+    <li>افتح <a href="/ik-admin/login">صفحة الدخول</a>.</li>
+    <li>أدخل البريد الإلكتروني وكلمة المرور.</li>
+    <li>بعد الدخول ستصل إلى <a href="/ik-admin">لوحة المعلومات</a>.</li>
+  </ol>
+  <h3>تغيير كلمة المرور</h3>
+  <p>من القائمة العلوية → <strong>الملف الشخصي (Profile)</strong> → عدّل كلمة المرور واحفظ.</p>
+</section>
+
+<!-- ==================== SECTION 2 ==================== -->
+<section id="section-2" class="section">
+  <h2>2. الصفحة الرئيسية — أقسام الصفحة الرئيسية</h2>
+  <div class="meta-row"><span class="label">الرابط:</span><span class="value"><a href="/ik-admin/home-sections">/ik-admin/home-sections</a></span></div>
+  <p>هنا تُدار الأقسام الثابتة في أعلى الصفحة الرئيسية. كل سطر في الجدول يمثل قسماً. اضغط <strong>تعديل (Edit)</strong> بجانب القسم المطلوب.</p>
+
+  <h3>أقسام مهمة (حسب المفتاح key)</h3>
+  <table class="avoid-break">
+    <thead><tr><th>المفتاح key</th><th>الغرض</th><th>معاينة على الموقع</th></tr></thead>
+    <tbody>
+      <tr><td class="mono-cell"><code>hero</code></td><td>شرائح البانر العلوي (صور + عناوين + أزرار)</td><td>أعلى <a href="/ar/">الرئيسية</a></td></tr>
+      <tr><td class="mono-cell"><code>about_snippet</code></td><td>قسم «من نحن» المختصر + الإحصائيات + زر اعرف المزيد</td><td><a href="/ar/">الرئيسية#about</a></td></tr>
+      <tr><td class="mono-cell"><code>foundation</code></td><td>الرؤية والرسالة والقيم</td><td><a href="/ar/#foundation">الرئيسية#foundation</a></td></tr>
+      <tr><td class="mono-cell"><code>cta_contact</code></td><td>دعوة للتواصل في أسفل الصفحة</td><td>أسفل <a href="/ar/">الرئيسية</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3>خطوات التعديل (مثال: الرؤية والرسالة والقيم)</h3>
+  <ol class="steps">
+    <li>افتح <a href="/ik-admin/home-sections">قائمة الأقسام</a>.</li>
+    <li>ابحث عن السطر الذي مفتاحه <code>foundation</code>.</li>
+    <li>اضغط <strong>تعديل</strong>.</li>
+    <li>املأ الحقول في تبويب <strong>العربية</strong> ثم <strong>English</strong>.</li>
+    <li>تأكد أن <strong>نشط (Active)</strong> مفعّل.</li>
+    <li>اضغط <strong>حفظ</strong>.</li>
+    <li>راجع <a href="/ar/#foundation">القسم على الموقع</a>.</li>
+  </ol>
+
+  <h3>قسم «من نحن» المختصر (about_snippet)</h3>
+  <ul class="bullets">
+    <li><strong>الإحصائيات (Stats):</strong> الأرقام والعناوين في تبويب الإعدادات.</li>
+    <li><strong>النص والعنوان وزر CTA:</strong> في تبويب المحتوى (عربي / إنجليزي).</li>
+    <li><strong>زر «اعرف المزيد»:</strong> يجب أن يشير إلى <code>/ar/about</code> أو <code>/en/about</code>.</li>
+  </ul>
+
+  <h3>شرائح الهيرو (hero)</h3>
+  <ul class="bullets">
+    <li>أضف أو عدّل الشرائح (Slides): صورة، عنوان، وصف، أزرار.</li>
+    <li>رتّب الشرائح بالسحب حسب <strong>ترتيب العرض (sort order)</strong>.</li>
+  </ul>
+
+  <div class="callout callout-warn avoid-break">
+    <strong>تنبيه</strong>
+    لا تغيّر حقل <code>key</code> لأقسام موجودة إلا بتوجيه من المطور — الموقع يعتمد عليه لعرض القسم الصحيح.
+  </div>
+</section>
+
+<!-- ==================== SECTION 3 ==================== -->
+<section id="section-3" class="section page-break">
+  <h2>3. الخدمات</h2>
+  <div class="meta-row"><span class="label">لوحة التحكم:</span><span class="value"><a href="/ik-admin/services">/ik-admin/services</a></span></div>
+  <div class="meta-row"><span class="label">الموقع:</span><span class="value"><a href="/ar/services">قائمة الخدمات</a> · <a href="/ar/#services">الرئيسية — قسم الخدمات</a></span></div>
+
+  <h3>إضافة خدمة جديدة</h3>
+  <ol class="steps">
+    <li>افتح <a href="/ik-admin/services">الخدمات</a> → <strong>إنشاء (Create)</strong>.</li>
+    <li>ارفع <strong>صورة مميزة</strong> (اختياري).</li>
+    <li>فعّل <strong>منشور (Published)</strong> و<strong>مميز (Featured on homepage)</strong>.</li>
+    <li>في تبويب <strong>العربية</strong>: العنوان، الرابط (slug)، الملخص، المحتوى الكامل.</li>
+    <li>كرر نفس الحقول في تبويب <strong>English</strong> (نفس الـ slug).</li>
+    <li><strong>حفظ</strong>.</li>
+  </ol>
+
+  <h3>حقول مهمة</h3>
+  <table class="avoid-break">
+    <thead><tr><th>الحقل</th><th>الوظيفة</th></tr></thead>
+    <tbody>
+      <tr><td><strong>الملخص (Summary)</strong></td><td>يظهر في بطاقة الخدمة على الرئيسية</td></tr>
+      <tr><td><strong>المحتوى (Body)</strong></td><td>يظهر في صفحة تفاصيل الخدمة</td></tr>
+      <tr><td><strong>Slug</strong></td><td>جزء الرابط — مثال: <code>industrial-manufacturing</code> → <code>/ar/services/industrial-manufacturing</code></td></tr>
+      <tr><td><strong>ترتيب العرض</strong></td><td>رقم أصغر = يظهر أولاً</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== SECTION 4 ==================== -->
+<section id="section-4" class="section">
+  <h2>4. المنتجات</h2>
+  <div class="meta-row"><span class="label">لوحة التحكم:</span><span class="value"><a href="/ik-admin/products">/ik-admin/products</a></span></div>
+  <div class="meta-row"><span class="label">الموقع:</span><span class="value"><a href="/products">/products</a></span></div>
+
+  <h3>إضافة منتج</h3>
+  <ol class="steps">
+    <li><a href="/ik-admin/products">المنتجات</a> → <strong>إنشاء</strong>.</li>
+    <li>فعّل <strong>منشور</strong> و<strong>مميز</strong> إذا أردت إبرازه.</li>
+    <li>املأ العنوان والملخص والمحتوى بالعربية والإنجليزية.</li>
+    <li><strong>حفظ</strong>.</li>
+  </ol>
+
+  <div class="callout callout-note">
+    <strong>ملاحظة</strong>
+    صفحة المنتجات تستخدم رابطاً عاماً <code>/products</code> مع اختيار اللغة من الموقع.
+  </div>
+  <p><strong>أمثلة منتجات:</strong> Foam Scraper · Mechanical Scraper · Non-Metallic Flange Shroud · Pipeline Pigging Solutions</p>
+</section>
+
+<!-- ==================== SECTION 5 ==================== -->
+<section id="section-5" class="section">
+  <h2>5. القطاعات (Industries)</h2>
+  <div class="meta-row"><span class="label">لوحة التحكم:</span><span class="value"><a href="/ik-admin/industries">/ik-admin/industries</a></span></div>
+  <div class="meta-row"><span class="label">الموقع:</span><span class="value"><a href="/ar/industries">القطاعات</a> · <a href="/ar/#industries">الرئيسية — كاروسيل القطاعات</a></span></div>
+
+  <h3>إضافة قطاع</h3>
+  <ol class="steps">
+    <li><a href="/ik-admin/industries">القطاعات</a> → <strong>إنشاء</strong>.</li>
+    <li>فعّل <strong>منشور</strong> + <strong>مميز</strong> للظهور في الصفحة الرئيسية.</li>
+    <li>العنوان والملخص بالعربية والإنجليزية.</li>
+    <li><strong>حفظ</strong>.</li>
+  </ol>
+  <p>الملخص يظهر في بطاقة القطاع على الصفحة الرئيسية (سطر أو سطران).</p>
+</section>
+
+<!-- ==================== SECTION 6 ==================== -->
+<section id="section-6" class="section page-break">
+  <h2>6. المشاريع · العملاء · الشركاء · الشهادات</h2>
+  <table>
+    <thead><tr><th>النوع</th><th>لوحة التحكم</th><th>الموقع</th></tr></thead>
+    <tbody>
+      <tr><td>مشاريع</td><td><a href="/ik-admin/projects">المشاريع</a></td><td><a href="/ar/projects">المشاريع</a> + <a href="/ar/#projects">الرئيسية</a></td></tr>
+      <tr><td>عملاء</td><td><a href="/ik-admin/clients">العملاء</a></td><td><a href="/ar/#clients">الرئيسية — العملاء</a></td></tr>
+      <tr><td>شركاء</td><td><a href="/ik-admin/partners">الشركاء</a></td><td><a href="/ar/partners">الشركاء</a></td></tr>
+      <tr><td>شهادات</td><td><a href="/ik-admin/certifications">الشهادات</a></td><td><a href="/ar/#certifications">الرئيسية — الشهادات</a></td></tr>
+    </tbody>
+  </table>
+  <div class="callout callout-success">
+    <strong>قاعدة عامة</strong>
+    فعّل <strong>منشور</strong> + <strong>مميز</strong> لكل عنصر تريد إظهاره في الصفحة الرئيسية.
+  </div>
+</section>
+
+<!-- ==================== SECTION 7 ==================== -->
+<section id="section-7" class="section">
+  <h2>7. الصفحات الثابتة (CMS Pages)</h2>
+  <div class="meta-row"><span class="label">لوحة التحكم:</span><span class="value"><a href="/ik-admin/pages">/ik-admin/pages</a></span></div>
+
+  <table class="avoid-break">
+    <thead><tr><th>الصفحة</th><th>المفتاح key</th><th>الرابط على الموقع</th></tr></thead>
+    <tbody>
+      <tr><td>من نحن (CMS — اختياري)</td><td class="mono-cell"><code>about</code></td><td><a href="/ar/about-us">/ar/about-us</a></td></tr>
+      <tr><td>سياسة الخصوصية</td><td class="mono-cell"><code>privacy-policy</code></td><td><a href="/ar/privacy-policy">/ar/privacy-policy</a></td></tr>
+      <tr><td>شروط الاستخدام</td><td class="mono-cell"><code>terms-of-use</code></td><td><a href="/ar/terms-of-use">/ar/terms-of-use</a></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-note">
+    <strong>ملاحظة</strong>
+    صفحة «من نحن» الرئيسية (<code>/ar/about</code>) تستخدم محتوى قسم foundation من أقسام الصفحة الرئيسية ونصوصاً ثابتة. صفحة CMS <code>about-us</code> صفحة إضافية إن كانت منشورة.
+  </div>
+
+  <h3>خطوات التعديل</h3>
+  <ol class="steps">
+    <li>افتح <a href="/ik-admin/pages">الصفحات</a>.</li>
+    <li>اختر الصفحة أو ابحث بالمفتاح (<code>privacy-policy</code> مثلاً).</li>
+    <li>عدّل العنوان والملخص والمحتوى في تبويبي العربية والإنجليزية.</li>
+    <li>تأكد من <strong>منشور</strong>.</li>
+    <li><strong>حفظ</strong> → راجع الصفحة على الموقع.</li>
+  </ol>
+
+  <div class="callout callout-note">
+    <strong>ملاحظة</strong>
+    روابط <strong>الخصوصية</strong> و<strong>الشروط</strong> في الفوتر تُدار أيضاً من <a href="/ik-admin/website-settings">إعدادات الموقع → Footer</a>.
+  </div>
+</section>
+
+<!-- ==================== SECTION 8 ==================== -->
+<section id="section-8" class="section page-break">
+  <h2>8. إعدادات الموقع العامة</h2>
+  <div class="meta-row"><span class="label">الرابط:</span><span class="value"><a href="/ik-admin/website-settings">/ik-admin/website-settings</a></span></div>
+
+  <table>
+    <thead><tr><th>التبويب</th><th>ماذا يتحكم به</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Navigation</strong></td><td>عناصر القائمة العلوية</td></tr>
+      <tr><td><strong>General</strong></td><td>اسم الموقع، اللغة الافتراضية</td></tr>
+      <tr><td><strong>Branding</strong></td><td>الشعار، الألوان، صورة الهيرو</td></tr>
+      <tr><td><strong>Footer</strong></td><td>نص الفوتر، روابط سريعة، روابط قانونية، شارات الاعتماد</td></tr>
+      <tr><td><strong>Contact</strong></td><td>العنوان، الهاتف، البريد، خريطة Google</td></tr>
+      <tr><td><strong>Social</strong></td><td>روابط LinkedIn وغيرها</td></tr>
+      <tr><td><strong>SEO</strong></td><td>إعدادات محركات البحث الافتراضية</td></tr>
+    </tbody>
+  </table>
+
+  <p>بعد أي تعديل اضغط <strong>حفظ</strong> في أسفل الصفحة.</p>
+  <h4>أماكن الظهور:</h4>
+  <ul class="bullets">
+    <li>الشعار والقائمة → <a href="/ar/">كل صفحات الموقع</a></li>
+    <li>بيانات التواصل → <a href="/ar/contact">تواصل معنا</a> + الفوتر</li>
+    <li>روابط الفوتر → أسفل كل صفحة</li>
+  </ul>
+</section>
+
+<!-- ==================== SECTION 9 ==================== -->
+<section id="section-9" class="section">
+  <h2>9. رسائل التواصل (نموذج اتصل بنا)</h2>
+  <div class="meta-row"><span class="label">لوحة التحكم:</span><span class="value"><a href="/ik-admin/contact-submissions">/ik-admin/contact-submissions</a></span></div>
+  <p>عندما يملأ زائر <a href="/ar/contact">نموذج التواصل</a> تظهر الرسالة هنا للقراءة والمتابعة. لا تحتاج «نشراً» — تصل تلقائياً.</p>
+</section>
+
+<!-- ==================== SECTION 10 ==================== -->
+<section id="section-10" class="section page-break">
+  <h2>10. قواعد مهمة لظهور المحتوى</h2>
+  <div class="callout callout-success">
+    <strong>تحقق من هذه النقاط دائماً</strong>
+    <ol style="margin:8px 20px 0 0;">
+      <li><strong>منشور (Published)</strong> = مفعّل</li>
+      <li><strong>مميز (Featured)</strong> = مفعّل إذا أردت الظهور في الصفحة الرئيسية</li>
+      <li><strong>نشط (Active)</strong> لأقسام الصفحة الرئيسية</li>
+      <li>ملء <strong>العربية والإنجليزية</strong> — الصفحة الإنجليزية تستخدم <code>/en/</code></li>
+      <li>الضغط على <strong>حفظ</strong> بعد كل تعديل</li>
+      <li>معاينة الموقع في نافذة خاصة (Incognito) إذا لم ترَ التغيير فوراً</li>
+    </ol>
+  </div>
+
+  <h3>ترتيب العرض</h3>
+  <ul class="bullets">
+    <li>استخدم حقل <strong>ترتيب العرض (sort order)</strong> — الرقم الأصغر يظهر أولاً.</li>
+    <li>في <a href="/ik-admin/home-sections">أقسام الصفحة الرئيسية</a> يمكن السحب لإعادة الترتيب.</li>
+  </ul>
+
+  <h3>الصور</h3>
+  <ul class="bullets">
+    <li>الصيغ المدعومة عادة: JPG, PNG, WebP</li>
+    <li>استخدم صوراً بجودة مناسبة (لا ترفع ملفات ضخمة جداً)</li>
+    <li><strong>صورة مميزة (Featured image)</strong> تظهر في البطاقات وصفحات التفاصيل</li>
+  </ul>
+</section>
+
+<!-- ==================== SECTION 11 ==================== -->
+<section id="section-11" class="section">
+  <h2>11. حل المشاكل الشائعة</h2>
+  <table>
+    <thead><tr><th>المشكلة</th><th>الحل</th></tr></thead>
+    <tbody>
+      <tr><td>عدّلت المحتوى ولم يظهر</td><td>تأكد من <strong>منشور</strong> + <strong>حفظ</strong> · جرّب تحديث الصفحة بـ Ctrl+F5</td></tr>
+      <tr><td>يظهر في العربي فقط</td><td>املأ تبويب <strong>English</strong> في نفس السجل</td></tr>
+      <tr><td>لا يظهر في الرئيسية</td><td>فعّل <strong>مميز (Featured)</strong></td></tr>
+      <tr><td>قسم foundation لا يظهر</td><td>تأكد <code>key = foundation</code> و <strong>نشط</strong> من <a href="/ik-admin/home-sections">الأقسام</a></td></tr>
+      <tr><td>رابط الخصوصية لا يعمل</td><td>تأكد الصفحة منشورة وأن الرابط في إعدادات الفوتر هو <code>privacy-policy</code></td></tr>
+      <tr><td>لا أستطيع الدخول للوحة التحكم</td><td>تواصل مع المسؤول التقني (قد يكون هناك قيد IP)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== SECTION 12 ==================== -->
+<section id="section-12" class="section page-break">
+  <h2>12. روابط لوحة التحكم — مرجع كامل</h2>
+  <table>
+    <thead><tr><th>القسم</th><th>الرابط</th></tr></thead>
+    <tbody>
+      <tr><td>لوحة المعلومات</td><td><a href="/ik-admin">/ik-admin</a></td></tr>
+      <tr><td>أقسام الصفحة الرئيسية</td><td><a href="/ik-admin/home-sections">/ik-admin/home-sections</a></td></tr>
+      <tr><td>الخدمات</td><td><a href="/ik-admin/services">/ik-admin/services</a></td></tr>
+      <tr><td>المنتجات</td><td><a href="/ik-admin/products">/ik-admin/products</a></td></tr>
+      <tr><td>القطاعات</td><td><a href="/ik-admin/industries">/ik-admin/industries</a></td></tr>
+      <tr><td>المشاريع</td><td><a href="/ik-admin/projects">/ik-admin/projects</a></td></tr>
+      <tr><td>العملاء</td><td><a href="/ik-admin/clients">/ik-admin/clients</a></td></tr>
+      <tr><td>الشركاء</td><td><a href="/ik-admin/partners">/ik-admin/partners</a></td></tr>
+      <tr><td>الشهادات</td><td><a href="/ik-admin/certifications">/ik-admin/certifications</a></td></tr>
+      <tr><td>الصفحات</td><td><a href="/ik-admin/pages">/ik-admin/pages</a></td></tr>
+      <tr><td>الأخبار</td><td><a href="/ik-admin/news-posts">/ik-admin/news-posts</a></td></tr>
+      <tr><td>الوظائف</td><td><a href="/ik-admin/careers">/ik-admin/careers</a></td></tr>
+      <tr><td>المعرض</td><td><a href="/ik-admin/galleries">/ik-admin/galleries</a></td></tr>
+      <tr><td>إعادة التوجيه</td><td><a href="/ik-admin/redirects">/ik-admin/redirects</a></td></tr>
+      <tr><td>إعدادات الموقع</td><td><a href="/ik-admin/website-settings">/ik-admin/website-settings</a></td></tr>
+      <tr><td>رسائل التواصل</td><td><a href="/ik-admin/contact-submissions">/ik-admin/contact-submissions</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== SECTION 13 ==================== -->
+<section id="section-13" class="section page-break">
+  <h2>13. روابط الموقع العام — مرجع كامل</h2>
+  <table>
+    <thead><tr><th>الصفحة</th><th>عربي</th><th>إنجليزي</th></tr></thead>
+    <tbody>
+      <tr><td>الرئيسية</td><td><a href="/ar/">/ar/</a></td><td><a href="/en/">/en/</a></td></tr>
+      <tr><td>من نحن</td><td><a href="/ar/about">/ar/about</a></td><td><a href="/en/about">/en/about</a></td></tr>
+      <tr><td>الخدمات</td><td><a href="/ar/services">/ar/services</a></td><td><a href="/en/services">/en/services</a></td></tr>
+      <tr><td>القطاعات</td><td><a href="/ar/industries">/ar/industries</a></td><td><a href="/en/industries">/en/industries</a></td></tr>
+      <tr><td>المنتجات</td><td><a href="/products?locale=ar">/products?locale=ar</a></td><td><a href="/products?locale=en">/products?locale=en</a></td></tr>
+      <tr><td>المشاريع</td><td><a href="/ar/projects">/ar/projects</a></td><td><a href="/en/projects">/en/projects</a></td></tr>
+      <tr><td>الشركاء</td><td><a href="/ar/partners">/ar/partners</a></td><td><a href="/en/partners">/en/partners</a></td></tr>
+      <tr><td>العملاء</td><td><a href="/ar/clients">/ar/clients</a></td><td><a href="/en/clients">/en/clients</a></td></tr>
+      <tr><td>الأسئلة الشائعة</td><td><a href="/ar/faq">/ar/faq</a></td><td><a href="/en/faq">/en/faq</a></td></tr>
+      <tr><td>تواصل معنا</td><td><a href="/ar/contact">/ar/contact</a></td><td><a href="/en/contact">/en/contact</a></td></tr>
+      <tr><td>الخصوصية</td><td><a href="/ar/privacy-policy">/ar/privacy-policy</a></td><td><a href="/en/privacy-policy">/en/privacy-policy</a></td></tr>
+      <tr><td>الشروط</td><td><a href="/ar/terms-of-use">/ar/terms-of-use</a></td><td><a href="/en/terms-of-use">/en/terms-of-use</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== SECTION 14 ==================== -->
+<section id="section-14" class="section">
+  <h2>14. للمسؤول التقني فقط</h2>
+  <p>إذا طُلب منك استرجاع المحتوى الافتراضي أو مسح التخزين المؤقت:</p>
+  <pre>php artisan db:seed --class=FoundationHomeSectionSeeder
+php artisan db:seed --class=ServiceSeeder
+php artisan db:seed --class=ProductSeeder
+php artisan db:seed --class=IndustrySeeder
+php artisan db:seed --class=LegalPagesSeeder
+php artisan cache:clear</pre>
+  <div class="callout callout-danger avoid-break">
+    <strong>تحذير</strong>
+    تشغيل الـ seeders يستبدل البيانات الافتراضية — لا تشغّلها على الإنتاج إلا بموافقة صريحة.
+  </div>
+</section>
+
+<!-- ==================== SUMMARY ==================== -->
+<section id="summary" class="section page-break">
+  <div class="summary-box avoid-break">
+    <h2>ملخص سريع — 5 خطوات لأي محتوى جديد</h2>
+    <ol class="steps">
+      <li><strong>ادخل</strong> <a href="/ik-admin/login" style="color:#f5e6c8;">لوحة التحكم</a></li>
+      <li><strong>اختر</strong> القسم المناسب من الجدول المرجعي</li>
+      <li><strong>أنشئ أو عدّل</strong> السجل بالعربية والإنجليزية</li>
+      <li><strong>فعّل</strong> منشور + مميز (إن لزم)</li>
+      <li><strong>احفظ</strong> وافتح رابط المعاينة من جدول «أين يظهر على الموقع»</li>
+    </ol>
+  </div>
+
+  <div class="doc-end">
+    <strong>آخر تحديث</strong>
+    دليل إدارة محتوى موقع IKS — لوحة التحكم <code>/ik-admin</code><br>
+    الإصدار 1.0 · مايو 2026 · الشركة السعودية للصناعات (IK Saudi For Industries)
+  </div>
+</section>
+
+</div>
+</body>
+</html>

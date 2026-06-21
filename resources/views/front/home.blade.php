@@ -239,10 +239,10 @@
                             @endforeach
                         </div>
 
-                        <a href="{{ $aboutCtaUrl }}" class="btn-gold">
+                        {{-- <a href="{{ $aboutCtaUrl }}" class="btn-gold">
                             <span>{{ $aboutCtaLabel }}</span>
                             <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
 

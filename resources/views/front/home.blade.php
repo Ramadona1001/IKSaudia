@@ -168,7 +168,16 @@
             ?? ($sections ?? collect())->firstWhere('type', 'about_snippet');
         $aboutT = $aboutSection?->translate($locale);
         $aboutImageUrl = $aboutSection?->featured_image_url;
-        $aboutCtaUrl = $aboutT?->cta_url ?: route('about', $locale);
+        $aboutCtaUrl = (function () use ($aboutT, $locale): string {
+            $aboutPageUrl = route('page.show', [$locale, 'about-us']);
+            $cmsCtaUrl = trim((string) ($aboutT?->cta_url ?? ''));
+
+            if ($cmsCtaUrl !== '' && ! in_array($cmsCtaUrl, ['#', '#about'], true)) {
+                return $cmsCtaUrl;
+            }
+
+            return $aboutPageUrl;
+        })();
         $aboutCtaLabel = $aboutT?->cta_label ?: __('front.home.about.learn_more');
         $aboutSettings = is_array($aboutSection?->settings) ? $aboutSection->settings : [];
         $aboutStats = \App\Support\AboutSectionStats::forLocale($aboutSettings, $locale);

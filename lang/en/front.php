@@ -65,7 +65,7 @@ return [
             'mission_desc' => "To deliver engineering excellence that powers Saudi Arabia's industrial transformation and Vision 2030 goals.",
             'vision_title' => 'Our Vision',
             'vision_desc' => "To be the GCC's most trusted industrial manufacturing partner, setting benchmarks for quality and innovation.",
-            'learn_more' => 'Learn More About Us',
+            'learn_more' => 'Learn More',
         ],
         'industries' => [
             'eyebrow' => 'Sectors We Serve',

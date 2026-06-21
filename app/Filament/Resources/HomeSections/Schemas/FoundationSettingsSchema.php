@@ -40,13 +40,13 @@ final class FoundationSettingsSchema
                             ->label(__('cms.fields.section_highlight'))
                             ->maxLength(120),
                     ]),
-                self::cardFields('mission', $locale, __('cms.fields.mission')),
                 self::cardFields('vision', $locale, __('cms.fields.vision')),
-                self::cardFields('values', $locale, __('cms.fields.values')),
+                self::cardFields('mission', $locale, __('cms.fields.mission')),
+                self::cardFields('values', $locale, __('cms.fields.values'), rows: 10),
             ]);
     }
 
-    private static function cardFields(string $key, string $locale, string $label): Section
+    private static function cardFields(string $key, string $locale, string $label, int $rows = 4): Section
     {
         return Section::make($label)
             ->schema([
@@ -55,7 +55,7 @@ final class FoundationSettingsSchema
                     ->maxLength(255),
                 Textarea::make("settings.{$key}.{$locale}.description")
                     ->label(__('cms.fields.card_description'))
-                    ->rows(4)
+                    ->rows($rows)
                     ->columnSpanFull(),
             ]);
     }

@@ -10,5 +10,5 @@
         <i class="bi {{ $icon }}"></i>
     </div>
     <h3 class="foundation-card-title">{{ $title }}</h3>
-    <p class="foundation-card-text">{{ $description }}</p>
+    <p class="foundation-card-text">{!! nl2br(e($description)) !!}</p>
 </div>

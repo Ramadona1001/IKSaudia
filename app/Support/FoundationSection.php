@@ -164,17 +164,17 @@ final class FoundationSection
     private static function cardDefinitions(string $locale): array
     {
         return [
-            'mission' => [
-                'title' => __('front.home.about.mission_title', [], $locale),
-                'description' => __('front.home.about.mission_desc', [], $locale),
-                'icon' => 'bi-bullseye',
-                'variant' => 'mission',
-            ],
             'vision' => [
                 'title' => __('front.home.about.vision_title', [], $locale),
                 'description' => __('front.home.about.vision_desc', [], $locale),
                 'icon' => 'bi-eye-fill',
                 'variant' => 'vision',
+            ],
+            'mission' => [
+                'title' => __('front.home.about.mission_title', [], $locale),
+                'description' => __('front.home.about.mission_desc', [], $locale),
+                'icon' => 'bi-bullseye',
+                'variant' => 'mission',
             ],
             'values' => [
                 'title' => __('front.about.values_title', [], $locale),

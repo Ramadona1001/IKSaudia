@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\HomeSections\Pages;
 
+use App\Filament\Concerns\PreparesAboutSnippetSettings;
 use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
@@ -10,6 +11,7 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateHomeSection extends CreateRecord
 {
+    use PreparesAboutSnippetSettings;
     use SyncsHomeSectionSlides;
     use SyncsModelTranslations;
 
@@ -21,7 +23,7 @@ class CreateHomeSection extends CreateRecord
         [$translations, $data] = $this->extractTranslations($data);
         $this->cachedTranslations = $translations;
 
-        return $data;
+        return $this->prepareAboutSnippetSettings($data);
     }
 
     protected function afterCreate(): void

@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources\HomeSections\Pages;
 
+use App\Filament\Concerns\PreparesAboutSnippetSettings;
 use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
 use App\Models\HomeSectionTranslation;
-use App\Support\AboutSectionStats;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditHomeSection extends EditRecord
 {
+    use PreparesAboutSnippetSettings;
     use SyncsHomeSectionSlides;
     use SyncsModelTranslations;
 
@@ -44,20 +45,7 @@ class EditHomeSection extends EditRecord
         }
 
         if ($this->getRecord()->type === 'about_snippet') {
-            $settings = AboutSectionStats::normalizeSettings(
-                is_array($data['settings'] ?? null) ? $data['settings'] : [],
-            );
-
-            foreach (['ar', 'en'] as $locale) {
-                if (count($settings['stats'][$locale] ?? []) < 4) {
-                    $settings['stats'][$locale] = AboutSectionStats::defaultStatsForLocale($locale);
-                }
-                if (empty($settings['years_badge'][$locale])) {
-                    $settings['years_badge'][$locale] = AboutSectionStats::defaultYearsBadgeForLocale($locale);
-                }
-            }
-
-            $data['settings'] = $settings;
+            $data = $this->prepareAboutSnippetSettings($data);
         }
 
         return $data;
@@ -71,7 +59,7 @@ class EditHomeSection extends EditRecord
 
         $this->cachedTranslations = $translations;
 
-        return $data;
+        return $this->prepareAboutSnippetSettings($data);
     }
 
     protected function afterSave(): void

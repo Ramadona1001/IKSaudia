@@ -59,9 +59,10 @@ class HomeSectionForm
                     ]),
                 HeroSlidesSchema::section(),
                 AboutSnippetSettingsSchema::section(),
+                AboutSnippetContentSchema::section(),
                 Tabs::make('Translations')
                     ->columnSpanFull()
-                    ->visible(fn (Get $get): bool => $get('type') !== 'hero')
+                    ->visible(fn (Get $get): bool => ! in_array($get('type'), ['hero', 'about_snippet'], true))
                     ->tabs([
                         self::translationTab('ar', 'العربية'),
                         self::translationTab('en', 'English'),
@@ -89,7 +90,7 @@ class HomeSectionForm
                     ->label('CTA label'),
                 TextInput::make("translations.{$locale}.cta_url")
                     ->label('CTA URL')
-                    ->url(),
+                    ->helperText(__('cms.fields.about_cta_url_help')),
             ]);
     }
 }

@@ -158,42 +158,7 @@
         </div>
     </section>
 
-    {{-- ============================================================
-         SECTION 2 — SERVICES
-         ============================================================ --}}
-    <section id="services" class="services-section section-pad">
-        <div class="container">
-            <div class="services-header" data-aos="fade-up">
-                <x-front.section-heading
-                    :eyebrow="__('front.home.services.eyebrow')"
-                    :title="__('front.home.services.title')"
-                    :highlight="__('front.home.services.highlight')"
-                    :description="__('front.home.services.desc')"
-                />
-            </div>
-
-            <div class="row g-4">
-                @forelse ($featuredServices as $service)
-                    <div class="col-lg-4 col-md-6">
-                        <x-front.service-card :service="$service" :index="$loop->iteration" :delay="$loop->index * 100" />
-                    </div>
-                @empty
-                    <div class="col-12">
-                        <p class="text-center" style="color:var(--c-muted);">{{ __('front.services.no_services') }}</p>
-                    </div>
-                @endforelse
-            </div>
-
-            <div class="text-center mt-5" data-aos="fade-up">
-                <a href="{{ route('services.index', app()->getLocale()) }}" class="btn-outline-gold">
-                    <span>{{ __('front.home.services.view_all') }}</span>
-                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
+   
 
     {{-- ============================================================
          SECTION 3 — ABOUT US (CMS: home-sections › about_snippet)
@@ -277,6 +242,43 @@
     </section>
 
     <div class="section-divider"></div>
+
+     {{-- ============================================================
+         SECTION 2 — SERVICES
+         ============================================================ --}}
+         <section id="services" class="services-section section-pad">
+            <div class="container">
+                <div class="services-header" data-aos="fade-up">
+                    <x-front.section-heading
+                        :eyebrow="__('front.home.services.eyebrow')"
+                        :title="__('front.home.services.title')"
+                        :highlight="__('front.home.services.highlight')"
+                        :description="__('front.home.services.desc')"
+                    />
+                </div>
+    
+                <div class="row g-4">
+                    @forelse ($featuredServices as $service)
+                        <div class="col-lg-4 col-md-6">
+                            <x-front.service-card :service="$service" :index="$loop->iteration" :delay="$loop->index * 100" />
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <p class="text-center" style="color:var(--c-muted);">{{ __('front.services.no_services') }}</p>
+                        </div>
+                    @endforelse
+                </div>
+    
+                <div class="text-center mt-5" data-aos="fade-up">
+                    <a href="{{ route('services.index', app()->getLocale()) }}" class="btn-outline-gold">
+                        <span>{{ __('front.home.services.view_all') }}</span>
+                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    
+        <div class="section-divider"></div>
 
     {{-- ============================================================
          SECTION 3b — MISSION, VISION & VALUES

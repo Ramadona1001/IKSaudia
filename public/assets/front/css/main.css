@@ -1,5 +1,5 @@
 /* ============================================================
-   IK Saudi Manufacturing ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â Main Stylesheet
+   IK Saudi Manufacturing ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â Main Stylesheet
    Premium Industrial Corporate Design System
    ============================================================ */
 
@@ -9,12 +9,12 @@
       CSS Custom Properties
       ============================================================ */
    :root {
-     /* Admin branding (Website Settings ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ Branding); overridden on <html> from DB */
+     /* Admin branding (Website Settings ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ Branding); overridden on <html> from DB */
      --brand-primary:   #060c1a;
      --brand-secondary: #1a2d4a;
      --brand-accent:    #c9a227;
    
-     /* Core Brand Colors ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â mapped from settings */
+     /* Core Brand Colors ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â mapped from settings */
      --c-dark:        var(--brand-primary);
      --c-dark2:       color-mix(in srgb, var(--brand-primary) 55%, var(--brand-secondary) 45%);
      --c-dark3:       var(--brand-secondary);
@@ -247,7 +247,7 @@
      font-weight: 800;
      line-height: 1.15;
      margin-bottom: 20px;
-     color:var(--brand-primary);
+     color: var(--bs-body-bg);
    }
    
    .section-title .accent {
@@ -1546,7 +1546,7 @@
    
    /* Mission, Vision & Values */
    .foundation-section {
-     background: var(--c-dark2);
+     background: var(--c-dark);
      position: relative;
      overflow: hidden;
    }
@@ -1594,7 +1594,7 @@
 
    .foundation-card--mission { border-top-color: var(--c-gold); }
    .foundation-card--vision  { border-top-color: var(--c-blue-light); }
-   .foundation-card--values  { border-top-color: #27c978; }
+   .foundation-card--values  {border-top-color: var(--c-gold);}
 
    .foundation-card-icon {
      width: 52px;
@@ -1618,8 +1618,8 @@
    }
 
    .foundation-card--values .foundation-card-icon {
-     background: rgba(39, 201, 120, 0.15);
-     color: #27c978;
+   background: rgba(201, 162, 39, 0.15);
+   color: var(--c-gold);
    }
 
    .foundation-card-title {
@@ -1818,7 +1818,7 @@
      z-index: 2;
    }
 
-   /* Swiper adds absolute positioning to nav buttons â€” keep them in the row below slides */
+   /* Swiper adds absolute positioning to nav buttons Ã¢â‚¬â€ keep them in the row below slides */
    .industries-swiper-nav .ind-nav-btn,
    .industries-swiper-nav .swiper-button-prev,
    .industries-swiper-nav .swiper-button-next {
@@ -3808,7 +3808,7 @@
    }
    
    /* ============================================================
-      Product detail ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â keep sidebar beside content (Bootstrap row)
+      Product detail ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â keep sidebar beside content (Bootstrap row)
       ============================================================ */
    .product-detail-layout > [class*="col-"] {
      min-width: 0;

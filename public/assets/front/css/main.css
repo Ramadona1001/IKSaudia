@@ -1536,7 +1536,7 @@
      margin-bottom: 6px;
    }
    
-   .about-stat-num.gold { color: var(--bs-body-bg); }
+   .about-stat-num.gold {color: var(--c-blue-light);}
    .about-stat-num.blue { color: var(--c-blue-light); }
    
    .about-stat-label {

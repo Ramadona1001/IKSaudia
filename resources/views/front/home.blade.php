@@ -265,19 +265,6 @@
                             @endforeach
                         </div>
 
-                        <div class="about-mv">
-                            <div class="about-mv-item mission">
-                                <div class="about-mv-icon"><i class="bi bi-bullseye" aria-hidden="true"></i></div>
-                                <div class="about-mv-title">{{ __('front.home.about.mission_title') }}</div>
-                                <p class="about-mv-text">{{ __('front.home.about.mission_desc') }}</p>
-                            </div>
-                            <div class="about-mv-item vision">
-                                <div class="about-mv-icon"><i class="bi bi-eye-fill" aria-hidden="true"></i></div>
-                                <div class="about-mv-title">{{ __('front.home.about.vision_title') }}</div>
-                                <p class="about-mv-text">{{ __('front.home.about.vision_desc') }}</p>
-                            </div>
-                        </div>
-
                         <a href="{{ $aboutCtaUrl }}" class="btn-gold">
                             <span>{{ $aboutCtaLabel }}</span>
                             <i class="bi bi-arrow-right" aria-hidden="true"></i>
@@ -285,6 +272,49 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    {{-- ============================================================
+         SECTION 3b — MISSION, VISION & VALUES
+         ============================================================ --}}
+    <section id="foundation" class="foundation-section section-pad">
+        <div class="container">
+            <x-front.section-heading
+                :eyebrow="__('front.about.foundation_eyebrow')"
+                :title="__('front.about.foundation_title')"
+                :highlight="__('front.about.foundation_highlight')"
+                data-aos="fade-up"
+            />
+
+            <div class="foundation-grid">
+                <x-front.foundation-card
+                    :title="__('front.home.about.mission_title')"
+                    :description="__('front.home.about.mission_desc')"
+                    icon="bi-bullseye"
+                    variant="mission"
+                    data-aos="fade-up"
+                    data-aos-delay="0"
+                />
+                <x-front.foundation-card
+                    :title="__('front.home.about.vision_title')"
+                    :description="__('front.home.about.vision_desc')"
+                    icon="bi-eye-fill"
+                    variant="vision"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                />
+                <x-front.foundation-card
+                    :title="__('front.about.values_title')"
+                    :description="__('front.about.values_desc')"
+                    icon="bi-stars"
+                    variant="values"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                />
             </div>
         </div>
     </section>

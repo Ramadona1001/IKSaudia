@@ -91,37 +91,31 @@
 
             <div class="row g-4">
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="0">
-                    <div class="service-card" style="border-top:3px solid var(--c-gold);">
-                        <div class="service-body">
-                            <div style="width:56px;height:56px;background:rgba(201,162,39,0.12);border:1px solid rgba(201,162,39,0.2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--c-gold);margin-bottom:20px;">
-                                <i class="bi bi-bullseye" aria-hidden="true"></i>
-                            </div>
-                            <h3 class="service-title">{{ __('front.home.about.mission_title') }}</h3>
-                            <p class="service-desc">{{ __('front.home.about.mission_desc') }}</p>
-                        </div>
-                    </div>
+                    <x-front.foundation-card
+                        :title="__('front.home.about.mission_title')"
+                        :description="__('front.home.about.mission_desc')"
+                        icon="bi-bullseye"
+                        variant="mission"
+                        class="h-100"
+                    />
                 </div>
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-card" style="border-top:3px solid var(--c-blue-light);">
-                        <div class="service-body">
-                            <div style="width:56px;height:56px;background:rgba(0,168,232,0.12);border:1px solid rgba(0,168,232,0.2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--c-blue-light);margin-bottom:20px;">
-                                <i class="bi bi-eye-fill" aria-hidden="true"></i>
-                            </div>
-                            <h3 class="service-title">{{ __('front.home.about.vision_title') }}</h3>
-                            <p class="service-desc">{{ __('front.home.about.vision_desc') }}</p>
-                        </div>
-                    </div>
+                    <x-front.foundation-card
+                        :title="__('front.home.about.vision_title')"
+                        :description="__('front.home.about.vision_desc')"
+                        icon="bi-eye-fill"
+                        variant="vision"
+                        class="h-100"
+                    />
                 </div>
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-card" style="border-top:3px solid var(--c-gold);">
-                        <div class="service-body">
-                            <div style="width:56px;height:56px;background:rgba(201,162,39,0.12);border:1px solid rgba(201,162,39,0.2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--c-gold);margin-bottom:20px;">
-                                <i class="bi bi-stars" aria-hidden="true"></i>
-                            </div>
-                            <h3 class="service-title">{{ __('front.about.values_title') }}</h3>
-                            <p class="service-desc">{{ __('front.about.values_desc') }}</p>
-                        </div>
-                    </div>
+                    <x-front.foundation-card
+                        :title="__('front.about.values_title')"
+                        :description="__('front.about.values_desc')"
+                        icon="bi-stars"
+                        variant="values"
+                        class="h-100"
+                    />
                 </div>
             </div>
         </div>

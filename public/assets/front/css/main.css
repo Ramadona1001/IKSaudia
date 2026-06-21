@@ -247,7 +247,7 @@
      font-weight: 800;
      line-height: 1.15;
      margin-bottom: 20px;
-     color: var(--bs-body-bg);
+     color: var(--c-dark);
    }
    
    .section-title .accent {
@@ -1122,7 +1122,7 @@
       ============================================================ */
    .section-divider {
      height: 1px;
-     background: linear-gradient(to right, transparent, rgba(201,162,39,0.2), transparent);
+     background: #e5e5e5;
      margin: 0;
    }
    
@@ -1358,7 +1358,7 @@
       About Section
       ============================================================ */
    .about-section {
-     background: var(--c-dark);
+     background: var(--bs-body-bg);
      position: relative;
      overflow: hidden;
    }
@@ -1503,6 +1503,7 @@
    
    .about-content .section-desc {
      margin-bottom: 36px;
+     color: var(--brand-primary) !important;
    }
    
    /* Stats Row */
@@ -1514,7 +1515,7 @@
    }
    
    .about-stat-item {
-     background: rgba(255,255,255,0.025);
+     background: var(--brand-primary);
      border: 1px solid rgba(255,255,255,0.06);
      border-radius: var(--radius-lg);
      padding: 24px;
@@ -2236,7 +2237,7 @@
    }
   
    .about-section .section-title{
-    color: var(--bs-body-bg) !important;
+    color: var(--brand-primary);
    }
    /* ============================================================
       FAQ Section

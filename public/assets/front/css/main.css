@@ -2235,6 +2235,10 @@
    .clients-header .section-title{
     color: var(--bs-body-bg) !important;
    }
+
+   .foundation-section .section-title{
+    color: var(--bs-body-bg) !important;
+   }
   
    .about-section .section-title{
     color: var(--brand-primary);

@@ -85,9 +85,8 @@
         $foundationSection = $foundationSection
             ?? ($sections ?? collect())->firstWhere('key', 'foundation')
             ?? ($sections ?? collect())->firstWhere('type', 'foundation');
-        $foundationSettings = is_array($foundationSection?->settings) ? $foundationSection->settings : [];
-        $foundationHeading = \App\Support\FoundationSection::headingForLocale($foundationSettings, $locale);
-        $foundationCards = \App\Support\FoundationSection::cardsForLocale($foundationSettings, $locale);
+        $foundationHeading = \App\Support\FoundationSection::headingForSection($foundationSection, $locale);
+        $foundationCards = \App\Support\FoundationSection::cardsForSection($foundationSection, $locale);
     @endphp
     @if ($foundationSection && $foundationSection->is_active)
     <section class="section-pad bg-dark1">

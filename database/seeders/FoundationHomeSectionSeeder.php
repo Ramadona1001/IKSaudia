@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\HomeSection;
+use App\Models\HomeSectionTranslation;
 use App\Support\FoundationSection;
 use Illuminate\Database\Seeder;
 
@@ -17,14 +18,27 @@ class FoundationHomeSectionSeeder extends Seeder
 {
     public function run(): void
     {
-        HomeSection::query()->updateOrCreate(
+        $settings = FoundationSection::defaultSettings();
+
+        $section = HomeSection::query()->updateOrCreate(
             ['key' => 'foundation'],
             [
                 'type' => 'foundation',
                 'sort_order' => 3,
                 'is_active' => true,
-                'settings' => FoundationSection::defaultSettings(),
+                'settings' => $settings,
             ],
         );
+
+        foreach (['ar', 'en'] as $locale) {
+            HomeSectionTranslation::query()->updateOrCreate(
+                ['home_section_id' => $section->id, 'locale' => $locale],
+                [
+                    'content' => FoundationSection::encodePayload(
+                        FoundationSection::localePayloadFromSettings($settings, $locale),
+                    ),
+                ],
+            );
+        }
     }
 }

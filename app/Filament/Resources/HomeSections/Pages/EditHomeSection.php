@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\HomeSections\Pages;
 
-use App\Filament\Concerns\PreparesFoundationSettings;
 use App\Filament\Concerns\PreparesAboutSnippetSettings;
+use App\Filament\Concerns\PreparesFoundationSettings;
 use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
@@ -22,6 +22,9 @@ class EditHomeSection extends EditRecord
     use SyncsModelTranslations;
 
     protected static string $resource = HomeSectionResource::class;
+
+    /** @var array<string, mixed>|null */
+    protected ?array $cachedStructuredSettings = null;
 
     protected function getHeaderActions(): array
     {
@@ -54,7 +57,7 @@ class EditHomeSection extends EditRecord
         }
 
         if ($this->getRecord()->type === 'foundation') {
-            $data = $this->prepareFoundationSettings($data);
+            $data['settings'] = $this->foundationSettingsForForm($data);
         }
 
         return $data;
@@ -68,9 +71,21 @@ class EditHomeSection extends EditRecord
 
         $this->cachedTranslations = $translations;
 
-        return $this->prepareFoundationSettings(
+        $formSettings = data_get($this->form->getState(), 'settings');
+        if (is_array($formSettings)) {
+            $data['settings'] = $formSettings;
+        }
+
+        $data = $this->prepareFoundationSettings(
             $this->prepareAboutSnippetSettings($data),
         );
+
+        $type = $data['type'] ?? $this->record?->type;
+        if (in_array($type, ['foundation', 'about_snippet'], true)) {
+            $this->cachedStructuredSettings = is_array($data['settings'] ?? null) ? $data['settings'] : [];
+        }
+
+        return $data;
     }
 
     protected function afterSave(): void
@@ -79,8 +94,14 @@ class EditHomeSection extends EditRecord
             $this->syncSlides($this->record, $this->cachedSlides);
         }
 
-        if (in_array($this->record->type, ['foundation', 'about_snippet'], true)) {
-            $this->persistStructuredSettings();
+        if ($this->record->type === 'foundation') {
+            $this->persistFoundationContent();
+
+            return;
+        }
+
+        if ($this->record->type === 'about_snippet') {
+            $this->persistAboutSnippetSettings();
         }
 
         $this->syncTranslations(
@@ -92,22 +113,81 @@ class EditHomeSection extends EditRecord
         );
     }
 
-    protected function persistStructuredSettings(): void
+    protected function persistFoundationContent(): void
     {
-        $rawSettings = $this->form->getState()['settings'] ?? [];
+        $settings = FoundationSection::normalizeSettings(
+            $this->cachedStructuredSettings
+            ?? data_get($this->form->getState(), 'settings')
+            ?? $this->record->settings
+            ?? [],
+        );
 
-        $settings = match ($this->record->type) {
-            'foundation' => FoundationSection::normalizeSettings(is_array($rawSettings) ? $rawSettings : []),
-            'about_snippet' => $this->normalizeAboutSettings(is_array($rawSettings) ? $rawSettings : []),
-            default => null,
-        };
+        $this->record->update(['settings' => $settings]);
 
-        if (! is_array($settings)) {
-            return;
+        foreach (['ar', 'en'] as $locale) {
+            HomeSectionTranslation::query()->updateOrCreate(
+                ['home_section_id' => $this->record->id, 'locale' => $locale],
+                [
+                    'content' => FoundationSection::encodePayload(
+                        FoundationSection::localePayloadFromSettings($settings, $locale),
+                    ),
+                ],
+            );
         }
+
+        app(HomePageService::class)->clearCache();
+    }
+
+    protected function persistAboutSnippetSettings(): void
+    {
+        $settings = $this->normalizeAboutSettings(
+            $this->cachedStructuredSettings
+            ?? data_get($this->form->getState(), 'settings')
+            ?? $this->record->settings
+            ?? [],
+        );
 
         $this->record->update(['settings' => $settings]);
         app(HomePageService::class)->clearCache();
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    protected function foundationSettingsForForm(array $data): array
+    {
+        $settings = FoundationSection::normalizeSettings(
+            is_array($data['settings'] ?? null) ? $data['settings'] : [],
+        );
+
+        foreach (['ar', 'en'] as $locale) {
+            $translation = $this->getRecord()->translationFor($locale);
+            $rawContent = $translation?->getAttributes()['content'] ?? null;
+            $payload = FoundationSection::decodePayload($rawContent);
+
+            if ($payload === null) {
+                continue;
+            }
+
+            if (! empty($payload['heading'])) {
+                $settings['heading'][$locale] = array_merge(
+                    $settings['heading'][$locale] ?? [],
+                    $payload['heading'],
+                );
+            }
+
+            foreach (['mission', 'vision', 'values'] as $group) {
+                if (! empty($payload[$group])) {
+                    $settings[$group][$locale] = array_merge(
+                        $settings[$group][$locale] ?? [],
+                        $payload[$group],
+                    );
+                }
+            }
+        }
+
+        return FoundationSection::normalizeSettings($settings);
     }
 
     /**

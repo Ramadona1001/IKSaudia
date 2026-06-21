@@ -34,8 +34,13 @@ class HomePageService
 
     public function sectionByKey(string $key, ?string $locale = null): ?HomeSection
     {
-        return $this->sections($locale)->firstWhere('key', $key)
-            ?? $this->sections($locale)->firstWhere('type', $key);
+        return HomeSection::query()
+            ->where('is_active', true)
+            ->where(function ($query) use ($key): void {
+                $query->where('key', $key)->orWhere('type', $key);
+            })
+            ->with('translations')
+            ->first();
     }
 
     public function clearCache(): void

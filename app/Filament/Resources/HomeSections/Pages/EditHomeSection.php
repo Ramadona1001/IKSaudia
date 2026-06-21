@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\HomeSections\Pages;
 
+use App\Filament\Concerns\PreparesFoundationSettings;
 use App\Filament\Concerns\PreparesAboutSnippetSettings;
 use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
@@ -13,6 +14,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditHomeSection extends EditRecord
 {
     use PreparesAboutSnippetSettings;
+    use PreparesFoundationSettings;
     use SyncsHomeSectionSlides;
     use SyncsModelTranslations;
 
@@ -48,6 +50,10 @@ class EditHomeSection extends EditRecord
             $data = $this->prepareAboutSnippetSettings($data);
         }
 
+        if ($this->getRecord()->type === 'foundation') {
+            $data = $this->prepareFoundationSettings($data);
+        }
+
         return $data;
     }
 
@@ -59,7 +65,9 @@ class EditHomeSection extends EditRecord
 
         $this->cachedTranslations = $translations;
 
-        return $this->prepareAboutSnippetSettings($data);
+        return $this->prepareFoundationSettings(
+            $this->prepareAboutSnippetSettings($data),
+        );
     }
 
     protected function afterSave(): void

@@ -84,5 +84,6 @@ class HomeContentSeeder extends Seeder
         }
 
         $this->call(AboutSnippetHomeSectionSeeder::class);
+        $this->call(FoundationHomeSectionSeeder::class);
     }
 }

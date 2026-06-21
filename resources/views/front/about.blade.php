@@ -79,44 +79,36 @@
         </div>
     </section>
 
-    {{-- Mission Vision Values --}}
+    {{-- Mission Vision Values (CMS: home-sections › foundation) --}}
+    @php
+        $locale = app()->getLocale();
+        $foundationSection = ($sections ?? collect())->firstWhere('key', 'foundation')
+            ?? ($sections ?? collect())->firstWhere('type', 'foundation');
+        $foundationSettings = is_array($foundationSection?->settings) ? $foundationSection->settings : [];
+        $foundationHeading = \App\Support\FoundationSection::headingForLocale($foundationSettings, $locale);
+        $foundationCards = \App\Support\FoundationSection::cardsForLocale($foundationSettings, $locale);
+    @endphp
     <section class="section-pad bg-dark1">
         <div class="container">
             <x-front.section-heading
-                :eyebrow="__('front.about.foundation_eyebrow')"
-                :title="__('front.about.foundation_title')"
-                :highlight="__('front.about.foundation_highlight')"
+                :eyebrow="$foundationHeading['eyebrow']"
+                :title="$foundationHeading['title']"
+                :highlight="$foundationHeading['highlight']"
                 data-aos="fade-up"
             />
 
             <div class="row g-4">
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="0">
-                    <x-front.foundation-card
-                        :title="__('front.home.about.mission_title')"
-                        :description="__('front.home.about.mission_desc')"
-                        icon="bi-bullseye"
-                        variant="mission"
-                        class="h-100"
-                    />
-                </div>
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <x-front.foundation-card
-                        :title="__('front.home.about.vision_title')"
-                        :description="__('front.home.about.vision_desc')"
-                        icon="bi-eye-fill"
-                        variant="vision"
-                        class="h-100"
-                    />
-                </div>
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <x-front.foundation-card
-                        :title="__('front.about.values_title')"
-                        :description="__('front.about.values_desc')"
-                        icon="bi-stars"
-                        variant="values"
-                        class="h-100"
-                    />
-                </div>
+                @foreach ($foundationCards as $card)
+                    <div class="col-lg-4" data-aos="fade-up" :data-aos-delay="$loop->index * 100">
+                        <x-front.foundation-card
+                            :title="$card['title']"
+                            :description="$card['description']"
+                            :icon="$card['icon']"
+                            :variant="$card['variant']"
+                            class="h-100"
+                        />
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>

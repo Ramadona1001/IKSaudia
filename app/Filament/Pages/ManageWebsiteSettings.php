@@ -49,7 +49,9 @@ class ManageWebsiteSettings extends Page
         abort_unless(static::canAccess(), 403);
 
         $state = app(SettingsService::class)->toFormState();
-        $state['navigation']['header_items'] = app(NavigationService::class)->toFormState();
+        $state['navigation']['header_items'] = app(NavigationService::class)->reindexFormItems(
+            app(NavigationService::class)->toFormState(),
+        );
         $this->form->fill($state);
     }
 
@@ -68,7 +70,9 @@ class ManageWebsiteSettings extends Page
         unset($data['navigation']);
 
         app(SettingsService::class)->syncFromForm($data);
-        app(NavigationService::class)->syncFromForm(is_array($navItems) ? $navItems : []);
+        app(NavigationService::class)->syncFromForm(
+            app(NavigationService::class)->reindexFormItems(is_array($navItems) ? $navItems : []),
+        );
 
         Notification::make()
             ->title('Website settings saved')

@@ -3,8 +3,10 @@
 namespace App\Filament\Pages\WebsiteSettings;
 
 use App\Models\PageTranslation;
+use App\Services\NavigationService;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -61,7 +63,7 @@ final class WebsiteSettingsForm
 
         return [
             Section::make('Main menu')
-                ->description('Links shown in the website header navigation. Home is always shown separately.')
+                ->description('Drag links to reorder the header menu. Order is saved when you click Save settings.')
                 ->schema([
                     Repeater::make('navigation.header_items')
                         ->label('Menu links')
@@ -97,14 +99,41 @@ final class WebsiteSettingsForm
                                 ->helperText('Enable for Services to show featured services panel.')
                                 ->default(false),
                             Toggle::make('is_visible')->label('Visible')->default(true),
-                            TextInput::make('sort_order')->label('Sort')->numeric()->default(0),
+                            Hidden::make('id'),
+                            Hidden::make('sort_order')->default(0),
                         ])
                         ->columns(2)
                         ->collapsible()
-                        ->itemLabel(fn (array $state): ?string => $state['label_en'] ?? $state['label_ar'] ?? 'Link')
+                        ->itemLabel(fn (array $state): ?string => self::navigationItemLabel($state))
                         ->defaultItems(0)
                         ->reorderable()
-                        ->orderColumn('sort_order'),
+                        ->reorderableWithDragAndDrop(true)
+                        ->reorderableWithButtons()
+                        ->live()
+                        ->afterStateUpdated(function (?array $state, callable $set): void {
+                            if (! is_array($state)) {
+                                return;
+                            }
+
+                            $reindexed = app(NavigationService::class)->reindexFormItems($state);
+
+                            $currentOrders = collect($state)
+                                ->filter(fn ($row) => is_array($row))
+                                ->values()
+                                ->map(fn (array $row, int $index) => (int) ($row['sort_order'] ?? $index))
+                                ->all();
+
+                            $newOrders = collect($reindexed)
+                                ->map(fn (array $row) => (int) ($row['sort_order'] ?? 0))
+                                ->all();
+
+                            if ($currentOrders !== $newOrders) {
+                                $set('navigation.header_items', $reindexed);
+                            }
+                        })
+                        ->dehydrateStateUsing(
+                            fn (?array $state): array => app(NavigationService::class)->reindexFormItems(is_array($state) ? $state : []),
+                        ),
                 ]),
         ];
     }
@@ -414,6 +443,17 @@ final class WebsiteSettingsForm
             TextInput::make("{$path}.ar")->label("{$label} (AR)")->maxLength(255),
             TextInput::make("{$path}.en")->label("{$label} (EN)")->maxLength(255),
         ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $state
+     */
+    protected static function navigationItemLabel(array $state): string
+    {
+        $label = $state['label_en'] ?? $state['label_ar'] ?? 'Menu link';
+        $sort = isset($state['sort_order']) ? ((int) $state['sort_order'] + 1) : null;
+
+        return $sort ? "#{$sort} · {$label}" : $label;
     }
 
     /** @return array<int, mixed> */

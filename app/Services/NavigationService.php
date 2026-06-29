@@ -71,9 +71,24 @@ class NavigationService
 
     /**
      * @param  list<array<string, mixed>>  $items
+     * @return list<array<string, mixed>>
+     */
+    public function reindexFormItems(array $items): array
+    {
+        return collect($items)
+            ->filter(fn ($row) => is_array($row))
+            ->values()
+            ->map(fn (array $row, int $index) => array_merge($row, ['sort_order' => $index]))
+            ->all();
+    }
+
+    /**
+     * @param  list<array<string, mixed>>  $items
      */
     public function syncFromForm(array $items): void
     {
+        $items = $this->reindexFormItems($items);
+
         DB::transaction(function () use ($items) {
             $menu = $this->headerMenu();
             $keptIds = [];
@@ -211,7 +226,7 @@ class NavigationService
 
         $payload = [
             'parent_id' => null,
-            'sort_order' => (int) ($row['sort_order'] ?? $index),
+            'sort_order' => $index,
             'is_active' => (bool) ($row['is_visible'] ?? true),
             'is_mega_menu' => (bool) ($row['is_mega_menu'] ?? false),
             'target' => '_self',

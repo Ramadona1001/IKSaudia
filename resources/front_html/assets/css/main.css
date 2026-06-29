@@ -2176,7 +2176,7 @@ body[dir="rtl"] .about-content {
 .partner-card:hover .partner-icon {
   filter: grayscale(0%);
   background: rgba(201, 162, 39, 0.12);
-  border-color: rgba(201, 162, 39, 0.25);
+  border-color: rgba(255, 255, 255, 0.25);
   color: var(--c-gold);
   box-shadow: var(--glow-gold);
 }

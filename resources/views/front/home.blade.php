@@ -401,7 +401,7 @@
                 ['name' => 'TASNEE',  'icon' => 'bi-gear-fill'],
             ];
 
-            $marqueeItems = $featuredClients->isNotEmpty()
+            $clientMarqueeItems = $featuredClients->isNotEmpty()
                 ? $featuredClients->map(function ($client) use ($locale) {
                     $translation = $client->translate($locale);
 
@@ -418,43 +418,24 @@
                 ]);
         @endphp
 
-        <div
-            class="clients-marquee-wrap clients-marquee-wrap--standalone"
-            role="region"
-            aria-label="{{ __('front.home.clients.eyebrow') }}"
+        <x-front.logo-marquee
+            :items="$clientMarqueeItems"
+            :aria-label="__('front.home.clients.eyebrow')"
             data-aos="fade-up"
             data-aos-delay="100"
-        >
-            <div class="clients-marquee">
-                @foreach ($marqueeItems as $item)
-                    <x-front.client-marquee-item
-                        :name="$item['name']"
-                        :image="$item['image']"
-                        :url="$item['url']"
-                    />
-                @endforeach
-                @foreach ($marqueeItems as $item)
-                    <x-front.client-marquee-item
-                        :name="$item['name']"
-                        :image="$item['image']"
-                        :url="$item['url']"
-                        aria-hidden="true"
-                    />
-                @endforeach
-            </div>
-        </div>
+        />
     </section>
     @endif
 
     <div class="section-divider"></div>
 
     {{-- ============================================================
-         SECTION 6 — PARTNERS
+         SECTION 6 — PARTNERS (marquee — same layout as clients)
          ============================================================ --}}
     @if ($featuredPartners->isNotEmpty() || true)
-    <section id="partners" class="partners-section section-pad">
+    <section id="partners" class="clients-section section-pad">
         <div class="container">
-            <div class="partners-header" data-aos="fade-up">
+            <div class="clients-header" data-aos="fade-up">
                 <x-front.section-heading
                     :eyebrow="__('front.home.partners.eyebrow')"
                     :title="__('front.home.partners.title')"
@@ -462,36 +443,41 @@
                     :description="__('front.home.partners.desc')"
                 />
             </div>
-
-            <div class="partners-grid" data-aos="fade-up" data-aos-delay="100">
-                @if ($featuredPartners->isNotEmpty())
-                    @foreach ($featuredPartners as $partner)
-                        @php $pt = $partner->translate(app()->getLocale()); @endphp
-                        <x-front.partner-card
-                            :name="$pt?->name ?? '—'"
-                            :type="$pt?->description"
-                            :url="$partner->website_url ?? '#'"
-                            :image="$partner->featured_image_url"
-                            icon="bi-cpu-fill"
-                        />
-                    @endforeach
-                @else
-                    @php
-                        $defaultPartners = [
-                            ['name' => 'SIEMENS', 'icon' => 'bi-cpu-fill', 'type' => 'Technology Partner'],
-                            ['name' => 'ABB GROUP', 'icon' => 'bi-lightning-charge-fill', 'type' => 'Automation Partner'],
-                            ['name' => 'HONEYWELL', 'icon' => 'bi-thermometer-half', 'type' => 'Process Partner'],
-                            ['name' => 'CATERPILLAR', 'icon' => 'bi-truck', 'type' => 'Equipment Partner'],
-                            ['name' => 'BUREAU VERITAS', 'icon' => 'bi-patch-check-fill', 'type' => 'Inspection Partner'],
-                            ['name' => "LLOYD'S", 'icon' => 'bi-shield-fill-check', 'type' => 'Certification Body'],
-                        ];
-                    @endphp
-                    @foreach ($defaultPartners as $p)
-                        <x-front.partner-card :name="$p['name']" :type="$p['type']" :icon="$p['icon']" url="#" />
-                    @endforeach
-                @endif
-            </div>
         </div>
+
+        @php
+            $defaultPartners = [
+                ['name' => 'SIEMENS'],
+                ['name' => 'ABB GROUP'],
+                ['name' => 'HONEYWELL'],
+                ['name' => 'CATERPILLAR'],
+                ['name' => 'BUREAU VERITAS'],
+                ['name' => "LLOYD'S"],
+            ];
+
+            $partnerMarqueeItems = $featuredPartners->isNotEmpty()
+                ? $featuredPartners->map(function ($partner) use ($locale) {
+                    $translation = $partner->translate($locale);
+
+                    return [
+                        'name' => $translation?->name,
+                        'image' => $partner->featured_image_url,
+                        'url' => $partner->website_url,
+                    ];
+                })->filter(fn (array $item) => filled($item['name']))->values()
+                : collect($defaultPartners)->map(fn (array $partner) => [
+                    'name' => $partner['name'],
+                    'image' => null,
+                    'url' => null,
+                ]);
+        @endphp
+
+        <x-front.logo-marquee
+            :items="$partnerMarqueeItems"
+            :aria-label="__('front.home.partners.eyebrow')"
+            data-aos="fade-up"
+            data-aos-delay="100"
+        />
     </section>
     @endif
 
@@ -553,12 +539,12 @@
     @endif
 
     {{-- ============================================================
-         SECTION 6.6 — CERTIFICATIONS (admin-managed)
+         SECTION 6.6 — CERTIFICATIONS (marquee — same layout as clients)
          ============================================================ --}}
-    @if (isset($featuredCertifications) && $featuredCertifications->isNotEmpty())
-        <section id="certifications" class="certifications-section section-pad">
+    @if (isset($featuredCertifications) && ($featuredCertifications->isNotEmpty() || true))
+        <section id="certifications" class="clients-section section-pad">
             <div class="container">
-                <div class="industries-header" data-aos="fade-up">
+                <div class="clients-header" data-aos="fade-up">
                     <x-front.section-heading
                         :eyebrow="__('front.home.certs.eyebrow') ?: __('navigation.certifications')"
                         :title="__('front.home.certs.title') ?: __('common.certifications')"
@@ -566,22 +552,44 @@
                         :description="__('front.home.certs.desc')"
                     />
                 </div>
-
-                <div class="clients-logo-grid" data-aos="fade-up" data-aos-delay="100" role="list" aria-label="Certifications" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
-                    @foreach ($featuredCertifications as $cert)
-                        @php $ct = $cert->translate(app()->getLocale()); @endphp
-                        <x-front.client-logo
-                            :name="$ct?->title ?? $cert->issuer ?? '—'"
-                            :image="$cert->featured_image_url"
-                            icon="bi-patch-check-fill"
-                            url="#"
-                        />
-                    @endforeach
-                </div>
             </div>
+
+            @php
+                $defaultCertifications = [
+                    ['name' => 'ISO 9001'],
+                    ['name' => 'ASME'],
+                    ['name' => 'API'],
+                    ['name' => 'ASTM'],
+                    ['name' => 'ISO 14001'],
+                    ['name' => 'ISO 45001'],
+                ];
+
+                $certMarqueeItems = $featuredCertifications->isNotEmpty()
+                    ? $featuredCertifications->map(function ($cert) use ($locale) {
+                        $translation = $cert->translate($locale);
+
+                        return [
+                            'name' => $translation?->title ?? $cert->issuer,
+                            'image' => $cert->featured_image_url,
+                            'url' => null,
+                        ];
+                    })->filter(fn (array $item) => filled($item['name']))->values()
+                    : collect($defaultCertifications)->map(fn (array $cert) => [
+                        'name' => $cert['name'],
+                        'image' => null,
+                        'url' => null,
+                    ]);
+            @endphp
+
+            <x-front.logo-marquee
+                :items="$certMarqueeItems"
+                :aria-label="__('front.home.certs.eyebrow') ?: __('navigation.certifications')"
+                data-aos="fade-up"
+                data-aos-delay="100"
+            />
         </section>
 
-        {{-- <div class="section-divider"></div> --}}
+        <div class="section-divider"></div>
     @endif
 
     {{-- ============================================================

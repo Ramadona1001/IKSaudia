@@ -541,7 +541,21 @@
     {{-- ============================================================
          SECTION 6.6 — CERTIFICATIONS (marquee — same layout as clients)
          ============================================================ --}}
-    @if (isset($featuredCertifications) && ($featuredCertifications->isNotEmpty() || true))
+    @php
+        $certLocale = app()->getLocale();
+        $certMarqueeItems = isset($featuredCertifications)
+            ? $featuredCertifications->map(function ($cert) use ($certLocale) {
+                $translation = $cert->translate($certLocale);
+
+                return [
+                    'name' => $translation?->title ?? $cert->issuer,
+                    'image' => $cert->featured_image_url,
+                    'url' => null,
+                ];
+            })->filter(fn (array $item) => filled($item['image']))->values()
+            : collect();
+    @endphp
+    @if ($certMarqueeItems->isNotEmpty())
         <section id="certifications" class="clients-section section-pad">
             <div class="container">
                 <div class="clients-header" data-aos="fade-up">
@@ -554,41 +568,9 @@
                 </div>
             </div>
 
-            @php
-                $defaultCertifications = [
-                    ['name' => 'ISO 9001'],
-                    ['name' => 'ASME'],
-                    ['name' => 'API'],
-                    ['name' => 'ASTM'],
-                    ['name' => 'ISO 14001'],
-                    ['name' => 'ISO 45001'],
-                ];
-
-                $certLocale = app()->getLocale();
-
-                $certMarqueeItems = $featuredCertifications->isNotEmpty()
-                    ? $featuredCertifications->map(function ($cert) use ($certLocale) {
-                        $translation = $cert->translate($certLocale);
-
-                        return [
-                            'name' => $translation?->title ?? $cert->issuer,
-                            'image' => $cert->featured_image_url,
-                            'url' => null,
-                        ];
-                    })->filter(fn (array $item) => filled($item['name']))->values()
-                    : collect();
-
-                if ($certMarqueeItems->isEmpty()) {
-                    $certMarqueeItems = collect($defaultCertifications)->map(fn (array $cert) => [
-                        'name' => $cert['name'],
-                        'image' => null,
-                        'url' => null,
-                    ]);
-                }
-            @endphp
-
             <x-front.logo-marquee
                 :items="$certMarqueeItems"
+                :image-only="true"
                 :aria-label="__('front.home.certs.eyebrow') ?: __('navigation.certifications')"
                 data-aos="fade-up"
                 data-aos-delay="100"

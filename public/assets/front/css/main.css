@@ -4023,4 +4023,27 @@
   .home-main .section-divider {
     background: #e2e8f0;
   }
+
+  /* Certifications — logo images only */
+  #certifications .clients-marquee-wrap--image-only .marquee-client {
+    min-width: 140px;
+    height: 88px;
+    padding: 12px 32px;
+  }
+
+  #certifications .clients-marquee-wrap--image-only .marquee-client-logo {
+    max-height: 72px;
+    max-width: 180px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(15%);
+    opacity: 0.9;
+    transition: filter 0.3s var(--ease), opacity 0.3s var(--ease);
+  }
+
+  #certifications .clients-marquee-wrap--image-only .marquee-client:hover .marquee-client-logo {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
    

@@ -158,7 +158,7 @@
         </div>
     </section>
 
-   
+    <div class="home-main">
 
     {{-- ============================================================
          SECTION 3 — ABOUT US (CMS: home-sections › about_snippet)
@@ -487,7 +487,7 @@
          SECTION 6.5 — FEATURED PROJECTS (admin-managed)
          ============================================================ --}}
     @if (isset($featuredProjects) && $featuredProjects->isNotEmpty())
-        <section id="projects" class="projects-section section-pad bg-dark2">
+        <section id="projects" class="projects-section section-pad">
             <div class="container">
                 <div class="services-header" data-aos="fade-up">
                     <x-front.section-heading
@@ -629,5 +629,7 @@
         </div>
     </section>
     @endif
+
+    </div>{{-- /.home-main --}}
 
 @endsection

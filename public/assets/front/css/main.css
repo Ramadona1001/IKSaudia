@@ -2094,8 +2094,8 @@
      }
    }
    
-   #certifications,#faq{
-     background: white;
+   #faq {
+     background: var(--c-dark);
    }
    
    .partner-card {
@@ -2235,6 +2235,14 @@
 
    .clients-header .section-title{
     color: var(--bs-body-bg) !important;
+   }
+
+   .clients-header .section-desc {
+     color: rgba(255, 255, 255, 0.65);
+   }
+
+   .clients-header .section-eyebrow {
+     color: var(--c-gold);
    }
 
    .foundation-section .section-title{

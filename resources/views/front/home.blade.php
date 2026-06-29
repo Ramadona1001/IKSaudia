@@ -564,9 +564,11 @@
                     ['name' => 'ISO 45001'],
                 ];
 
+                $certLocale = app()->getLocale();
+
                 $certMarqueeItems = $featuredCertifications->isNotEmpty()
-                    ? $featuredCertifications->map(function ($cert) use ($locale) {
-                        $translation = $cert->translate($locale);
+                    ? $featuredCertifications->map(function ($cert) use ($certLocale) {
+                        $translation = $cert->translate($certLocale);
 
                         return [
                             'name' => $translation?->title ?? $cert->issuer,
@@ -574,11 +576,15 @@
                             'url' => null,
                         ];
                     })->filter(fn (array $item) => filled($item['name']))->values()
-                    : collect($defaultCertifications)->map(fn (array $cert) => [
+                    : collect();
+
+                if ($certMarqueeItems->isEmpty()) {
+                    $certMarqueeItems = collect($defaultCertifications)->map(fn (array $cert) => [
                         'name' => $cert['name'],
                         'image' => null,
                         'url' => null,
                     ]);
+                }
             @endphp
 
             <x-front.logo-marquee

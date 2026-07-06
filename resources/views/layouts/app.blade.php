@@ -15,7 +15,7 @@
     <meta name="theme-color" content="{{ $brandPrimary }}">
     <meta name="robots" content="{{ $defaultRobots }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', setting('seo.default_meta_title'))</title>
+    <title>{{ setting('seo.default_meta_title') ?: setting('general.site_name') ?: config('app.name') }}</title>
     @if ($favicon = setting_url('general.favicon'))
         <link rel="icon" href="{{ $favicon }}" type="image/png">
     @endif

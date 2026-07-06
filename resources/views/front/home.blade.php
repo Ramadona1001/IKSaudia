@@ -539,26 +539,18 @@
     @endif
 
     {{-- ============================================================
-         SECTION 6.6 — CERTIFICATIONS (marquee — same layout as clients)
+         SECTION 6.6 — CERTIFICATIONS (image cards)
          ============================================================ --}}
     @php
         $certLocale = app()->getLocale();
-        $certMarqueeItems = isset($featuredCertifications)
-            ? $featuredCertifications->map(function ($cert) use ($certLocale) {
-                $translation = $cert->translate($certLocale);
-
-                return [
-                    'name' => $translation?->title ?? $cert->issuer,
-                    'image' => $cert->featured_image_url,
-                    'url' => null,
-                ];
-            })->filter(fn (array $item) => filled($item['image']))->values()
+        $certCards = isset($featuredCertifications)
+            ? $featuredCertifications->filter(fn ($cert) => filled($cert->featured_image_url))
             : collect();
     @endphp
-    @if ($certMarqueeItems->isNotEmpty())
-        <section id="certifications" class="clients-section section-pad">
+    @if ($certCards->isNotEmpty())
+        <section id="certifications" class="certifications-section section-pad">
             <div class="container">
-                <div class="clients-header" data-aos="fade-up">
+                <div class="certifications-header" data-aos="fade-up">
                     <x-front.section-heading
                         :eyebrow="__('front.home.certs.eyebrow') ?: __('navigation.certifications')"
                         :title="__('front.home.certs.title') ?: __('common.certifications')"
@@ -566,15 +558,17 @@
                         :description="__('front.home.certs.desc')"
                     />
                 </div>
-            </div>
 
-            <x-front.logo-marquee
-                :items="$certMarqueeItems"
-                :image-only="true"
-                :aria-label="__('front.home.certs.eyebrow') ?: __('navigation.certifications')"
-                data-aos="fade-up"
-                data-aos-delay="100"
-            />
+                <div class="certifications-grid" data-aos="fade-up" data-aos-delay="100">
+                    @foreach ($certCards as $cert)
+                        @php $certTranslation = $cert->translate($certLocale); @endphp
+                        <x-front.certification-card
+                            :name="$certTranslation?->title ?? $cert->issuer"
+                            :image="$cert->featured_image_url"
+                        />
+                    @endforeach
+                </div>
+            </div>
         </section>
 
         <div class="section-divider"></div>

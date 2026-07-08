@@ -2254,25 +2254,19 @@
    }
 
    .certifications-grid {
-     display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
-     gap: clamp(1rem, 2.5vw, 1.5rem);
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
      align-items: stretch;
-     justify-items: stretch;
+     gap: clamp(1rem, 2.5vw, 1.5rem);
      max-width: 1120px;
      margin-inline: auto;
    }
 
-   @media (min-width: 992px) {
-     .certifications-grid {
-       grid-template-columns: repeat(4, minmax(0, 1fr));
-     }
-   }
-
-   @media (min-width: 1200px) {
-     .certifications-grid {
-       grid-template-columns: repeat(6, minmax(0, 1fr));
-     }
+   .certifications-grid > * {
+     flex: 0 1 160px;
+     max-width: 200px;
+     width: 100%;
    }
 
    .certification-card {

@@ -9,14 +9,33 @@
       CSS Custom Properties
       ============================================================ */
    :root {
-     /* Admin branding (Website Settings ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ Branding); overridden on <html> from DB */
+     /* Brand palette — shared accents (CTAs, cards). Overridden from Website Settings. */
      --brand-primary:   #060c1a;
      --brand-secondary: #1a2d4a;
      --brand-accent:    #c9a227;
+
+     /* ── Region colors (independent; changing one does not cascade) ── */
+     --page-bg:         var(--brand-primary);
+     --header-bg:       #ffffff;
+     --header-bg-scrolled: #ffffff;
+     --header-text:     var(--brand-primary);
+     --header-text-hover: var(--brand-secondary);
+     --header-border:   color-mix(in srgb, var(--brand-accent) 15%, transparent);
+     --header-icon-bg:  var(--brand-secondary);
+     --hero-text:       #ffffff;
+     --hero-overlay:    color-mix(in srgb, var(--brand-primary) 78%, transparent);
+     --footer-bg:       #030710;
+     --footer-text:     #ffffff;
+     --footer-muted:    #94a3b8;
+     --footer-accent:   var(--brand-accent);
+     --footer-border:   color-mix(in srgb, var(--brand-accent) 10%, transparent);
+     --section-bg:      #ffffff;
+     --section-bg-alt:  color-mix(in srgb, var(--brand-primary) 55%, var(--brand-secondary) 45%);
+     --section-text:    var(--brand-primary);
    
-     /* Core Brand Colors ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â mapped from settings */
-     --c-dark:        var(--brand-primary);
-     --c-dark2:       color-mix(in srgb, var(--brand-primary) 55%, var(--brand-secondary) 45%);
+     /* Core semantic tokens — page/content palette (not header/footer) */
+     --c-dark:        var(--page-bg);
+     --c-dark2:       var(--section-bg-alt);
      --c-dark3:       var(--brand-secondary);
      --c-dark4:       color-mix(in srgb, var(--brand-secondary) 85%, #ffffff 8%);
      --c-gold:        var(--brand-accent);
@@ -37,9 +56,9 @@
      --grad-dark:    linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
      --grad-gold:    linear-gradient(135deg, var(--brand-accent) 0%, var(--c-gold-light) 100%);
      --grad-blue:    linear-gradient(135deg, var(--c-blue) 0%, var(--c-blue-light) 100%);
-     --grad-hero1:   linear-gradient(135deg, rgba(6,12,26,0.97) 0%, rgba(15,28,60,0.92) 50%, rgba(6,12,26,0.97) 100%);
-     --grad-hero2:   linear-gradient(135deg, rgba(6,12,26,0.97) 0%, rgba(20,14,4,0.92) 50%, rgba(6,12,26,0.97) 100%);
-     --grad-hero3:   linear-gradient(135deg, rgba(0,8,30,0.97) 0%, rgba(6,28,55,0.92) 50%, rgba(0,8,30,0.97) 100%);
+     --grad-hero1:   linear-gradient(135deg, color-mix(in srgb, var(--page-bg) 97%, transparent) 0%, color-mix(in srgb, var(--brand-secondary) 92%, transparent) 50%, color-mix(in srgb, var(--page-bg) 97%, transparent) 100%);
+     --grad-hero2:   linear-gradient(135deg, color-mix(in srgb, var(--page-bg) 97%, transparent) 0%, rgba(20,14,4,0.92) 50%, color-mix(in srgb, var(--page-bg) 97%, transparent) 100%);
+     --grad-hero3:   linear-gradient(135deg, color-mix(in srgb, var(--page-bg) 97%, transparent) 0%, color-mix(in srgb, var(--brand-secondary) 85%, #0075be 15%) 50%, color-mix(in srgb, var(--page-bg) 97%, transparent) 100%);
    
      /* Shadows */
      --shadow-sm:   0 4px 15px rgba(0,0,0,0.12);
@@ -87,7 +106,7 @@
    
    body {
      font-family: var(--font-body);
-     background-color: var(--c-dark);
+     background-color: var(--page-bg);
      color: var(--c-white);
      line-height: 1.7;
      overflow-x: hidden;
@@ -416,8 +435,8 @@
      z-index: 9000;
      transition: background 0.5s ease, padding 0.4s ease, box-shadow 0.4s ease;
      padding: 0;
-     background: var(--c-white);
-     box-shadow: 0 0 20px 0px #122d4d61;
+     background: var(--header-bg);
+     box-shadow: 0 0 20px 0px color-mix(in srgb, var(--header-text) 38%, transparent);
    }
    
    .main-nav.transparent .nav-inner {
@@ -426,8 +445,8 @@
    }
    
    .main-nav.scrolled .nav-inner {
-     background: white;
-     border-bottom: 1px solid rgba(201,162,39,0.15);
+     background: var(--header-bg-scrolled);
+     border-bottom: 1px solid var(--header-border);
      box-shadow: unset;
    }
    
@@ -498,7 +517,7 @@
      font-size: 1rem;
      font-weight: 600;
      letter-spacing: 0.5px;
-     color: var(--brand-primary);
+     color: var(--header-text);
      border-radius: var(--radius);
      transition: var(--trans-fast);
      position: relative;
@@ -519,7 +538,7 @@
    
    .nav-links > li > a:hover,
    .nav-links > li > a.active {
-     color: var(--brand-secondary);
+     color: var(--header-text-hover);
      font-weight: bold !important;
    }
    
@@ -604,7 +623,7 @@
      display: flex;
      align-items: center;
      justify-content: center;
-     background: var(--brand-secondary);
+     background: var(--header-icon-bg);
      border: 1px solid rgba(255,255,255,0.1);
      border-radius: var(--radius);
      color: var(--c-white);
@@ -623,7 +642,7 @@
      display: flex;
      align-items: center;
      gap: 2px;
-     background: var(--brand-secondary);
+     background: var(--header-icon-bg);
      border: 1px solid rgba(255,255,255,0.1);
      border-radius: var(--radius);
      padding: 4px;
@@ -656,8 +675,8 @@
      cursor: pointer;
      padding: 6px;
      border-radius: var(--radius);
-     border: 1px solid rgba(255,255,255,0.1);
-     background: rgba(255,255,255,0.05);
+     border: 1px solid color-mix(in srgb, var(--header-text) 12%, transparent);
+     background: var(--header-icon-bg);
    }
    
    .nav-toggle span {
@@ -937,7 +956,7 @@
      font-weight: 900;
      line-height: 1.08;
      letter-spacing: -0.03em;
-     color: var(--c-white);
+     color: var(--hero-text);
      margin-bottom: 24px;
      opacity: 0;
      transform: translateY(30px);
@@ -2468,6 +2487,28 @@
      text-align: center;
      margin-bottom: 60px;
    }
+
+   .testimonials-grid {
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+     align-items: stretch;
+     gap: 1.5rem;
+     max-width: 1120px;
+     margin-inline: auto;
+   }
+
+   .testimonials-grid > * {
+     flex: 1 1 280px;
+     max-width: 340px;
+     width: 100%;
+     display: flex;
+   }
+
+   .testimonials-grid .testimonial-card {
+     width: 100%;
+     height: 100%;
+   }
    
    .testimonial-card {
      background: rgba(255,255,255,0.025);
@@ -2476,6 +2517,7 @@
      padding: 40px;
      position: relative;
      transition: var(--trans);
+     text-align: start;
    }
    
    .testimonial-card:hover {
@@ -2532,6 +2574,7 @@
      justify-content: center;
      font-size: 1.4rem;
      flex-shrink: 0;
+     overflow: hidden;
    }
    
    .testimonial-author-info .name {
@@ -2552,7 +2595,32 @@
      color: var(--c-muted);
    }
    
-   /* Testimonials Swiper */
+   /* Testimonials Swiper — centered slides */
+   .testimonials-swiper {
+     overflow: visible;
+   }
+
+   .testimonials-swiper .swiper-wrapper {
+     align-items: stretch;
+   }
+
+   .testimonials-swiper .swiper-slide {
+     height: auto;
+     display: flex;
+     justify-content: center;
+   }
+
+   .testimonials-swiper .testimonial-card {
+     width: 100%;
+     max-width: 360px;
+     margin-inline: auto;
+   }
+
+   .testimonials-swiper .swiper-pagination {
+     position: relative;
+     margin-top: 28px;
+   }
+
    .testimonials-swiper .swiper-pagination-bullet {
      background: rgba(255,255,255,0.3);
      opacity: 1;
@@ -2568,11 +2636,12 @@
       Footer
       ============================================================ */
    .site-footer {
-     background: #030710;
-     border-top: 1px solid rgba(201, 162, 39, 0.1);
+     background: var(--footer-bg);
+     border-top: 1px solid var(--footer-border);
      position: relative;
      overflow: hidden;
      margin-top: 0;
+     color: var(--footer-text);
    }
 
    .footer-bg {

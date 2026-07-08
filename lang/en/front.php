@@ -239,6 +239,26 @@ return [
         'cta_title' => 'Become Our Next Success Story',
         'cta_desc' => '150+ leading enterprises trust us for their critical industrial projects. Join them.',
         'start_partnership' => 'Start a Partnership',
+        'sample_testimonials' => [
+            [
+                'text' => 'IK Saudi Manufacturing has been an invaluable partner for our petrochemical expansion projects. Their precision manufacturing quality and adherence to Aramco-level standards is unmatched in the region.',
+                'name' => 'Eng. Khalid Al-Rashidi',
+                'role' => 'VP Projects',
+                'company' => 'SABIC Industrial Division',
+            ],
+            [
+                'text' => 'Exceptional project management and engineering capabilities. Their QA/QC processes are among the most rigorous I have seen in 20 years of oil & gas projects.',
+                'name' => 'Dr. Mohammed Al-Otaibi',
+                'role' => 'Director of Engineering',
+                'company' => 'Aramco Supply Chain',
+            ],
+            [
+                'text' => 'We partnered with IK Saudi for our NEOM infrastructure components and the results exceeded expectations. Their ability to scale and maintain zero-defect quality is impressive.',
+                'name' => 'Eng. Sara Al-Mansouri',
+                'role' => 'Senior Procurement Manager',
+                'company' => 'NEOM Delivery Authority',
+            ],
+        ],
     ],
 
     'faq' => [

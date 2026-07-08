@@ -84,6 +84,41 @@
         </div>
     </section>
 
+    {{-- Testimonials — horizontally centered card row --}}
+    <section id="testimonials" class="testimonials-section section-pad">
+        <div class="container">
+            <div class="testimonials-header" data-aos="fade-up">
+                <x-front.section-heading
+                    :eyebrow="__('front.home.testimonials.eyebrow')"
+                    :title="__('front.home.testimonials.title')"
+                    :highlight="__('front.home.testimonials.highlight')"
+                    :description="__('front.home.testimonials.desc')"
+                />
+            </div>
+
+            <div class="testimonials-grid" data-aos="fade-up" data-aos-delay="100">
+                <x-front.testimonial-card
+                    :text="__('front.clients.sample_testimonials.0.text')"
+                    :name="__('front.clients.sample_testimonials.0.name')"
+                    :role="__('front.clients.sample_testimonials.0.role')"
+                    :company="__('front.clients.sample_testimonials.0.company')"
+                />
+                <x-front.testimonial-card
+                    :text="__('front.clients.sample_testimonials.1.text')"
+                    :name="__('front.clients.sample_testimonials.1.name')"
+                    :role="__('front.clients.sample_testimonials.1.role')"
+                    :company="__('front.clients.sample_testimonials.1.company')"
+                />
+                <x-front.testimonial-card
+                    :text="__('front.clients.sample_testimonials.2.text')"
+                    :name="__('front.clients.sample_testimonials.2.name')"
+                    :role="__('front.clients.sample_testimonials.2.role')"
+                    :company="__('front.clients.sample_testimonials.2.company')"
+                />
+            </div>
+        </div>
+    </section>
+
     <x-front.cta-section :title="__('front.clients.cta_title')" :description="__('front.clients.cta_desc')">
         <a href="{{ route('contact', app()->getLocale()) }}" class="btn-gold">
             <i class="bi bi-handshake-fill" aria-hidden="true"></i>

@@ -5,6 +5,8 @@
     $brandPrimary = setting('branding.primary_color', '#060c1a') ?: '#060c1a';
     $brandSecondary = setting('branding.secondary_color', '#1a2d4a') ?: '#1a2d4a';
     $brandAccent = setting('branding.accent_color', '#c9a227') ?: '#c9a227';
+    $pageBg = setting('branding.page_bg_color', $brandPrimary) ?: $brandPrimary;
+    $headerText = setting('branding.header_text_color', $brandPrimary) ?: $brandPrimary;
 
     $defaultRobots = setting('seo.robots', 'index, follow');
     $defaultTitle = setting('seo.default_meta_title') ?: setting('general.site_name') ?: config('app.name');
@@ -24,7 +26,7 @@
     $robots = $robots ?? $defaultRobots;
 @endphp
 <!DOCTYPE html>
-<html lang="{{ $locale }}" dir="{{ $dir }}" style="--brand-primary: {{ $brandPrimary }}; --brand-secondary: {{ $brandSecondary }}; --brand-accent: {{ $brandAccent }};">
+<html lang="{{ $locale }}" dir="{{ $dir }}" style="--brand-primary: {{ $brandPrimary }}; --brand-secondary: {{ $brandSecondary }}; --brand-accent: {{ $brandAccent }}; --page-bg: {{ $pageBg }}; --header-text: {{ $headerText }};">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +36,7 @@
     <title>{{ $metaTitle }}</title>
     <meta name="description" content="{{ $metaDescription }}">
     <meta name="robots" content="{{ $robots }}">
-    <meta name="theme-color" content="{{ $brandPrimary }}">
+    <meta name="theme-color" content="{{ $pageBg }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="canonical" href="{{ $canonical }}">
 

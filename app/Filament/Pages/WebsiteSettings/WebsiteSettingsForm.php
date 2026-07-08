@@ -170,11 +170,46 @@ final class WebsiteSettingsForm
     protected static function brandingTab(): array
     {
         return [
-            Section::make('Colors')->columns(3)->schema([
-                ColorPicker::make('branding.primary_color')->label('Primary color')->default('#0c1f38'),
-                ColorPicker::make('branding.secondary_color')->label('Secondary color')->default('#1a3d66'),
-                ColorPicker::make('branding.accent_color')->label('Accent color')->default('#c8922a'),
-            ]),
+            Section::make('Brand palette')
+                ->description('Shared brand colors used for CTAs, cards, accents, and as defaults for derived mixes. These no longer force the header or footer to change.')
+                ->columns(3)
+                ->schema([
+                    ColorPicker::make('branding.primary_color')->label('Primary color')->default('#0c1f38'),
+                    ColorPicker::make('branding.secondary_color')->label('Secondary color')->default('#1a3d66'),
+                    ColorPicker::make('branding.accent_color')->label('Accent color')->default('#c8922a'),
+                ]),
+            Section::make('Page & hero colors')
+                ->description('Independent colors for the page background and hero text. Changing these does not affect the header or footer.')
+                ->columns(3)
+                ->collapsed()
+                ->schema([
+                    ColorPicker::make('branding.page_bg_color')
+                        ->label('Page background')
+                        ->helperText('Defaults to primary if empty.')
+                        ->default('#0c1f38'),
+                    ColorPicker::make('branding.hero_text_color')
+                        ->label('Hero text')
+                        ->default('#ffffff'),
+                ]),
+            Section::make('Header colors')
+                ->description('Independent header colors. Changing brand primary no longer recolors the header bar or nav links automatically.')
+                ->columns(2)
+                ->collapsed()
+                ->schema([
+                    ColorPicker::make('branding.header_bg_color')->label('Header background')->default('#ffffff'),
+                    ColorPicker::make('branding.header_text_color')->label('Nav link color')->default('#0c1f38'),
+                    ColorPicker::make('branding.header_text_hover_color')->label('Nav link hover')->default('#1a3d66'),
+                    ColorPicker::make('branding.header_icon_bg_color')->label('Icon / lang button background')->default('#1a3d66'),
+                ]),
+            Section::make('Footer colors')
+                ->description('Independent footer colors.')
+                ->columns(3)
+                ->collapsed()
+                ->schema([
+                    ColorPicker::make('branding.footer_bg_color')->label('Footer background')->default('#030710'),
+                    ColorPicker::make('branding.footer_text_color')->label('Footer text')->default('#ffffff'),
+                    ColorPicker::make('branding.footer_accent_color')->label('Footer accent')->default('#c8922a'),
+                ]),
             Section::make('Typography')->columns(2)->schema([
                 TextInput::make('branding.font_latin')->label('Latin font')->default('Inter'),
                 TextInput::make('branding.font_arabic')->label('Arabic font')->default('IBM Plex Sans Arabic'),

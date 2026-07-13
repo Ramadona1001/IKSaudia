@@ -17,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Large local product assets (PDFs + photos) — keep outside VCS
+/resources/ik_products/

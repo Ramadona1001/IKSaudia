@@ -2,6 +2,7 @@
     'items',
     'ariaLabel' => '',
     'imageOnly' => false,
+    'reverse' => false,
 ])
 
 @php
@@ -14,7 +15,11 @@
 
 @if ($marqueeItems->isNotEmpty())
     <div
-        {{ $attributes->class(['clients-marquee-wrap clients-marquee-wrap--standalone', 'clients-marquee-wrap--image-only' => $imageOnly]) }}
+        {{ $attributes->class([
+            'clients-marquee-wrap clients-marquee-wrap--standalone',
+            'clients-marquee-wrap--image-only' => $imageOnly,
+            'clients-marquee-wrap--reverse' => $reverse,
+        ]) }}
         role="region"
         @if ($ariaLabel) aria-label="{{ $ariaLabel }}" @endif
     >

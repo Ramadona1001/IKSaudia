@@ -155,10 +155,19 @@
   [dir="rtl"] .clients-marquee {
     animation: marqueeRTL 30s linear infinite;
   }
+
+  [dir="rtl"] .clients-marquee-wrap--reverse .clients-marquee {
+    animation-name: marqueeRTLReverse;
+  }
   
   @keyframes marqueeRTL {
     from { transform: translateX(0); }
     to   { transform: translateX(50%); }
+  }
+
+  @keyframes marqueeRTLReverse {
+    from { transform: translateX(50%); }
+    to   { transform: translateX(0); }
   }
   
   [dir="rtl"] .clients-marquee-wrap::before {

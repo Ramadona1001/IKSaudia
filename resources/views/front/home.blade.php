@@ -430,12 +430,44 @@
     <div class="section-divider"></div>
 
     {{-- ============================================================
-         SECTION 6 — PARTNERS (marquee — same layout as clients)
+         SECTION 6 — PARTNERS (logos above + heading + logos below)
          ============================================================ --}}
     @if ($featuredPartners->isNotEmpty() || true)
-    <section id="partners" class="clients-section section-pad">
+    @php
+        $defaultPartners = [
+            ['name' => 'SIEMENS'],
+            ['name' => 'ABB GROUP'],
+            ['name' => 'HONEYWELL'],
+            ['name' => 'CATERPILLAR'],
+            ['name' => 'BUREAU VERITAS'],
+            ['name' => "LLOYD'S"],
+        ];
+
+        $partnerMarqueeItems = $featuredPartners->isNotEmpty()
+            ? $featuredPartners->map(function ($partner) use ($locale) {
+                $translation = $partner->translate($locale);
+
+                return [
+                    'name' => $translation?->name,
+                    'image' => $partner->featured_image_url,
+                    'url' => $partner->website_url,
+                ];
+            })->filter(fn (array $item) => filled($item['name']))->values()
+            : collect($defaultPartners)->map(fn (array $partner) => [
+                'name' => $partner['name'],
+                'image' => null,
+                'url' => null,
+            ]);
+    @endphp
+    <section id="partners" class="partners-band-section section-pad">
+        <x-front.logo-marquee
+            :items="$partnerMarqueeItems"
+            :aria-label="__('front.home.partners.eyebrow')"
+            data-aos="fade-up"
+        />
+
         <div class="container">
-            <div class="clients-header" data-aos="fade-up">
+            <div class="partners-band-header" data-aos="fade-up">
                 <x-front.section-heading
                     :eyebrow="__('front.home.partners.eyebrow')"
                     :title="__('front.home.partners.title')"
@@ -445,38 +477,12 @@
             </div>
         </div>
 
-        @php
-            $defaultPartners = [
-                ['name' => 'SIEMENS'],
-                ['name' => 'ABB GROUP'],
-                ['name' => 'HONEYWELL'],
-                ['name' => 'CATERPILLAR'],
-                ['name' => 'BUREAU VERITAS'],
-                ['name' => "LLOYD'S"],
-            ];
-
-            $partnerMarqueeItems = $featuredPartners->isNotEmpty()
-                ? $featuredPartners->map(function ($partner) use ($locale) {
-                    $translation = $partner->translate($locale);
-
-                    return [
-                        'name' => $translation?->name,
-                        'image' => $partner->featured_image_url,
-                        'url' => $partner->website_url,
-                    ];
-                })->filter(fn (array $item) => filled($item['name']))->values()
-                : collect($defaultPartners)->map(fn (array $partner) => [
-                    'name' => $partner['name'],
-                    'image' => null,
-                    'url' => null,
-                ]);
-        @endphp
-
         <x-front.logo-marquee
             :items="$partnerMarqueeItems"
+            :reverse="true"
             :aria-label="__('front.home.partners.eyebrow')"
             data-aos="fade-up"
-            data-aos-delay="100"
+            data-aos-delay="80"
         />
     </section>
     @endif

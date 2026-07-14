@@ -2043,6 +2043,53 @@
      from { transform: translateX(0); }
      to   { transform: translateX(-50%); }
    }
+
+   @keyframes marqueeReverse {
+     from { transform: translateX(-50%); }
+     to   { transform: translateX(0); }
+   }
+
+   .clients-marquee-wrap--reverse .clients-marquee {
+     animation-name: marqueeReverse;
+   }
+
+   /* Partners sandwich layout: logos → heading → logos */
+   .partners-band-section {
+     background: #fff;
+     padding-block: clamp(48px, 6vw, 88px);
+   }
+
+   .partners-band-section .partners-band-header {
+     text-align: center;
+     padding-block: clamp(36px, 5vw, 64px);
+     max-width: 720px;
+     margin-inline: auto;
+   }
+
+   .partners-band-section .partners-band-header .section-title {
+     color: var(--brand-primary);
+   }
+
+   .partners-band-section .partners-band-header .section-desc {
+     margin-inline: auto;
+     color: #64748b;
+   }
+
+   .home-main #partners.partners-band-section {
+     background: #fff;
+   }
+
+   .partners-band-section .clients-marquee-wrap--standalone {
+     background: transparent;
+     border-block: none;
+     padding-block: 8px;
+   }
+
+   .home-main .partners-band-section .clients-marquee-wrap--standalone {
+     background: transparent;
+     border-block-color: transparent;
+     box-shadow: none;
+   }
    
    .marquee-client {
      display: flex;

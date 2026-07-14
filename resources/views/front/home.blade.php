@@ -404,10 +404,17 @@
                 'image' => null,
                 'url' => null,
             ]);
+
+        // Unique logos per row (avoid showing the same set twice above/below the heading).
+        $clientMarqueeTop = $clientMarqueeItems->filter(fn ($_, $i) => $i % 2 === 0)->values();
+        $clientMarqueeBottom = $clientMarqueeItems->filter(fn ($_, $i) => $i % 2 === 1)->values();
+        if ($clientMarqueeBottom->isEmpty()) {
+            $clientMarqueeBottom = $clientMarqueeTop->reverse()->values();
+        }
     @endphp
     <section id="clients" class="partners-band-section section-pad">
         <x-front.logo-marquee
-            :items="$clientMarqueeItems"
+            :items="$clientMarqueeTop"
             :aria-label="__('front.home.clients.eyebrow')"
             data-aos="fade-up"
         />
@@ -424,7 +431,7 @@
         </div>
 
         <x-front.logo-marquee
-            :items="$clientMarqueeItems"
+            :items="$clientMarqueeBottom"
             :reverse="true"
             :aria-label="__('front.home.clients.eyebrow')"
             data-aos="fade-up"
@@ -464,10 +471,16 @@
                 'image' => null,
                 'url' => null,
             ]);
+
+        $partnerMarqueeTop = $partnerMarqueeItems->filter(fn ($_, $i) => $i % 2 === 0)->values();
+        $partnerMarqueeBottom = $partnerMarqueeItems->filter(fn ($_, $i) => $i % 2 === 1)->values();
+        if ($partnerMarqueeBottom->isEmpty()) {
+            $partnerMarqueeBottom = $partnerMarqueeTop->reverse()->values();
+        }
     @endphp
     <section id="partners" class="partners-band-section section-pad">
         <x-front.logo-marquee
-            :items="$partnerMarqueeItems"
+            :items="$partnerMarqueeTop"
             :aria-label="__('front.home.partners.eyebrow')"
             data-aos="fade-up"
         />
@@ -484,7 +497,7 @@
         </div>
 
         <x-front.logo-marquee
-            :items="$partnerMarqueeItems"
+            :items="$partnerMarqueeBottom"
             :reverse="true"
             :aria-label="__('front.home.partners.eyebrow')"
             data-aos="fade-up"

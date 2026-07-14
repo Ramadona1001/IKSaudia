@@ -4382,14 +4382,49 @@
   .home-main .clients-marquee-wrap--standalone {
     background: #f8fafc;
     border-block-color: rgba(15, 23, 42, 0.08);
+    box-shadow:
+      inset 0 18px 28px -20px color-mix(in srgb, var(--brand-primary) 28%, transparent),
+      inset 0 -18px 28px -20px color-mix(in srgb, var(--brand-primary) 28%, transparent);
   }
 
-  .home-main .clients-marquee-wrap::before {
-    background: linear-gradient(to right, #f8fafc, transparent);
-  }
-
+  .home-main .clients-marquee-wrap::before,
   .home-main .clients-marquee-wrap::after {
-    background: linear-gradient(to left, #f8fafc, transparent);
+    width: 140px;
+    pointer-events: none;
+  }
+
+  /* Side edge fades — same look in LTR (EN) and RTL (AR) */
+  .home-main .clients-marquee-wrap::before,
+  html[dir="rtl"] .home-main .clients-marquee-wrap::before,
+  body[dir="rtl"] .home-main .clients-marquee-wrap::before {
+    left: 0;
+    right: auto;
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--brand-primary) 22%, #ffffff) 0%,
+      color-mix(in srgb, var(--brand-primary) 10%, transparent) 45%,
+      transparent 100%
+    );
+  }
+
+  .home-main .clients-marquee-wrap::after,
+  html[dir="rtl"] .home-main .clients-marquee-wrap::after,
+  body[dir="rtl"] .home-main .clients-marquee-wrap::after {
+    right: 0;
+    left: auto;
+    background: linear-gradient(
+      to left,
+      color-mix(in srgb, var(--brand-primary) 22%, #ffffff) 0%,
+      color-mix(in srgb, var(--brand-primary) 10%, transparent) 45%,
+      transparent 100%
+    );
+  }
+
+  .home-main .marquee-client {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 22px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
   }
 
   .home-main .marquee-client-name {

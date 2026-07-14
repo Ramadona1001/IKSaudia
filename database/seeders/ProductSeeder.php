@@ -5,129 +5,136 @@ namespace Database\Seeders;
 use App\Models\Product;
 use App\Models\ProductTranslation;
 use App\Models\SeoMeta;
-use App\Support\IkProductCatalogReader;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
-use Throwable;
+use Illuminate\Support\Str;
 
 /**
- * Seeds products from resources/ik_products (PDFs + optional images).
+ * Seeds the IKS product catalog (categories + products).
  *
- * Run:
- *   php artisan db:seed --class=ProductSeeder
+ * This project uses parent products as categories (`products.parent_id`).
+ * There is no `product_categories` pivot, and no `sku` / `status` columns —
+ * published state uses `is_published`, copy lives in `product_translations`.
  *
- * Folder layout:
- *   resources/ik_products/*.pdf
- *   resources/ik_products/image-map.json          (optional mapping)
- *   resources/ik_products/images/{slug}/*         (optional per-product images)
- *   resources/ik_products/Products with Background|Products in Factory|People in Action/*
+ * Run: php artisan db:seed --class=ProductSeeder
  */
 class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->resetProducts();
+        $this->resetCatalog();
 
-        $reader = new IkProductCatalogReader(IkProductCatalogReader::defaultRoot());
-        $products = $reader->products();
+        $biDirectional = $this->upsertCategory(
+            nameEn: 'Bi-directional Scrapers',
+            nameAr: 'كاشطات ثنائية الاتجاه',
+            slug: 'bi-directional-scrapers',
+            sortOrder: 1,
+            icon: 'bi-arrow-left-right',
+            summaryEn: 'Bi-directional pipeline scrapers for cleaning, wiping, brushing, and gauging operations.',
+            summaryAr: 'كاشطات خطوط أنابيب ثنائية الاتجاه لأعمال التنظيف والمسح والفرشاة والقياس.',
+        );
 
-        if ($products->isEmpty()) {
-            $this->command?->warn('No products found in resources/ik_products. Nothing seeded.');
+        $foam = $this->upsertCategory(
+            nameEn: 'Foam Scrapers',
+            nameAr: 'كاشطات الرغوة',
+            slug: 'foam-scrapers',
+            sortOrder: 2,
+            icon: 'bi-droplet-half',
+            summaryEn: 'Polyurethane foam scrapers in multiple densities and surface configurations.',
+            summaryAr: 'كاشطات رغوة بولي يوريثان بكثافات وتكوينات سطح متعددة.',
+        );
 
-            return;
+        $biDirectionalProducts = [
+            [
+                'en' => 'Bi-directional Disc Scraper',
+                'ar' => 'كاشطة قرص ثنائية الاتجاه',
+                'pdf' => 'IK-Saudi_ Bi_directional_disc_Scrapers.pdf',
+            ],
+            [
+                'en' => 'Bi-directional Brush Scraper',
+                'ar' => 'كاشطة فرشاة ثنائية الاتجاه',
+                'pdf' => 'IK-Saudi_ Bi_directional_Brush_Scrapers.pdf',
+            ],
+            [
+                'en' => 'Bi-directional Gauging Scraper',
+                'ar' => 'كاشطة قياس ثنائية الاتجاه',
+                'pdf' => 'IK-Saudi_ Bi_directional_gauging_Scrapers.pdf',
+            ],
+        ];
+
+        $foamProducts = [
+            [
+                'en' => 'Foam Scraper',
+                'ar' => 'كاشطة رغوة',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+            [
+                'en' => 'LD Bare Foam Scraper',
+                'ar' => 'كاشطة رغوة منخفضة الكثافة (Bare)',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+            [
+                'en' => 'MD Bare Foam Scraper',
+                'ar' => 'كاشطة رغوة متوسطة الكثافة (Bare)',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+            [
+                'en' => 'HD Bare Foam Scraper',
+                'ar' => 'كاشطة رغوة عالية الكثافة (Bare)',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+            [
+                'en' => 'MD Criss-cross Foam Scraper',
+                'ar' => 'كاشطة رغوة متوسطة الكثافة بنمط شبكي',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+            [
+                'en' => 'HD Criss-cross Foam Scraper',
+                'ar' => 'كاشطة رغوة عالية الكثافة بنمط شبكي',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+            [
+                'en' => 'MD Silicon Carbide Foam Scraper',
+                'ar' => 'كاشطة رغوة متوسطة الكثافة بكربيد السيليكون',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+            [
+                'en' => 'HD Silicon Carbide Foam Scraper',
+                'ar' => 'كاشطة رغوة عالية الكثافة بكربيد السيليكون',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+            [
+                'en' => 'MD Wire Brush Foam Scraper',
+                'ar' => 'كاشطة رغوة متوسطة الكثافة بفرشاة سلكية',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+            [
+                'en' => 'HD Wire Brush Foam Scraper',
+                'ar' => 'كاشطة رغوة عالية الكثافة بفرشاة سلكية',
+                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+            ],
+        ];
+
+        $sort = 1;
+        foreach ($biDirectionalProducts as $item) {
+            $this->upsertProduct($item, $biDirectional, $sort++);
         }
 
-        $disk = Storage::disk('public');
-        // Clear previous seeded product media so reruns stay idempotent on disk too.
-        if ($disk->exists('products')) {
-            $disk->deleteDirectory('products');
+        $sort = 1;
+        foreach ($foamProducts as $item) {
+            $this->upsertProduct($item, $foam, $sort++);
         }
 
-        $created = 0;
-
-        foreach ($products as $item) {
-            try {
-                $featuredPath = null;
-                if (! empty($item['featured_source']) && is_file($item['featured_source'])) {
-                    $featuredPath = $this->storeImage(
-                        $item['featured_source'],
-                        "products/{$item['slug']}/featured".$this->extensionFor($item['featured_source']),
-                    );
-                }
-
-                // Extra images (project schema only has featured_image; store extras on disk for later use).
-                $galleryIndex = 1;
-                foreach ($item['gallery_sources'] as $source) {
-                    if ($featuredPath && realpath($source) === realpath($item['featured_source'] ?? '')) {
-                        continue;
-                    }
-                    if (! is_file($source)) {
-                        continue;
-                    }
-                    $this->storeImage(
-                        $source,
-                        sprintf('products/%s/gallery/%02d%s', $item['slug'], $galleryIndex++, $this->extensionFor($source)),
-                    );
-                }
-
-                $pdfPath = $this->storeFile(
-                    $item['pdf_absolute'],
-                    "products/{$item['slug']}/datasheet.pdf",
-                );
-
-                $product = Product::query()->create([
-                    'uuid' => $item['uuid'],
-                    'featured_image' => $featuredPath,
-                    'pdf_path' => $pdfPath,
-                    'icon' => $item['icon'],
-                    'is_featured' => true,
-                    'is_published' => true,
-                    'published_at' => now(),
-                    'sort_order' => $item['sort_order'],
-                ]);
-
-                ProductTranslation::query()->create([
-                    'product_id' => $product->id,
-                    'locale' => 'en',
-                    'title' => $item['title_en'],
-                    'slug' => $item['slug'],
-                    'summary' => $item['summary_en'],
-                    'body' => $item['body_en'],
-                ]);
-
-                ProductTranslation::query()->create([
-                    'product_id' => $product->id,
-                    'locale' => 'ar',
-                    'title' => $item['title_ar'],
-                    'slug' => $item['slug'],
-                    'summary' => $item['summary_ar'],
-                    'body' => $item['body_ar'],
-                ]);
-
-                $created++;
-                $this->command?->info("Seeded product: {$item['title_en']} ({$item['slug']})");
-
-                foreach ($item['warnings'] as $warning) {
-                    $this->command?->warn('  · '.$warning);
-                }
-            } catch (Throwable $e) {
-                Log::warning('ProductSeeder: failed to seed product.', [
-                    'slug' => $item['slug'] ?? null,
-                    'error' => $e->getMessage(),
-                ]);
-                $this->command?->warn("Failed seeding [{$item['slug']}]: {$e->getMessage()}");
-            }
-        }
-
-        $this->cleanupTempExtracts();
-
-        $this->command?->info("ProductSeeder finished. Created {$created} product(s).");
+        $this->command?->info(sprintf(
+            'ProductSeeder finished: %d categories, %d products.',
+            2,
+            count($biDirectionalProducts) + count($foamProducts),
+        ));
     }
 
-    private function resetProducts(): void
+    private function resetCatalog(): void
     {
         SeoMeta::query()
             ->where('seoable_type', Product::class)
@@ -136,96 +143,152 @@ class ProductSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         try {
-            // Force-delete soft-deleted rows first, then truncate for a clean slate.
-            Product::withTrashed()->get()->each(function (Product $product): void {
-                $product->translations()->delete();
-                $product->forceDelete();
-            });
-
             if (Schema::hasTable('product_translations')) {
                 DB::table('product_translations')->truncate();
             }
+
+            // Soft-deleted rows are not cleared by truncate alone on some setups —
+            // wipe fully, then truncate for a clean auto-increment.
+            Product::withTrashed()->forceDelete();
             DB::table('products')->truncate();
         } finally {
             Schema::enableForeignKeyConstraints();
         }
     }
 
-    private function storeImage(string $absoluteSource, string $storageRelative): ?string
+    private function upsertCategory(
+        string $nameEn,
+        string $nameAr,
+        string $slug,
+        int $sortOrder,
+        string $icon,
+        string $summaryEn,
+        string $summaryAr,
+    ): Product {
+        $product = Product::query()->updateOrCreate(
+            ['uuid' => $this->deterministicUuid('category-'.$slug)],
+            [
+                'parent_id' => null,
+                'icon' => $icon,
+                'is_featured' => true,
+                'is_published' => true,
+                'published_at' => now(),
+                'sort_order' => $sortOrder,
+                'pdf_path' => null,
+                'featured_image' => null,
+            ],
+        );
+
+        $this->syncTranslations($product, $slug, $nameEn, $nameAr, $summaryEn, $summaryAr);
+
+        return $product;
+    }
+
+    /**
+     * @param  array{en: string, ar: string, pdf?: string|null}  $item
+     */
+    private function upsertProduct(array $item, Product $category, int $sortOrder): Product
     {
+        $nameEn = $item['en'];
+        $nameAr = $item['ar'];
+        $slug = Str::slug($nameEn);
+
+        $pdfPath = $this->attachPdfIfPresent($slug, $item['pdf'] ?? null);
+
+        $product = Product::query()->updateOrCreate(
+            ['uuid' => $this->deterministicUuid('product-'.$slug)],
+            [
+                'parent_id' => $category->id,
+                'icon' => $category->icon,
+                'is_featured' => $sortOrder <= 3,
+                'is_published' => true,
+                'published_at' => now(),
+                'sort_order' => $sortOrder,
+                'pdf_path' => $pdfPath,
+                'featured_image' => null,
+            ],
+        );
+
+        $this->syncTranslations(
+            $product,
+            $slug,
+            $nameEn,
+            $nameAr,
+            $nameEn,
+            $nameAr,
+        );
+
+        $this->command?->info("Seeded: {$nameEn} → {$category->translate('en')?->title}");
+
+        return $product;
+    }
+
+    private function syncTranslations(
+        Product $product,
+        string $slug,
+        string $titleEn,
+        string $titleAr,
+        string $summaryEn,
+        string $summaryAr,
+    ): void {
+        ProductTranslation::query()->updateOrCreate(
+            ['product_id' => $product->id, 'locale' => 'en'],
+            [
+                'title' => $titleEn,
+                'slug' => $slug,
+                'summary' => $summaryEn,
+                'body' => '<p>'.e($summaryEn).'</p>',
+            ],
+        );
+
+        ProductTranslation::query()->updateOrCreate(
+            ['product_id' => $product->id, 'locale' => 'ar'],
+            [
+                'title' => $titleAr,
+                'slug' => $slug,
+                'summary' => $summaryAr,
+                'body' => '<p>'.e($summaryAr).'</p>',
+            ],
+        );
+    }
+
+    private function attachPdfIfPresent(string $slug, ?string $pdfFilename): ?string
+    {
+        if (! $pdfFilename) {
+            return null;
+        }
+
+        $source = resource_path('ik_products'.DIRECTORY_SEPARATOR.$pdfFilename);
+        if (! is_file($source)) {
+            $this->command?->warn("PDF not found for [{$slug}]: {$pdfFilename}");
+
+            return null;
+        }
+
+        $target = "products/{$slug}/datasheet.pdf";
+
         try {
-            $contents = file_get_contents($absoluteSource);
-            if ($contents === false) {
-                Log::warning('ProductSeeder: could not read image.', ['source' => $absoluteSource]);
+            Storage::disk('public')->put($target, (string) file_get_contents($source));
 
-                return null;
-            }
-
-            Storage::disk('public')->put($storageRelative, $contents);
-
-            return $storageRelative;
-        } catch (Throwable $e) {
-            Log::warning('ProductSeeder: image store failed.', [
-                'source' => $absoluteSource,
-                'target' => $storageRelative,
-                'error' => $e->getMessage(),
-            ]);
+            return $target;
+        } catch (\Throwable $e) {
+            $this->command?->warn("Could not store PDF for [{$slug}]: {$e->getMessage()}");
 
             return null;
         }
     }
 
-    private function storeFile(string $absoluteSource, string $storageRelative): ?string
+    private function deterministicUuid(string $key): string
     {
-        try {
-            $contents = file_get_contents($absoluteSource);
-            if ($contents === false) {
-                Log::warning('ProductSeeder: could not read file.', ['source' => $absoluteSource]);
+        $hash = md5('ik-saudi.products.'.$key);
 
-                return null;
-            }
-
-            Storage::disk('public')->put($storageRelative, $contents);
-
-            return $storageRelative;
-        } catch (Throwable $e) {
-            Log::warning('ProductSeeder: file store failed.', [
-                'source' => $absoluteSource,
-                'target' => $storageRelative,
-                'error' => $e->getMessage(),
-            ]);
-
-            return null;
-        }
-    }
-
-    private function extensionFor(string $path): string
-    {
-        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-
-        return in_array($ext, ['jpg', 'jpeg', 'png', 'webp'], true)
-            ? '.'.($ext === 'jpeg' ? 'jpg' : $ext)
-            : '.jpg';
-    }
-
-    private function cleanupTempExtracts(): void
-    {
-        $tmp = storage_path('app/tmp/ik_products');
-        if (! is_dir($tmp)) {
-            return;
-        }
-
-        try {
-            $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($tmp, \FilesystemIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::CHILD_FIRST
-            );
-            foreach ($iterator as $file) {
-                $file->isDir() ? @rmdir($file->getPathname()) : @unlink($file->getPathname());
-            }
-            @rmdir($tmp);
-        } catch (Throwable) {
-            // Non-fatal
-        }
+        return sprintf(
+            '%s-%s-%s-%s-%s',
+            substr($hash, 0, 8),
+            substr($hash, 8, 4),
+            substr($hash, 12, 4),
+            substr($hash, 16, 4),
+            substr($hash, 20, 12),
+        );
     }
 }

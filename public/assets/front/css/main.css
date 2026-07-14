@@ -1694,6 +1694,27 @@
      cursor: pointer;
      transition: var(--trans);
    }
+
+   a.industry-card,
+   a.industry-card--link {
+     display: block;
+     text-decoration: none;
+     color: inherit;
+   }
+
+   a.industry-card:hover,
+   a.industry-card:focus-visible,
+   a.industry-card--link:hover,
+   a.industry-card--link:focus-visible {
+     color: inherit;
+     text-decoration: none;
+   }
+
+   a.industry-card:focus-visible,
+   a.industry-card--link:focus-visible {
+     outline: 2px solid var(--c-gold);
+     outline-offset: 3px;
+   }
    
    .industry-card:hover {
      transform: translateY(-8px);
@@ -3981,6 +4002,232 @@
      margin-bottom: 40px;
      background-size: cover;
      background-position: center;
+   }
+
+   /* Single product detail — image card + details beside */
+   .product-detail-split {
+     display: grid;
+     grid-template-columns: minmax(280px, 1.05fr) minmax(280px, 1fr);
+     gap: clamp(1.75rem, 4vw, 3.5rem);
+     align-items: center;
+     max-width: 1100px;
+     margin-inline: auto;
+   }
+
+   .product-detail-image-card {
+     background: #fff;
+     border: 1px solid rgba(255, 255, 255, 0.08);
+     border-radius: var(--radius-xl);
+     padding: clamp(1.25rem, 3vw, 2rem);
+     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     min-height: 340px;
+     background-image:
+       radial-gradient(circle at 50% 55%, rgba(0, 117, 190, 0.14) 0%, transparent 58%),
+       linear-gradient(160deg, #0d2137 0%, #152a45 45%, #0a1424 100%);
+   }
+
+   .product-detail-image-card__img {
+     display: block;
+     width: 100%;
+     max-height: 360px;
+     object-fit: contain;
+   }
+
+   .product-detail-image-card__placeholder {
+     width: 96px;
+     height: 96px;
+     border-radius: var(--radius-lg);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 2.4rem;
+     color: var(--c-gold);
+     background: rgba(201, 162, 39, 0.12);
+     border: 1px solid rgba(201, 162, 39, 0.25);
+   }
+
+   .product-detail-split__eyebrow {
+     display: inline-block;
+     font-family: var(--font-head);
+     font-size: 0.75rem;
+     font-weight: 700;
+     letter-spacing: 0.14em;
+     text-transform: uppercase;
+     color: var(--c-gold);
+     text-decoration: none;
+     margin-bottom: 14px;
+   }
+
+   .product-detail-split__eyebrow:hover {
+     color: var(--c-gold-light);
+   }
+
+   .product-detail-split__title {
+     font-family: var(--font-head);
+     font-size: clamp(1.7rem, 3vw, 2.4rem);
+     font-weight: 800;
+     line-height: 1.2;
+     color: var(--c-white);
+     margin: 0 0 18px;
+   }
+
+   .product-detail-split__summary {
+     font-size: 1.02rem;
+     line-height: 1.8;
+     color: rgba(255, 255, 255, 0.72);
+     margin: 0 0 22px;
+   }
+
+   .product-detail-split__content .product-detail-prose {
+     margin-bottom: 28px;
+   }
+
+   .product-detail-split__actions {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 12px;
+     align-items: center;
+   }
+
+   @media (max-width: 991.98px) {
+     .product-detail-split {
+       grid-template-columns: 1fr;
+       gap: 1.75rem;
+     }
+
+     .product-detail-image-card {
+       min-height: 280px;
+       max-width: 520px;
+       margin-inline: auto;
+     }
+   }
+
+   body[dir="rtl"] .product-detail-split {
+     direction: rtl;
+   }
+
+   /* Category product list (Pipeline Scrapers, Polyurethane, …) */
+   .products-category-section {
+     background: #f3f5f8;
+   }
+
+   .product-feature-list {
+     display: flex;
+     flex-direction: column;
+     gap: 28px;
+     max-width: 980px;
+     margin-inline: auto;
+   }
+
+   .product-feature-row {
+     display: grid;
+     grid-template-columns: minmax(200px, 320px) 1fr;
+     gap: clamp(1.25rem, 3vw, 2.5rem);
+     align-items: center;
+     padding: clamp(1rem, 2vw, 1.5rem);
+     background: #fff;
+     border: 1px solid rgba(15, 23, 42, 0.06);
+     border-radius: var(--radius-xl);
+     text-decoration: none;
+     color: inherit;
+     transition: var(--trans);
+     box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05);
+   }
+
+   .product-feature-row:hover,
+   .product-feature-row:focus-visible {
+     transform: translateY(-4px);
+     box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+     color: inherit;
+     text-decoration: none;
+   }
+
+   .product-feature-row:focus-visible {
+     outline: 2px solid var(--c-gold);
+     outline-offset: 3px;
+   }
+
+   .product-feature-row__media {
+     position: relative;
+     aspect-ratio: 4 / 3;
+     border-radius: var(--radius-lg);
+     overflow: hidden;
+     background: radial-gradient(circle at 50% 55%, rgba(0, 117, 190, 0.12) 0%, transparent 62%), #eef2f7;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+   }
+
+   .product-feature-row__image {
+     width: 100%;
+     height: 100%;
+     object-fit: contain;
+     padding: 12px;
+   }
+
+   .product-feature-row__placeholder {
+     width: 72px;
+     height: 72px;
+     border-radius: var(--radius);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+     color: var(--brand-primary);
+     font-size: 1.8rem;
+   }
+
+   .product-feature-row__title {
+     font-family: var(--font-head);
+     font-size: clamp(1.2rem, 2vw, 1.55rem);
+     font-weight: 700;
+     color: var(--brand-primary);
+     margin: 0 0 12px;
+   }
+
+   .product-feature-row__desc {
+     font-size: 0.95rem;
+     line-height: 1.75;
+     color: #64748b;
+     margin: 0 0 18px;
+   }
+
+   .product-feature-row__cta {
+     display: inline-flex;
+     align-items: center;
+     gap: 8px;
+     font-family: var(--font-head);
+     font-size: 0.78rem;
+     font-weight: 700;
+     letter-spacing: 0.12em;
+     text-transform: uppercase;
+     color: var(--c-gold);
+   }
+
+   .product-feature-row:hover .product-feature-row__cta i {
+     transform: translateX(4px);
+   }
+
+   body[dir="rtl"] .product-feature-row:hover .product-feature-row__cta i {
+     transform: translateX(-4px);
+   }
+
+   .product-feature-row__cta i {
+     transition: transform 0.25s var(--ease);
+   }
+
+   @media (max-width: 767.98px) {
+     .product-feature-row {
+       grid-template-columns: 1fr;
+     }
+
+     .product-feature-row__media {
+       max-width: 280px;
+       margin-inline: auto;
+     }
    }
    
    .product-detail-prose {

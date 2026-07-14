@@ -6,7 +6,8 @@
     $summary = $translation?->summary ?? '';
     $body = $translation?->body ?? '';
     $parentT = $product->parent?->translate($locale);
-    $children = $product->children->filter(fn($c) => $c->translate($locale));
+    $children = $product->children->filter(fn ($c) => $c->translate($locale));
+    $isCategoryPage = $children->isNotEmpty();
 @endphp
 
 @section('title', $title)
@@ -20,7 +21,12 @@
 
 @section('content')
 
-    <x-front.page-hero :tag="__('navigation.products')" :icon="$product->icon ?: 'bi-box-seam-fill'" :title="$title" :subtitle="$summary" />
+    <x-front.page-hero
+        :tag="$parentT?->title ?: __('navigation.products')"
+        :icon="$product->icon ?: 'bi-box-seam-fill'"
+        :title="$title"
+        :subtitle="$isCategoryPage ? $summary : null"
+    />
 
     <x-front.breadcrumb :items="array_filter([
         ['label' => __('navigation.products'), 'url' => route('products.index')],
@@ -28,61 +34,75 @@
         ['label' => $title],
     ])" />
 
-    <section class="section-pad bg-dark1">
+    <section @class([
+        'section-pad',
+        'bg-dark1' => ! $isCategoryPage,
+        'products-category-section' => $isCategoryPage,
+    ])>
         <div class="container">
-            @if ($children->isNotEmpty())
-                <div class="row g-4 mb-5">
+            @if ($isCategoryPage)
+                <div class="product-feature-list">
                     @foreach ($children as $child)
-                        <div class="col-lg-4 col-md-6">
-                            <x-front.product-card :product="$child" :index="$loop->iteration" :delay="($loop->index % 3) * 100" expanded
-                                class="industry-card-tall" style="height:420px;" />
-                        </div>
+                        <x-front.product-feature-row
+                            :product="$child"
+                            :index="$loop->iteration"
+                            :delay="($loop->index % 3) * 80"
+                        />
                     @endforeach
                 </div>
-            @endif
-
-            <div class="row g-5 align-items-start product-detail-layout">
-                <div @class([
-                    'product-detail-main',
-                    'col-12' => ! $parentT,
-                    'col-lg-8 col-md-7' => (bool) $parentT,
-                ])>
-                    <div data-aos="fade-up">
-                        @if ($product->featured_image_url)
-                            <div class="product-detail-hero-img"
-                                style="background-image:url('{{ $product->featured_image_url }}');"></div>
-                        @endif
-
-                        @if ($body)
-                            <h2 class="section-title mb-3">{{ __('front.products.about_product') }}</h2>
-                            @if ($summary)
-                                <p class="section-desc mb-4">{{ $summary }}</p>
+            @else
+                <div class="product-detail-split" data-aos="fade-up">
+                    <div class="product-detail-split__media">
+                        <div class="product-detail-image-card">
+                            @if ($product->featured_image_url)
+                                <img
+                                    src="{{ $product->featured_image_url }}"
+                                    alt="{{ $title }}"
+                                    class="product-detail-image-card__img"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            @else
+                                <div class="product-detail-image-card__placeholder">
+                                    <i class="bi {{ $product->icon ?: 'bi-box-seam' }}" aria-hidden="true"></i>
+                                </div>
                             @endif
-                            <div class="prose-light product-detail-prose">{!! safe_html($body) !!}</div>
-                        @elseif ($summary && $children->isEmpty())
-                            <p class="section-desc">{{ $summary }}</p>
-                        @endif
-
-                        @if ($product->pdfUrl())
-                            <a href="{{ $product->pdfUrl() }}" class="btn-gold mt-4" target="_blank" rel="noopener">
-                                <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
-                                <span>{{ __('front.products.view_pdf') }}</span>
-                            </a>
-                        @endif
+                        </div>
                     </div>
-                </div>
 
-                {{-- @if ($parentT)
-                    <div class="col-lg-4 col-md-5 product-detail-aside">
-                        <aside class="product-detail-sidebar" data-aos="fade-up" data-aos-delay="100">
-                            <h4 class="product-detail-sidebar-label">{{ __('front.products.category') }}</h4>
-                            <a href="{{ route('products.show', $parentT->slug) }}" class="product-detail-sidebar-link">
+                    <div class="product-detail-split__content">
+                        @if ($parentT)
+                            <a href="{{ route('products.show', $parentT->slug) }}" class="product-detail-split__eyebrow">
                                 {{ $parentT->title }}
                             </a>
-                        </aside>
+                        @endif
+
+                        <h2 class="product-detail-split__title">{{ $title }}</h2>
+
+                        @if ($summary)
+                            <p class="product-detail-split__summary">{{ $summary }}</p>
+                        @endif
+
+                        @if ($body && trim(strip_tags($body)) !== trim(strip_tags($summary)))
+                            <div class="prose-light product-detail-prose">{!! safe_html($body) !!}</div>
+                        @endif
+
+                        <div class="product-detail-split__actions">
+                            @if ($product->pdfUrl())
+                                <a href="{{ $product->pdfUrl() }}" class="btn-gold" target="_blank" rel="noopener">
+                                    <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+                                    <span>{{ __('front.products.view_pdf') }}</span>
+                                </a>
+                            @endif
+
+                            <a href="{{ route('contact', $locale) }}" class="btn-outline-gold">
+                                <i class="bi bi-chat-dots-fill" aria-hidden="true"></i>
+                                <span>{{ __('front.products.talk_experts') }}</span>
+                            </a>
+                        </div>
                     </div>
-                @endif --}}
-            </div>
+                </div>
+            @endif
         </div>
     </section>
 

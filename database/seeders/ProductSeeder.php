@@ -172,6 +172,7 @@ class ProductSeeder extends Seeder
         $slug = Str::slug($nameEn);
         $summaryEn = $item['summary_en'];
         $summaryAr = $item['summary_ar'];
+        $featuredImage = $this->storeSeedImage($slug);
 
         $product = Product::query()->updateOrCreate(
             ['uuid' => $this->deterministicUuid('product-'.$slug)],
@@ -183,7 +184,7 @@ class ProductSeeder extends Seeder
                 'published_at' => now(),
                 'sort_order' => $sortOrder,
                 'pdf_path' => null,
-                'featured_image' => null,
+                'featured_image' => $featuredImage,
             ],
         );
 
@@ -192,6 +193,29 @@ class ProductSeeder extends Seeder
         $this->command?->info("Seeded: {$nameEn} → {$category->translate('en')?->title}");
 
         return $product;
+    }
+
+    private function storeSeedImage(string $slug): ?string
+    {
+        $source = database_path('seeders/data/products/'.$slug.'/featured.jpg');
+        if (! is_file($source)) {
+            return null;
+        }
+
+        $target = "products/{$slug}/featured.jpg";
+
+        try {
+            \Illuminate\Support\Facades\Storage::disk('public')->put(
+                $target,
+                (string) file_get_contents($source),
+            );
+
+            return $target;
+        } catch (\Throwable $e) {
+            $this->command?->warn("Could not store image for [{$slug}]: {$e->getMessage()}");
+
+            return null;
+        }
     }
 
     private function syncTranslations(

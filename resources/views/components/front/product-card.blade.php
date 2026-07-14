@@ -15,9 +15,14 @@
     $iconClass = $iconClasses[($index - 1) % count($iconClasses)];
     $bgClass = 'ind-bg-'.((($index - 1) % 6) + 1);
     $img = $product->featured_image_url ?? null;
+    $href = route('products.show', $pt->slug);
 @endphp
 
-<article {{ $attributes->merge(['class' => 'industry-card']) }} data-aos="fade-up" data-aos-delay="{{ $delay }}">
+<a href="{{ $href }}"
+   {{ $attributes->merge(['class' => 'industry-card industry-card--link']) }}
+   data-aos="fade-up"
+   data-aos-delay="{{ $delay }}"
+   aria-label="{{ $pt->title }}">
     @if ($img)
         <div class="industry-card-bg" style="background-image:url('{{ $img }}');background-size:cover;background-position:center;"></div>
     @else
@@ -32,11 +37,9 @@
                 {{ \Illuminate\Support\Str::limit(strip_tags($pt->summary), 180) }}
             </p>
         @endif
-        <a href="{{ route('products.show', $pt->slug) }}"
-           class="industry-card-link"
-           @if ($expanded) style="opacity:1;transform:none;" @endif>
+        <span class="industry-card-link" @if ($expanded) style="opacity:1;transform:none;" @endif>
             <span>{{ __('common.explore') }}</span>
             <i class="bi bi-arrow-right" aria-hidden="true"></i>
-        </a>
+        </span>
     </div>
-</article>
+</a>

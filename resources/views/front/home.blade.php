@@ -371,7 +371,7 @@
     <div class="section-divider"></div>
 
     {{-- ============================================================
-         SECTION 5 — OUR CLIENTS (logos above + heading + logos below)
+         SECTION 5 — OUR CLIENTS (heading + single logo row)
          ============================================================ --}}
     @if ($featuredClients->isNotEmpty() || true)
     @php
@@ -404,21 +404,8 @@
                 'image' => null,
                 'url' => null,
             ]);
-
-        // Unique logos per row (avoid showing the same set twice above/below the heading).
-        $clientMarqueeTop = $clientMarqueeItems->filter(fn ($_, $i) => $i % 2 === 0)->values();
-        $clientMarqueeBottom = $clientMarqueeItems->filter(fn ($_, $i) => $i % 2 === 1)->values();
-        if ($clientMarqueeBottom->isEmpty()) {
-            $clientMarqueeBottom = $clientMarqueeTop->reverse()->values();
-        }
     @endphp
     <section id="clients" class="partners-band-section section-pad">
-        <x-front.logo-marquee
-            :items="$clientMarqueeTop"
-            :aria-label="__('front.home.clients.eyebrow')"
-            data-aos="fade-up"
-        />
-
         <div class="container">
             <div class="partners-band-header" data-aos="fade-up">
                 <x-front.section-heading
@@ -431,11 +418,9 @@
         </div>
 
         <x-front.logo-marquee
-            :items="$clientMarqueeBottom"
-            :reverse="true"
+            :items="$clientMarqueeItems"
             :aria-label="__('front.home.clients.eyebrow')"
             data-aos="fade-up"
-            data-aos-delay="80"
         />
     </section>
     @endif
@@ -443,7 +428,7 @@
     <div class="section-divider"></div>
 
     {{-- ============================================================
-         SECTION 6 — PARTNERS (logos above + heading + logos below)
+         SECTION 6 — PARTNERS (heading + single logo row)
          ============================================================ --}}
     @if ($featuredPartners->isNotEmpty() || true)
     @php
@@ -471,20 +456,8 @@
                 'image' => null,
                 'url' => null,
             ]);
-
-        $partnerMarqueeTop = $partnerMarqueeItems->filter(fn ($_, $i) => $i % 2 === 0)->values();
-        $partnerMarqueeBottom = $partnerMarqueeItems->filter(fn ($_, $i) => $i % 2 === 1)->values();
-        if ($partnerMarqueeBottom->isEmpty()) {
-            $partnerMarqueeBottom = $partnerMarqueeTop->reverse()->values();
-        }
     @endphp
     <section id="partners" class="partners-band-section section-pad">
-        <x-front.logo-marquee
-            :items="$partnerMarqueeTop"
-            :aria-label="__('front.home.partners.eyebrow')"
-            data-aos="fade-up"
-        />
-
         <div class="container">
             <div class="partners-band-header" data-aos="fade-up">
                 <x-front.section-heading
@@ -497,11 +470,9 @@
         </div>
 
         <x-front.logo-marquee
-            :items="$partnerMarqueeBottom"
-            :reverse="true"
+            :items="$partnerMarqueeItems"
             :aria-label="__('front.home.partners.eyebrow')"
             data-aos="fade-up"
-            data-aos-delay="80"
         />
     </section>
     @endif

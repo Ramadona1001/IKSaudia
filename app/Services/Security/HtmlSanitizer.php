@@ -41,7 +41,13 @@ final class HtmlSanitizer
         }
 
         $config = HTMLPurifier_Config::createDefault();
-        $config->set('Cache.SerializerPath', storage_path('app/htmlpurifier'));
+
+        $cachePath = storage_path('app/htmlpurifier');
+        if (! is_dir($cachePath)) {
+            mkdir($cachePath, 0755, true);
+        }
+
+        $config->set('Cache.SerializerPath', $cachePath);
         $config->set('HTML.SafeIframe', false);
         $config->set('URI.DisableExternalResources', false);
         $config->set('URI.AllowedSchemes', ['http' => true, 'https' => true, 'mailto' => true]);

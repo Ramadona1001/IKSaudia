@@ -371,12 +371,49 @@
     <div class="section-divider"></div>
 
     {{-- ============================================================
-         SECTION 5 — OUR CLIENTS
+         SECTION 5 — OUR CLIENTS (logos above + heading + logos below)
          ============================================================ --}}
     @if ($featuredClients->isNotEmpty() || true)
-    <section id="clients" class="clients-section section-pad">
+    @php
+        $locale = app()->getLocale();
+        $defaultClients = [
+            ['name' => 'ARAMCO',  'icon' => 'bi-droplet-fill'],
+            ['name' => 'SABIC',   'icon' => 'bi-flask-fill'],
+            ['name' => 'SEC',     'icon' => 'bi-lightning-fill'],
+            ['name' => 'NEOM',    'icon' => 'bi-building-fill'],
+            ['name' => 'MAADEN',  'icon' => 'bi-gem'],
+            ['name' => 'STC',     'icon' => 'bi-wifi'],
+            ['name' => 'ACWA',    'icon' => 'bi-sun-fill'],
+            ['name' => 'SBG',     'icon' => 'bi-hammer'],
+            ['name' => 'SIPCHEM', 'icon' => 'bi-cpu-fill'],
+            ['name' => 'TASNEE',  'icon' => 'bi-gear-fill'],
+        ];
+
+        $clientMarqueeItems = $featuredClients->isNotEmpty()
+            ? $featuredClients->map(function ($client) use ($locale) {
+                $translation = $client->translate($locale);
+
+                return [
+                    'name' => $translation?->name,
+                    'image' => $client->featured_image_url,
+                    'url' => $client->website_url,
+                ];
+            })->filter(fn (array $item) => filled($item['name']))->values()
+            : collect($defaultClients)->map(fn (array $client) => [
+                'name' => $client['name'],
+                'image' => null,
+                'url' => null,
+            ]);
+    @endphp
+    <section id="clients" class="partners-band-section section-pad">
+        <x-front.logo-marquee
+            :items="$clientMarqueeItems"
+            :aria-label="__('front.home.clients.eyebrow')"
+            data-aos="fade-up"
+        />
+
         <div class="container">
-            <div class="clients-header" data-aos="fade-up">
+            <div class="partners-band-header" data-aos="fade-up">
                 <x-front.section-heading
                     :eyebrow="__('front.home.clients.eyebrow')"
                     :title="__('front.home.clients.title')"
@@ -386,43 +423,12 @@
             </div>
         </div>
 
-        @php
-            $locale = app()->getLocale();
-            $defaultClients = [
-                ['name' => 'ARAMCO',  'icon' => 'bi-droplet-fill'],
-                ['name' => 'SABIC',   'icon' => 'bi-flask-fill'],
-                ['name' => 'SEC',     'icon' => 'bi-lightning-fill'],
-                ['name' => 'NEOM',    'icon' => 'bi-building-fill'],
-                ['name' => 'MAADEN',  'icon' => 'bi-gem'],
-                ['name' => 'STC',     'icon' => 'bi-wifi'],
-                ['name' => 'ACWA',    'icon' => 'bi-sun-fill'],
-                ['name' => 'SBG',     'icon' => 'bi-hammer'],
-                ['name' => 'SIPCHEM', 'icon' => 'bi-cpu-fill'],
-                ['name' => 'TASNEE',  'icon' => 'bi-gear-fill'],
-            ];
-
-            $clientMarqueeItems = $featuredClients->isNotEmpty()
-                ? $featuredClients->map(function ($client) use ($locale) {
-                    $translation = $client->translate($locale);
-
-                    return [
-                        'name' => $translation?->name,
-                        'image' => $client->featured_image_url,
-                        'url' => $client->website_url,
-                    ];
-                })->filter(fn (array $item) => filled($item['name']))->values()
-                : collect($defaultClients)->map(fn (array $client) => [
-                    'name' => $client['name'],
-                    'image' => null,
-                    'url' => null,
-                ]);
-        @endphp
-
         <x-front.logo-marquee
             :items="$clientMarqueeItems"
+            :reverse="true"
             :aria-label="__('front.home.clients.eyebrow')"
             data-aos="fade-up"
-            data-aos-delay="100"
+            data-aos-delay="80"
         />
     </section>
     @endif

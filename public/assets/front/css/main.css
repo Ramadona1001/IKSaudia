@@ -2075,7 +2075,8 @@
      color: #64748b;
    }
 
-   .home-main #partners.partners-band-section {
+   .home-main #partners.partners-band-section,
+   .home-main #clients.partners-band-section {
      background: #fff;
    }
 

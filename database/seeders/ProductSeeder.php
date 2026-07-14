@@ -112,6 +112,9 @@ class ProductSeeder extends Seeder
             'ProductSeeder finished: 2 categories, %d products.',
             count($pipelineProducts) + count($polyurethaneProducts),
         ));
+
+        app(\App\Services\ContentCacheService::class)->forgetProducts();
+        $this->command?->info('Product content cache cleared.');
     }
 
     private function resetCatalog(): void

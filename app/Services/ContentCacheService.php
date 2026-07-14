@@ -63,6 +63,19 @@ class ContentCacheService
         foreach ($this->localeCodes() as $locale) {
             Cache::forget("products.root.{$locale}");
         }
+
+        // Detail pages are cached per locale + slug (includes children + featured images).
+        $slugs = \App\Models\ProductTranslation::query()
+            ->distinct()
+            ->pluck('slug')
+            ->filter()
+            ->all();
+
+        foreach ($this->localeCodes() as $locale) {
+            foreach ($slugs as $slug) {
+                Cache::forget("product.{$locale}.{$slug}");
+            }
+        }
     }
 
     public function forgetProduct(string $locale, string $slug): void

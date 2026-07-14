@@ -8,15 +8,12 @@ use App\Models\SeoMeta;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * Seeds the IKS product catalog (categories + products).
+ * Seeds the official IKS product catalog from website content.
  *
- * This project uses parent products as categories (`products.parent_id`).
- * There is no `product_categories` pivot, and no `sku` / `status` columns —
- * published state uses `is_published`, copy lives in `product_translations`.
+ * Categories are parent products (`parent_id`); children are the listed products.
  *
  * Run: php artisan db:seed --class=ProductSeeder
  */
@@ -26,111 +23,94 @@ class ProductSeeder extends Seeder
     {
         $this->resetCatalog();
 
-        $biDirectional = $this->upsertCategory(
-            nameEn: 'Bi-directional Scrapers',
-            nameAr: 'كاشطات ثنائية الاتجاه',
-            slug: 'bi-directional-scrapers',
+        $pipeline = $this->upsertCategory(
+            nameEn: 'Pipeline Scrapers',
+            nameAr: 'كاشطات خطوط الأنابيب',
+            slug: 'pipeline-scrapers',
             sortOrder: 1,
-            icon: 'bi-arrow-left-right',
-            summaryEn: 'Bi-directional pipeline scrapers for cleaning, wiping, brushing, and gauging operations.',
-            summaryAr: 'كاشطات خطوط أنابيب ثنائية الاتجاه لأعمال التنظيف والمسح والفرشاة والقياس.',
+            icon: 'bi-pipe',
+            summaryEn: 'Pipeline scraping and pigging solutions for cleaning, inspection, and maintenance.',
+            summaryAr: 'حلول كشط وتنظيف خطوط الأنابيب للفحص والصيانة والحفاظ على تدفق التشغيل.',
         );
 
-        $foam = $this->upsertCategory(
-            nameEn: 'Foam Scrapers',
-            nameAr: 'كاشطات الرغوة',
-            slug: 'foam-scrapers',
+        $polyurethane = $this->upsertCategory(
+            nameEn: 'Non-Metallic Polyurethane Products',
+            nameAr: 'منتجات البولي يوريثان غير المعدنية',
+            slug: 'non-metallic-polyurethane-products',
             sortOrder: 2,
-            icon: 'bi-droplet-half',
-            summaryEn: 'Polyurethane foam scrapers in multiple densities and surface configurations.',
-            summaryAr: 'كاشطات رغوة بولي يوريثان بكثافات وتكوينات سطح متعددة.',
+            icon: 'bi-box-seam',
+            summaryEn: 'Thermoset polyurethane solutions for subsea, mining, marine, and custom industrial applications.',
+            summaryAr: 'حلول بولي يوريثان حرارية لتطبيقات تحت البحر والتعدين والبحرية والصناعات المخصصة.',
         );
 
-        $biDirectionalProducts = [
+        $pipelineProducts = [
             [
-                'en' => 'Bi-directional Disc Scraper',
-                'ar' => 'كاشطة قرص ثنائية الاتجاه',
-                'pdf' => 'IK-Saudi_ Bi_directional_disc_Scrapers.pdf',
+                'en' => 'Mechanical Scrapers',
+                'ar' => 'كاشطات ميكانيكية',
+                'summary_en' => 'Robust pipeline maintenance tools designed to clean, separate, and inspect pipelines by removing debris, wax, scale, and other deposits while maintaining optimal flow efficiency.',
+                'summary_ar' => 'أدوات صيانة قوية لخطوط الأنابيب مصممة للتنظيف والفصل والفحص عبر إزالة الرواسب والشمع والقشور والشوائب مع الحفاظ على كفاءة التدفق.',
+                'icon' => 'bi-gear-wide-connected',
             ],
             [
-                'en' => 'Bi-directional Brush Scraper',
-                'ar' => 'كاشطة فرشاة ثنائية الاتجاه',
-                'pdf' => 'IK-Saudi_ Bi_directional_Brush_Scrapers.pdf',
+                'en' => 'Foam Scrapers',
+                'ar' => 'كاشطات الرغوة',
+                'summary_en' => 'Flexible and lightweight pipeline cleaning solutions used for dewatering, drying, product separation, and the removal of loose debris in pipelines of varying diameters and configurations.',
+                'summary_ar' => 'حلول تنظيف مرنة وخفيفة لخطوط الأنابيب تُستخدم لنزع المياه والتجفيف وفصل المنتجات وإزالة الرواسب الرخوة في أقطار وتكوينات متنوعة.',
+                'icon' => 'bi-droplet-half',
             ],
             [
-                'en' => 'Bi-directional Gauging Scraper',
-                'ar' => 'كاشطة قياس ثنائية الاتجاه',
-                'pdf' => 'IK-Saudi_ Bi_directional_gauging_Scrapers.pdf',
+                'en' => 'Mechanical Scraper Spare Parts',
+                'ar' => 'قطع غيار الكاشطات الميكانيكية',
+                'summary_en' => 'High-quality replacement components such as cups, discs, brushes, magnets, and hardware that ensure reliable performance, extended service life, and efficient maintenance of scraper systems.',
+                'summary_ar' => 'مكونات بديلة عالية الجودة مثل الأكواب والأقراص والفرش والمغناطيسات والملحقات لضمان أداء موثوق وعمر افتراضي أطول وصيانة فعّالة لأنظمة الكاشطات.',
+                'icon' => 'bi-tools',
             ],
         ];
 
-        $foamProducts = [
+        $polyurethaneProducts = [
             [
-                'en' => 'Foam Scraper',
-                'ar' => 'كاشطة رغوة',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+                'en' => 'Non-Metallic Subsea Flange Shroud',
+                'ar' => 'غلاف شفة تحت البحر غير المعدني',
+                'summary_en' => 'Featuring an anti-snag design that prevents anchor wires from catching on protruding stud lengths of subsea flanges. The shroud sits on the seabed, covering the entire flange assembly. Manufactured from thermoset polyurethane polymers specifically designed for submerged seawater environments, with a design life of up to 25 years.',
+                'summary_ar' => 'بتصميم مضاد للاشتباك يمنع تعلق أسلاك المرساة بأطوال المسامير البارزة لشفاه تحت البحر. يستقر الغلاف على قاع البحر ويغطي تجميعة الشفة بالكامل. مصنوع من بوليمرات بولي يوريثان حرارية مخصصة لبيئات مياه البحر، بعمر تصميمي يصل إلى 25 عامًا.',
+                'icon' => 'bi-shield-check',
             ],
             [
-                'en' => 'LD Bare Foam Scraper',
-                'ar' => 'كاشطة رغوة منخفضة الكثافة (Bare)',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+                'en' => 'Polyurethane Mining Screens',
+                'ar' => 'شاشات تعدين من البولي يوريثان',
+                'summary_en' => 'High-performance screening solutions engineered for superior wear resistance, efficient material separation, and extended service life in demanding mining and mineral processing applications.',
+                'summary_ar' => 'حلول غربلة عالية الأداء مصممة لمقاومة تآكل فائقة وفصل فعّال للمواد وعمر تشغيلي أطول في تطبيقات التعدين ومعالجة المعادن القاسية.',
+                'icon' => 'bi-grid-3x3-gap',
             ],
             [
-                'en' => 'MD Bare Foam Scraper',
-                'ar' => 'كاشطة رغوة متوسطة الكثافة (Bare)',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+                'en' => 'Marine Foam Fenders',
+                'ar' => 'مصدات رغوة بحرية',
+                'summary_en' => 'Durable, energy-absorbing protection systems designed to safeguard vessels, docks, and marine structures from impact during berthing and mooring operations.',
+                'summary_ar' => 'أنظمة حماية متينة ماصة للطاقة مصممة لحماية السفن والأرصفة والمنشآت البحرية من الصدمات أثناء الرسو والربط.',
+                'icon' => 'bi-water',
             ],
             [
-                'en' => 'HD Bare Foam Scraper',
-                'ar' => 'كاشطة رغوة عالية الكثافة (Bare)',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
-            ],
-            [
-                'en' => 'MD Criss-cross Foam Scraper',
-                'ar' => 'كاشطة رغوة متوسطة الكثافة بنمط شبكي',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
-            ],
-            [
-                'en' => 'HD Criss-cross Foam Scraper',
-                'ar' => 'كاشطة رغوة عالية الكثافة بنمط شبكي',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
-            ],
-            [
-                'en' => 'MD Silicon Carbide Foam Scraper',
-                'ar' => 'كاشطة رغوة متوسطة الكثافة بكربيد السيليكون',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
-            ],
-            [
-                'en' => 'HD Silicon Carbide Foam Scraper',
-                'ar' => 'كاشطة رغوة عالية الكثافة بكربيد السيليكون',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
-            ],
-            [
-                'en' => 'MD Wire Brush Foam Scraper',
-                'ar' => 'كاشطة رغوة متوسطة الكثافة بفرشاة سلكية',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
-            ],
-            [
-                'en' => 'HD Wire Brush Foam Scraper',
-                'ar' => 'كاشطة رغوة عالية الكثافة بفرشاة سلكية',
-                'pdf' => 'IK-Saudi_ Foam_Scrapers_DATASHEET.pdf',
+                'en' => 'Non-Metallic Customized Products',
+                'ar' => 'منتجات غير معدنية مخصصة',
+                'summary_en' => 'Tailor-made polyurethane and other non-metallic solutions designed to meet specific customer requirements, operating conditions, and performance objectives. Engineered for durability, corrosion resistance, and long service life across industrial, marine, mining, and subsea applications.',
+                'summary_ar' => 'حلول بولي يوريثان وغير معدنية مخصصة لتلبية متطلبات العملاء وظروف التشغيل وأهداف الأداء. مصممة للمتانة ومقاومة التآكل والعمر الطويل في التطبيقات الصناعية والبحرية والتعدين وتحت البحر.',
+                'icon' => 'bi-puzzle',
             ],
         ];
 
         $sort = 1;
-        foreach ($biDirectionalProducts as $item) {
-            $this->upsertProduct($item, $biDirectional, $sort++);
+        foreach ($pipelineProducts as $item) {
+            $this->upsertProduct($item, $pipeline, $sort++);
         }
 
         $sort = 1;
-        foreach ($foamProducts as $item) {
-            $this->upsertProduct($item, $foam, $sort++);
+        foreach ($polyurethaneProducts as $item) {
+            $this->upsertProduct($item, $polyurethane, $sort++);
         }
 
         $this->command?->info(sprintf(
-            'ProductSeeder finished: %d categories, %d products.',
-            2,
-            count($biDirectionalProducts) + count($foamProducts),
+            'ProductSeeder finished: 2 categories, %d products.',
+            count($pipelineProducts) + count($polyurethaneProducts),
         ));
     }
 
@@ -147,8 +127,6 @@ class ProductSeeder extends Seeder
                 DB::table('product_translations')->truncate();
             }
 
-            // Soft-deleted rows are not cleared by truncate alone on some setups —
-            // wipe fully, then truncate for a clean auto-increment.
             Product::withTrashed()->forceDelete();
             DB::table('products')->truncate();
         } finally {
@@ -185,38 +163,31 @@ class ProductSeeder extends Seeder
     }
 
     /**
-     * @param  array{en: string, ar: string, pdf?: string|null}  $item
+     * @param  array{en: string, ar: string, summary_en: string, summary_ar: string, icon?: string}  $item
      */
     private function upsertProduct(array $item, Product $category, int $sortOrder): Product
     {
         $nameEn = $item['en'];
         $nameAr = $item['ar'];
         $slug = Str::slug($nameEn);
-
-        $pdfPath = $this->attachPdfIfPresent($slug, $item['pdf'] ?? null);
+        $summaryEn = $item['summary_en'];
+        $summaryAr = $item['summary_ar'];
 
         $product = Product::query()->updateOrCreate(
             ['uuid' => $this->deterministicUuid('product-'.$slug)],
             [
                 'parent_id' => $category->id,
-                'icon' => $category->icon,
-                'is_featured' => $sortOrder <= 3,
+                'icon' => $item['icon'] ?? $category->icon,
+                'is_featured' => true,
                 'is_published' => true,
                 'published_at' => now(),
                 'sort_order' => $sortOrder,
-                'pdf_path' => $pdfPath,
+                'pdf_path' => null,
                 'featured_image' => null,
             ],
         );
 
-        $this->syncTranslations(
-            $product,
-            $slug,
-            $nameEn,
-            $nameAr,
-            $nameEn,
-            $nameAr,
-        );
+        $this->syncTranslations($product, $slug, $nameEn, $nameAr, $summaryEn, $summaryAr);
 
         $this->command?->info("Seeded: {$nameEn} → {$category->translate('en')?->title}");
 
@@ -250,32 +221,6 @@ class ProductSeeder extends Seeder
                 'body' => '<p>'.e($summaryAr).'</p>',
             ],
         );
-    }
-
-    private function attachPdfIfPresent(string $slug, ?string $pdfFilename): ?string
-    {
-        if (! $pdfFilename) {
-            return null;
-        }
-
-        $source = resource_path('ik_products'.DIRECTORY_SEPARATOR.$pdfFilename);
-        if (! is_file($source)) {
-            $this->command?->warn("PDF not found for [{$slug}]: {$pdfFilename}");
-
-            return null;
-        }
-
-        $target = "products/{$slug}/datasheet.pdf";
-
-        try {
-            Storage::disk('public')->put($target, (string) file_get_contents($source));
-
-            return $target;
-        } catch (\Throwable $e) {
-            $this->command?->warn("Could not store PDF for [{$slug}]: {$e->getMessage()}");
-
-            return null;
-        }
     }
 
     private function deterministicUuid(string $key): string

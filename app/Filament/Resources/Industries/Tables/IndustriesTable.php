@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -18,7 +19,13 @@ class IndustriesTable
             ->reorderable('sort_order')
             ->columns([
                 TextColumn::make('sort_order')->label('#')->sortable(),
-                TextColumn::make('title')->label('Title (AR)')->getStateUsing(fn ($r) => $r?->translate('ar')?->title ?? '—'),
+                ImageColumn::make('featured_image_url')
+                    ->label('Image')
+                    ->circular(),
+                TextColumn::make('display_name')
+                    ->label('Name')
+                    ->getStateUsing(fn ($r) => $r?->translate('ar')?->title ?? $r?->translate('en')?->title ?? '—')
+                    ->searchable(),
                 IconColumn::make('is_featured')->boolean(),
                 IconColumn::make('is_published')->boolean()->label('Published'),
                 TextColumn::make('updated_at')->dateTime()->sortable(),

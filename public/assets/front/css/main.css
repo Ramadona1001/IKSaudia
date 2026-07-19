@@ -123,7 +123,7 @@
      z-index: 0;
      background-image: var(--page-hero-pattern-image);
      background-size: var(--page-hero-pattern-size, 60px 60px);
-     opacity: 0.85;
+     opacity: 0.35;
      pointer-events: none;
    }
 

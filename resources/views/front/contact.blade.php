@@ -28,7 +28,7 @@
         $mapsUrl = $mapQuery !== '' ? 'https://www.google.com/maps/search/?api=1&query='.$mapQuery : null;
     @endphp
 
-    <section class="section-pad bg-dark1 contact-page">
+    <section class="section-pad contact-page">
         <div class="container">
 
             {{-- Quick contact cards --}}

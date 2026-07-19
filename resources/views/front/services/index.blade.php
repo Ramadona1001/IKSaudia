@@ -16,7 +16,7 @@
     <x-front.breadcrumb :items="[['label' => __('front.services.breadcrumb')]]" />
 
     {{-- Services Grid --}}
-    <section class="section-pad bg-dark1">
+    <section class="section-pad services-index-section">
         <div class="container">
             <div class="row g-4">
                 @forelse ($services as $service)
@@ -25,7 +25,7 @@
                     </div>
                 @empty
                     <div class="col-12">
-                        <p class="text-center" style="color:var(--c-muted);padding:60px 0;">{{ __('front.services.no_services') }}</p>
+                        <p class="text-center services-index-empty">{{ __('front.services.no_services') }}</p>
                     </div>
                 @endforelse
             </div>
@@ -37,7 +37,7 @@
     </section>
 
     {{-- Why Choose Us --}}
-    <section class="section-pad bg-dark2">
+    <section class="section-pad services-index-why">
         <div class="container">
             <x-front.section-heading
                 :eyebrow="__('front.services.why_eyebrow')"
@@ -57,17 +57,17 @@
 
                 @foreach ($edges as $i => $edge)
                     @php
-                        $bg = $edge['variant'] === 'gold' ? 'rgba(201,162,39,0.12)' : 'rgba(0,168,232,0.12)';
-                        $border = $edge['variant'] === 'gold' ? 'rgba(201,162,39,0.2)' : 'rgba(0,168,232,0.2)';
-                        $color = $edge['variant'] === 'gold' ? 'var(--c-gold)' : 'var(--c-blue-light)';
+                        $bg = $edge['variant'] === 'gold' ? 'rgba(201,162,39,0.12)' : 'rgba(0,117,190,0.1)';
+                        $border = $edge['variant'] === 'gold' ? 'rgba(201,162,39,0.2)' : 'rgba(0,117,190,0.2)';
+                        $color = $edge['variant'] === 'gold' ? 'var(--c-gold)' : '#0075be';
                     @endphp
                     <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
-                        <div class="about-stat-item" style="text-align:center;padding:30px;">
-                            <div style="width:60px;height:60px;background:{{ $bg }};border:1px solid {{ $border }};border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:{{ $color }};margin:0 auto 16px;">
+                        <div class="about-stat-item services-edge-card">
+                            <div class="services-edge-icon" style="background:{{ $bg }};border-color:{{ $border }};color:{{ $color }};">
                                 <i class="bi {{ $edge['icon'] }}" aria-hidden="true"></i>
                             </div>
-                            <h4 style="font-size:1rem;font-weight:700;color:var(--c-white);margin-bottom:8px;">{{ __('front.services.edge.'.$edge['key'].'.title') }}</h4>
-                            <p style="font-size:0.84rem;color:var(--c-muted);">{{ __('front.services.edge.'.$edge['key'].'.desc') }}</p>
+                            <h4 class="services-edge-title">{{ __('front.services.edge.'.$edge['key'].'.title') }}</h4>
+                            <p class="services-edge-desc">{{ __('front.services.edge.'.$edge['key'].'.desc') }}</p>
                         </div>
                     </div>
                 @endforeach

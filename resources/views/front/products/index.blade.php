@@ -15,7 +15,7 @@
 
     <x-front.breadcrumb :items="[['label' => __('front.products.breadcrumb')]]" />
 
-    <section class="section-pad bg-dark1">
+    <section class="section-pad " style="background: white;">
         <div class="container">
             <div class="row g-4">
                 @forelse ($products as $product)

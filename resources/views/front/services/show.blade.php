@@ -30,18 +30,18 @@
         ['label' => $title],
     ]" />
 
-    <section class="section-pad bg-dark1">
+    <section class="section-pad service-show-section">
         <div class="container">
             <div class="row g-5">
 
                 {{-- Main Content --}}
                 <div class="col-lg-8" data-aos="fade-right">
                     @if ($service->featured_image_url)
-                        <div style="height:380px;border-radius:var(--radius-xl);overflow:hidden;margin-bottom:40px;background-image:url('{{ $service->featured_image_url }}');background-size:cover;background-position:center;"></div>
+                        <div class="service-show-media" style="background-image:url('{{ $service->featured_image_url }}');"></div>
                     @else
-                        <div style="height:380px;border-radius:var(--radius-xl);overflow:hidden;margin-bottom:40px;background:linear-gradient(135deg,#0d2137 0%,#1a3a5c 40%,#0a1020 100%);display:flex;align-items:center;justify-content:center;position:relative;">
-                            <i class="bi {{ $service->icon ?: 'bi-gear-wide-connected' }}" style="font-size:10rem;color:rgba(0,168,232,0.15);" aria-hidden="true"></i>
-                            <div style="position:absolute;bottom:24px;inset-inline-start:24px;background:var(--grad-gold);border-radius:var(--radius);padding:10px 20px;font-size:0.8rem;font-weight:700;color:var(--c-dark);letter-spacing:1px;">{{ __('common.featured') }}</div>
+                        <div class="service-show-media service-show-media--placeholder">
+                            <i class="bi {{ $service->icon ?: 'bi-gear-wide-connected' }}" aria-hidden="true"></i>
+                            <div class="service-show-featured-badge">{{ __('common.featured') }}</div>
                         </div>
                     @endif
 
@@ -50,34 +50,31 @@
                         <p class="section-desc mb-4">{{ $summary }}</p>
                     @endif
                     @if ($body)
-                        <div class="prose-light" style="color:var(--c-muted);line-height:1.8;">{!! safe_html($body) !!}</div>
+                        <div class="service-show-body">{!! safe_html($body) !!}</div>
                     @endif
                 </div>
 
                 {{-- Sidebar --}}
                 <div class="col-lg-4" data-aos="fade-left">
-                    {{-- Quote CTA --}}
-                    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:28px;margin-bottom:24px;border-top:3px solid var(--c-gold);">
-                        <h4 style="font-size:0.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--c-gold);margin-bottom:20px;">{{ __('front.services.get_quote_title') }}</h4>
-                        <p style="font-size:0.86rem;color:var(--c-muted);margin-bottom:20px;">{{ __('front.services.get_quote_desc') }}</p>
-                        <a href="{{ route('contact', $locale) }}" class="btn-gold" style="width:100%;justify-content:center;">
+                    <div class="service-show-panel service-show-panel--quote">
+                        <h4 class="service-show-panel-title">{{ __('front.services.get_quote_title') }}</h4>
+                        <p class="service-show-panel-desc">{{ __('front.services.get_quote_desc') }}</p>
+                        <a href="{{ route('contact', $locale) }}" class="btn-gold service-show-quote-btn">
                             <i class="bi bi-envelope-fill" aria-hidden="true"></i>
                             <span>{{ __('buttons.request_quote') }}</span>
                         </a>
                     </div>
 
-                    {{-- Other Services --}}
                     @if (isset($related) && $related->isNotEmpty())
-                        <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:28px;margin-bottom:24px;">
-                            <h4 style="font-size:0.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--c-gold);margin-bottom:20px;">{{ __('front.services.other_services') }}</h4>
-                            <ul style="list-style:none;padding:0;">
+                        <div class="service-show-panel">
+                            <h4 class="service-show-panel-title">{{ __('front.services.other_services') }}</h4>
+                            <ul class="service-show-related">
                                 @foreach ($related as $r)
                                     @php $rt = $r->translate($locale); @endphp
                                     @if ($rt)
-                                        <li style="border-bottom:1px solid rgba(255,255,255,0.05);padding:10px 0;">
-                                            <a href="{{ route('services.show', [$locale, $rt->slug]) }}"
-                                               style="display:flex;align-items:center;gap:10px;font-size:0.86rem;color:var(--c-muted);transition:color 0.2s;">
-                                                <i class="bi {{ $r->icon ?: 'bi-gear-fill' }}" style="color:var(--c-gold);" aria-hidden="true"></i>
+                                        <li>
+                                            <a href="{{ route('services.show', [$locale, $rt->slug]) }}">
+                                                <i class="bi {{ $r->icon ?: 'bi-gear-fill' }}" aria-hidden="true"></i>
                                                 <span>{{ $rt->title }}</span>
                                             </a>
                                         </li>

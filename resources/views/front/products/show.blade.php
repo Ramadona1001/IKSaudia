@@ -34,11 +34,7 @@
         ['label' => $title],
     ])" />
 
-    <section @class([
-        'section-pad',
-        'bg-dark1' => ! $isCategoryPage,
-        'products-category-section' => $isCategoryPage,
-    ])>
+    <section class="section-pad products-show-section">
         <div class="container">
             @if ($isCategoryPage)
                 <div class="product-feature-list">
@@ -84,7 +80,7 @@
                         @endif
 
                         @if ($body && trim(strip_tags($body)) !== trim(strip_tags($summary)))
-                            <div class="prose-light product-detail-prose">{!! safe_html($body) !!}</div>
+                            <div class="product-detail-prose">{!! safe_html($body) !!}</div>
                         @endif
 
                         <div class="product-detail-split__actions">

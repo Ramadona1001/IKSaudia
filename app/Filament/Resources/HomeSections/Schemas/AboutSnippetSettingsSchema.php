@@ -54,7 +54,6 @@ final class AboutSnippetSettingsSchema
                         TextInput::make('count')
                             ->label(__('cms.fields.stat_count'))
                             ->numeric()
-                            ->required()
                             ->minValue(0),
                         TextInput::make('suffix')
                             ->label(__('cms.fields.stat_suffix'))
@@ -66,8 +65,7 @@ final class AboutSnippetSettingsSchema
                                 'gold' => __('cms.fields.stat_variant_gold'),
                                 'blue' => __('cms.fields.stat_variant_blue'),
                             ])
-                            ->default('gold')
-                            ->required(),
+                            ->default('gold'),
                         TextInput::make('label')
                             ->label(__('cms.fields.stat_label'))
                             ->maxLength(120)

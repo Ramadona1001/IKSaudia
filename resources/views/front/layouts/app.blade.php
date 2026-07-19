@@ -85,7 +85,7 @@
 
     @stack('head')
 </head>
-<body dir="{{ $dir }}" data-server-locale class="@yield('body_class')">
+<body dir="{{ $dir }}" data-server-locale class="@yield('body_class') {{ request()->routeIs('home') ? 'is-home' : 'inner-page' }}">
 
     {{-- Skip link --}}
     <a href="#main-content" class="visually-hidden-focusable">

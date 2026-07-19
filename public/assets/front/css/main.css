@@ -3384,6 +3384,28 @@
      border-bottom: 1px solid rgba(255,255,255,0.04);
      padding: 14px 0;
    }
+
+   /* Inner pages: same hero pattern across content body sections */
+   .inner-page .breadcrumb-wrap ~ .section-pad {
+     position: relative;
+     isolation: isolate;
+   }
+
+   .inner-page .breadcrumb-wrap ~ .section-pad::before {
+     content: '';
+     position: absolute;
+     inset: 0;
+     z-index: 0;
+     background-image: var(--page-hero-pattern-image);
+     background-size: var(--page-hero-pattern-size, 60px 60px);
+     opacity: 0.55;
+     pointer-events: none;
+   }
+
+   .inner-page .breadcrumb-wrap ~ .section-pad > * {
+     position: relative;
+     z-index: 1;
+   }
    
    .custom-breadcrumb {
      display: flex;

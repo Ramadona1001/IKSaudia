@@ -2083,13 +2083,19 @@
    .partners-band-section .clients-marquee-wrap--standalone {
      background: transparent;
      border-block: none;
-     padding-block: 8px;
+     padding-block: 48px;
    }
 
    .home-main .partners-band-section .clients-marquee-wrap--standalone {
      background: transparent;
      border-block-color: transparent;
      box-shadow: none;
+   }
+
+   /* Taller + wider left/right edge fades for clients & partners rows */
+   .home-main .partners-band-section .clients-marquee-wrap::before,
+   .home-main .partners-band-section .clients-marquee-wrap::after {
+     width: 180px;
    }
    
    .marquee-client {
@@ -4508,5 +4514,10 @@
 
   .home-main .section-divider {
     background: #e2e8f0;
+  }
+
+  /* Projects listing page */
+  .projects-index-section {
+    background: #fff;
   }
    

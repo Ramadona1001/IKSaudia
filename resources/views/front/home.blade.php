@@ -499,7 +499,7 @@
                         @php $pt = $project->translate(app()->getLocale()); @endphp
                         @if ($pt)
                             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
-                                <a href="{{ route('projects.show', [app()->getLocale(), $pt->slug]) }}" class="service-card" style="display:flex;flex-direction:column;height:100%;overflow:hidden;border-top:3px solid var(--c-gold);">
+                                <a href="{{ route('projects.show', [app()->getLocale(), $pt->slug]) }}" class="service-card" style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
                                     @if ($project->featured_image_url)
                                         <div style="height:200px;background-image:url('{{ $project->featured_image_url }}');background-size:cover;background-position:center;"></div>
                                     @else

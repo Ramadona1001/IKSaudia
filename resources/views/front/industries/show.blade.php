@@ -89,7 +89,7 @@
 
                 {{-- Sidebar --}}
                 <div class="col-lg-4" data-aos="fade-left">
-                    <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.15);border-radius:var(--radius-xl);padding:32px;margin-bottom:24px;border-top:3px solid var(--c-gold);">
+                    <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.15);border-radius:var(--radius-xl);padding:32px;margin-bottom:24px;">
                         <div style="font-size:0.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--c-gold);margin-bottom:16px;">{{ __('front.services.get_quote_title') }}</div>
                         <p style="font-size:0.86rem;color:var(--c-muted);margin-bottom:20px;line-height:1.7;">{{ __('front.services.get_quote_desc') }}</p>
                         <a href="{{ route('contact', $locale) }}" class="btn-gold" style="width:100%;justify-content:center;">

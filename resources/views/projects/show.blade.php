@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="col-lg-4" data-aos="fade-left">
-                    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-xl);padding:28px;margin-bottom:24px;border-top:3px solid var(--c-gold);">
+                    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-xl);padding:28px;margin-bottom:24px;">
                         <h4 style="font-size:0.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--c-gold);margin-bottom:20px;">{{ __('projects.show.project_details') }}</h4>
                         <dl style="margin:0;">
                             @if ($project->client_name)

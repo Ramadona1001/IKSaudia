@@ -1232,7 +1232,6 @@
    
    .service-card:hover {
      transform: translateY(-10px);
-     border-color: var(--brand-primary);
      background: color-mix(in srgb, var(--brand-primary) 88%, #000 12%);
      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), var(--glow-gold);
    }

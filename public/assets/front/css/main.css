@@ -1209,7 +1209,7 @@
    
    .service-card {
      background: var(--brand-primary);
-     border: 1px solid var(--brand-primary);
+     /* border: 1px solid var(--brand-primary); */
      border-radius: var(--radius-lg);
      overflow: hidden;
      transition: var(--trans);
@@ -1225,7 +1225,7 @@
      left: 0;
      right: 0;
      height: 3px;
-     background: var(--grad-gold);
+     /* background: var(--grad-gold); */
      opacity: 0;
      transition: var(--trans);
    }

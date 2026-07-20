@@ -3395,12 +3395,22 @@
      line-height: 1.1;
    }
    
-   /* Breadcrumb */
+   /* Breadcrumb — solid dark, no site pattern */
    .breadcrumb-wrap {
-     background: rgba(255,255,255,0.02);
-     border-top: 1px solid rgba(255,255,255,0.04);
-     border-bottom: 1px solid rgba(255,255,255,0.04);
+     background-color: var(--brand-primary, #060c1a);
+     background-image: none;
+     border-top: 1px solid rgba(255, 255, 255, 0.06);
+     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
      padding: 14px 0;
+     isolation: isolate;
+     position: relative;
+     z-index: 1;
+   }
+
+   .breadcrumb-wrap::before,
+   .breadcrumb-wrap::after {
+     content: none;
+     display: none;
    }
    
    .custom-breadcrumb {

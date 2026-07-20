@@ -4248,7 +4248,6 @@
      aspect-ratio: 4 / 3;
      border-radius: var(--radius-lg);
      overflow: hidden;
-     background: radial-gradient(circle at 50% 55%, rgba(0, 117, 190, 0.12) 0%, transparent 62%), #eef2f7;
      display: flex;
      align-items: center;
      justify-content: center;
@@ -4257,8 +4256,8 @@
    .product-feature-row__image {
      width: 100%;
      height: 100%;
-     object-fit: contain;
-     padding: 12px;
+    object-fit: cover;
+    display: block;
    }
 
    .product-feature-row__placeholder {

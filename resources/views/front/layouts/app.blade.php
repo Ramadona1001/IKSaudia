@@ -82,10 +82,14 @@
     @endif
 
     @include('front.partials.styles')
+    @include('partials.site-analytics')
 
     @stack('head')
 </head>
 <body dir="{{ $dir }}" data-server-locale class="@yield('body_class') {{ request()->routeIs('home') ? 'is-home' : 'inner-page' }}">
+    @if (setting('seo.google_tag_manager_id'))
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ setting('seo.google_tag_manager_id') }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    @endif
 
     {{-- Skip link --}}
     <a href="#main-content" class="visually-hidden-focusable">

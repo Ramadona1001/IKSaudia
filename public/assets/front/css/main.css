@@ -574,7 +574,8 @@
      position: absolute;
      top: calc(100% + 12px);
      left: 0;
-     min-width: 220px;
+     min-width: 380px;
+     max-width: min(440px, 92vw);
      background: rgba(6,12,26,0.98);
      backdrop-filter: blur(20px);
      border: 1px solid rgba(201,162,39,0.15);
@@ -610,6 +611,10 @@
      color: rgba(255,255,255,0.8);
      border-radius: var(--radius);
      transition: var(--trans-fast);
+   }
+
+   .nav-dropdown-menu li a span {
+     line-height: 1.4;
    }
    
    .nav-dropdown-menu li a:hover {

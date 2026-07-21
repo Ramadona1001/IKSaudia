@@ -1216,6 +1216,14 @@
      height: 100%;
      position: relative;
      cursor: pointer;
+     display: flex;
+     flex-direction: column;
+     text-decoration: none;
+     color: inherit;
+   }
+
+   a.service-card:hover {
+     color: inherit;
    }
    
    .service-card::before {
@@ -2117,6 +2125,50 @@
    .home-main .partners-band-section .clients-marquee-wrap::before,
    .home-main .partners-band-section .clients-marquee-wrap::after {
      width: 180px;
+   }
+
+   /* Connected logo strap (clients + partners) */
+   .home-main .clients-marquee {
+     gap: 0;
+     padding-inline: 0;
+     filter: drop-shadow(0 10px 26px rgba(15, 23, 42, 0.12));
+   }
+
+   .home-main .marquee-client {
+     --strap-tab: 10px;
+     position: relative;
+     z-index: 1;
+     min-width: 172px;
+     height: 92px;
+     padding: 18px 42px;
+     margin-inline: calc(var(--strap-tab) * -0.85);
+     background: #fff;
+     border: none;
+     border-radius: 0;
+     box-shadow: none;
+     clip-path: polygon(
+       0% 24%,
+       var(--strap-tab) 24%,
+       var(--strap-tab) 0%,
+       calc(100% - var(--strap-tab)) 0%,
+       calc(100% - var(--strap-tab)) 24%,
+       100% 24%,
+       100% 76%,
+       calc(100% - var(--strap-tab)) 76%,
+       calc(100% - var(--strap-tab)) 100%,
+       var(--strap-tab) 100%,
+       var(--strap-tab) 76%,
+       0% 76%
+     );
+   }
+
+   .home-main .marquee-client:hover {
+     z-index: 2;
+   }
+
+   .home-main .marquee-client-logo {
+     max-height: 56px;
+     border-radius: 0;
    }
    
    .marquee-client {
@@ -4317,6 +4369,39 @@
      transition: transform 0.25s var(--ease);
    }
 
+   .project-card__media {
+     height: 220px;
+     background-size: cover;
+     background-position: center;
+   }
+
+   .project-card__media--placeholder {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background: linear-gradient(135deg, #0d2137 0%, #1a3a5c 40%, #0a1020 100%);
+   }
+
+   .project-card__media--placeholder i {
+     font-size: 4rem;
+     color: rgba(201, 162, 39, 0.15);
+   }
+
+   .project-card__meta {
+     font-size: 0.72rem;
+     font-weight: 700;
+     letter-spacing: 2px;
+     text-transform: uppercase;
+     color: var(--c-gold);
+     margin-bottom: 8px;
+   }
+
+   .project-card__client {
+     font-size: 0.78rem;
+     color: var(--c-muted);
+     margin-top: 14px;
+   }
+
    @media (max-width: 767.98px) {
      .product-feature-row {
        grid-template-columns: 1fr;
@@ -4495,11 +4580,9 @@
   }
 
   .home-main .clients-marquee-wrap--standalone {
-    background: #f8fafc;
-    border-block-color: rgba(15, 23, 42, 0.08);
-    box-shadow:
-      inset 0 18px 28px -20px color-mix(in srgb, var(--brand-primary) 28%, transparent),
-      inset 0 -18px 28px -20px color-mix(in srgb, var(--brand-primary) 28%, transparent);
+    background: transparent;
+    border-block-color: transparent;
+    box-shadow: none;
   }
 
   .home-main .clients-marquee-wrap::before,
@@ -4533,13 +4616,6 @@
       color-mix(in srgb, var(--brand-primary) 10%, transparent) 45%,
       transparent 100%
     );
-  }
-
-  .home-main .marquee-client {
-    background: #fff;
-    border-radius: 14px;
-    padding: 14px 22px;
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
   }
 
   .home-main .marquee-client-name {

@@ -297,10 +297,10 @@
             <div class="container">
                 <div class="services-header" data-aos="fade-up">
                     <x-front.section-heading
-                        :eyebrow="__('front.home.services.eyebrow')"
-                        :title="__('front.home.services.title')"
-                        :highlight="__('front.home.services.highlight')"
-                        :description="__('front.home.services.desc')"
+                        :eyebrow="__('front.services.tag')"
+                        :title="__('front.services.title')"
+                        :highlight="__('front.services.highlight')"
+                        :description="__('front.services.subtitle')"
                     />
                 </div>
     
@@ -317,8 +317,8 @@
                 </div>
     
                 <div class="text-center mt-5" data-aos="fade-up">
-                    <a href="{{ route('services.index', app()->getLocale()) }}" class="btn-outline-gold">
-                        <span>{{ __('front.home.services.view_all') }}</span>
+                    <a href="{{ route('services.index', $locale) }}" class="btn-outline-gold">
+                        <span>{{ __('navigation.all_services') }}</span>
                         <i class="bi bi-arrow-right" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -487,43 +487,25 @@
             <div class="container">
                 <div class="services-header" data-aos="fade-up">
                     <x-front.section-heading
-                        :eyebrow="__('front.home.projects.eyebrow') ?: __('navigation.projects')"
-                        :title="__('front.home.projects.title') ?: __('navigation.projects')"
-                        :highlight="__('front.home.projects.highlight')"
-                        :description="__('front.home.projects.desc')"
+                        :eyebrow="__('projects.index.overline')"
+                        :title="__('projects.index.title')"
+                        :description="__('projects.index.subtitle')"
                     />
                 </div>
 
                 <div class="row g-4">
                     @foreach ($featuredProjects as $project)
-                        @php $pt = $project->translate(app()->getLocale()); @endphp
+                        @php $pt = $project->translate($locale); @endphp
                         @if ($pt)
-                            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
-                                <a href="{{ route('projects.show', [app()->getLocale(), $pt->slug]) }}" class="service-card" style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
-                                    @if ($project->featured_image_url)
-                                        <div style="height:200px;background-image:url('{{ $project->featured_image_url }}');background-size:cover;background-position:center;"></div>
-                                    @else
-                                        <div style="height:200px;background:linear-gradient(135deg,#0d2137 0%,#1a3a5c 40%,#0a1020 100%);display:flex;align-items:center;justify-content:center;">
-                                            <i class="bi bi-kanban-fill" style="font-size:4rem;color:rgba(201,162,39,0.15);" aria-hidden="true"></i>
-                                        </div>
-                                    @endif
-                                    <div class="service-body">
-                                        @if ($project->year)
-                                            <div style="font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--c-gold);margin-bottom:8px;">{{ $project->year }}@if ($project->location) · {{ $project->location }} @endif</div>
-                                        @endif
-                                        <h3 class="service-title">{{ $pt->title }}</h3>
-                                        @if ($pt->summary)
-                                            <p class="service-desc">{{ Str::limit($pt->summary, 110) }}</p>
-                                        @endif
-                                    </div>
-                                </a>
+                            <div class="col-lg-4 col-md-6">
+                                <x-front.project-card :project="$project" :delay="$loop->index * 80" />
                             </div>
                         @endif
                     @endforeach
                 </div>
 
                 <div class="text-center mt-5" data-aos="fade-up">
-                    <a href="{{ route('projects.index', app()->getLocale()) }}" class="btn-outline-gold">
+                    <a href="{{ route('projects.index', $locale) }}" class="btn-outline-gold">
                         <span>{{ __('navigation.projects') }}</span>
                         <i class="bi bi-arrow-right" aria-hidden="true"></i>
                     </a>

@@ -12,9 +12,14 @@
     $bgClass = 'svc-bg-'.((($index - 1) % 6) + 1);
     $img = $service->featured_image_url ?? null;
     $favicon = setting_url('general.favicon') ?? setting_url('general.logo');
+    $href = route('services.show', [$locale, $st->slug]);
 @endphp
 
-<article {{ $attributes->merge(['class' => 'service-card']) }} data-aos="fade-up" data-aos-delay="{{ $delay }}">
+<a href="{{ $href }}"
+   {{ $attributes->merge(['class' => 'service-card']) }}
+   data-aos="fade-up"
+   data-aos-delay="{{ $delay }}"
+   aria-label="{{ $st->title }}">
     <div class="service-img-wrap">
         @if ($img)
             <div class="service-img-bg" style="background-image:url('{{ $img }}');background-size:cover;background-position:center;"></div>
@@ -36,11 +41,9 @@
         @if ($st->summary)
             <p class="service-desc">{{ \Illuminate\Support\Str::limit($st->summary, 180) }}</p>
         @endif
-        <a href="{{ route('services.show', [$locale, $st->slug]) }}"
-           class="service-link"
-           aria-label="{{ __('buttons.service_details') }} — {{ $st->title }}">
+        <span class="service-link">
             <span>{{ __('common.read_more') }}</span>
             <i class="bi bi-arrow-right" aria-hidden="true"></i>
-        </a>
+        </span>
     </div>
-</article>
+</a>

@@ -23,31 +23,7 @@
                     @php $pt = $project->translate($locale); @endphp
                     @if ($pt)
                         <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}">
-                            <a href="{{ route('projects.show', [$locale, $pt->slug]) }}" class="service-card" style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
-                                @if ($project->featured_image_url)
-                                    <div style="height:220px;background-image:url('{{ $project->featured_image_url }}');background-size:cover;background-position:center;"></div>
-                                @else
-                                    <div style="height:220px;background:linear-gradient(135deg,#0d2137 0%,#1a3a5c 40%,#0a1020 100%);display:flex;align-items:center;justify-content:center;">
-                                        <i class="bi bi-kanban-fill" style="font-size:4rem;color:rgba(201,162,39,0.15);" aria-hidden="true"></i>
-                                    </div>
-                                @endif
-                                <div class="service-body">
-                                    @if ($project->year || $project->location)
-                                        <div style="font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--c-gold);margin-bottom:8px;">
-                                            @if ($project->year){{ $project->year }}@endif
-                                            @if ($project->year && $project->location) · @endif
-                                            @if ($project->location){{ $project->location }}@endif
-                                        </div>
-                                    @endif
-                                    <h3 class="service-title">{{ $pt->title }}</h3>
-                                    @if ($pt->summary)
-                                        <p class="service-desc">{{ \Illuminate\Support\Str::limit($pt->summary, 140) }}</p>
-                                    @endif
-                                    @if ($project->client_name)
-                                        <p style="font-size:0.78rem;color:var(--c-muted);margin-top:14px;">{{ $project->client_name }}</p>
-                                    @endif
-                                </div>
-                            </a>
+                            <x-front.project-card :project="$project" />
                         </div>
                     @endif
                 @empty

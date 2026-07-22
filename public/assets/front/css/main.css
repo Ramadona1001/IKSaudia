@@ -115,17 +115,7 @@
      position: relative;
    }
 
-   /* Site-wide background pattern (all pages) */
-   body::before {
-     content: '';
-     position: fixed;
-     inset: 0;
-     z-index: 0;
-     background-image: var(--page-hero-pattern-image);
-     background-size: var(--page-hero-pattern-size, 60px 60px);
-     opacity: 0.25;
-     pointer-events: none;
-   }
+   /* Site-wide background pattern removed from content sections */
 
    body > * {
      position: relative;
@@ -1607,12 +1597,7 @@
    }
 
    .foundation-section::before {
-     content: '';
-     position: absolute;
-     inset: 0;
-     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M 30 5 L 55 17.5 L 55 42.5 L 30 55 L 5 42.5 L 5 17.5 Z' fill='none' stroke='rgba(255,255,255,0.02)' stroke-width='1'/%3E%3C/svg%3E");
-     background-size: 60px 60px;
-     pointer-events: none;
+     display: none;
    }
 
    .foundation-section .container {
@@ -1701,12 +1686,7 @@
    }
    
    .industries-section::before {
-     content: '';
-     position: absolute;
-     top: 0; left: 0; right: 0; bottom: 0;
-     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M 30 5 L 55 17.5 L 55 42.5 L 30 55 L 5 42.5 L 5 17.5 Z' fill='none' stroke='rgba(255,255,255,0.02)' stroke-width='1'/%3E%3C/svg%3E");
-     background-size: 60px 60px;
-     pointer-events: none;
+     display: none;
    }
    
    .industries-header {
@@ -1773,12 +1753,7 @@
    .ind-bg-6 { background: linear-gradient(160deg, #0a1a15 0%, #1a3a2a 40%, #060e08 100%); }
    
    .industry-card-bg::before {
-     content: '';
-     position: absolute;
-     inset: 0;
-     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M 30 5 L 55 17.5 L 55 42.5 L 30 55 L 5 42.5 L 5 17.5 Z' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='1'/%3E%3C/svg%3E");
-     background-size: 60px 60px;
-     opacity: 0.6;
+     display: none;
    }
    
    .industry-card-overlay {
@@ -2089,7 +2064,7 @@
 
    /* Partners / clients: heading + single logo row */
    .partners-band-section {
-     background: rgba(255, 255, 255, 0.88);
+     background: #fff;
      padding-block: clamp(48px, 6vw, 88px);
    }
 
@@ -3490,7 +3465,7 @@
       Contact Page
       ============================================================ */
    .contact-page {
-     background: rgba(255, 255, 255, 0.88);
+     background: #fff;
    }
 
    .contact-page .contact-info-row {
@@ -4239,7 +4214,7 @@
    /* Product show pages (category + leaf) */
    .products-show-section,
    .products-category-section {
-     background: rgba(255, 255, 255, 0.88);
+     background: #fff;
    }
 
    .product-feature-list {
@@ -4477,7 +4452,7 @@
      Homepage — white content area (after hero, before footer)
      ============================================================ */
   .home-main {
-    background: rgba(255, 255, 255, 0.88);
+    background: #fff;
     color: var(--c-dark);
   }
 
@@ -4537,12 +4512,9 @@
     color: var(--c-gold);
   }
 
-  .home-main .foundation-section::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M 30 5 L 55 17.5 L 55 42.5 L 30 55 L 5 42.5 L 5 17.5 Z' fill='none' stroke='rgba(15,23,42,0.04)' stroke-width='1'/%3E%3C/svg%3E");
-  }
-
+  .home-main .foundation-section::before,
   .home-main .industries-section::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M 30 5 L 55 17.5 L 55 42.5 L 30 55 L 5 42.5 L 5 17.5 Z' fill='none' stroke='rgba(15,23,42,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+    display: none;
   }
 
   .home-main .foundation-card {
@@ -4641,7 +4613,7 @@
   /* Projects listing page */
   .projects-index-section,
   .projects-show-section {
-    background: rgba(255, 255, 255, 0.88);
+    background: #fff;
   }
 
   .project-show-hero-img {
@@ -4804,7 +4776,7 @@
   /* Services listing page */
   .services-index-section,
   .services-index-why {
-    background: rgba(255, 255, 255, 0.88);
+    background: #fff;
   }
 
   .services-index-empty {
@@ -4853,7 +4825,7 @@
 
   /* Service detail pages */
   .service-show-section {
-    background: rgba(255, 255, 255, 0.88);
+    background: #fff;
   }
 
   .service-show-section .section-title {

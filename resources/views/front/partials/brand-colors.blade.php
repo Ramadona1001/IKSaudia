@@ -23,6 +23,8 @@
         $brandAccent,
         (int) setting('branding.page_hero_pattern_size', 60),
     );
+    $pageHeroPatternPreset = setting('branding.page_hero_pattern', 'hexagon') ?: 'hexagon';
+    $pageHeroPatternOpacity = max(0, min(100, (int) setting('branding.page_hero_pattern_opacity', 25)));
 @endphp
 <style id="brand-colors">
     :root,
@@ -47,5 +49,6 @@
 
         --page-hero-pattern-image: {!! $pageHeroPattern['image'] !!};
         --page-hero-pattern-size: {{ $pageHeroPattern['size'] }};
+        --page-hero-pattern-opacity: {{ number_format($pageHeroPatternOpacity / 100, 2, '.', '') }};
     }
 </style>

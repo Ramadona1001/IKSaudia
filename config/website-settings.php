@@ -62,6 +62,7 @@ return [
         'branding.page_hero_pattern' => ['group' => 'branding', 'type' => 'text', 'translatable' => false, 'label' => 'Inner page hero pattern'],
         'branding.page_hero_pattern_image' => ['group' => 'branding', 'type' => 'image', 'translatable' => false, 'label' => 'Custom page hero pattern image'],
         'branding.page_hero_pattern_size' => ['group' => 'branding', 'type' => 'text', 'translatable' => false, 'label' => 'Page hero pattern tile size'],
+        'branding.page_hero_pattern_opacity' => ['group' => 'branding', 'type' => 'text', 'translatable' => false, 'label' => 'Site pattern overlay opacity'],
         'branding.loading_logo' => ['group' => 'branding', 'type' => 'image', 'translatable' => false, 'label' => 'Loading screen logo'],
 
         // ── Footer ───────────────────────────────────────────────────────

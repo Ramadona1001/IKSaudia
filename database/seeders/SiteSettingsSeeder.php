@@ -48,6 +48,7 @@ class SiteSettingsSeeder extends Seeder
                 'page_hero_pattern' => 'hexagon',
                 'page_hero_pattern_image' => null,
                 'page_hero_pattern_size' => 60,
+                'page_hero_pattern_opacity' => 25,
                 'loading_logo' => null,
             ],
             'footer' => [

@@ -86,7 +86,7 @@
 
     @stack('head')
 </head>
-<body dir="{{ $dir }}" data-server-locale class="@yield('body_class') {{ request()->routeIs('home') ? 'is-home' : 'inner-page' }}">
+<body dir="{{ $dir }}" data-server-locale class="@yield('body_class') {{ request()->routeIs('home') ? 'is-home' : 'inner-page' }}{{ setting('branding.page_hero_pattern', 'hexagon') === 'none' ? ' site-pattern-none' : '' }}">
     @if (setting('seo.google_tag_manager_id'))
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ setting('seo.google_tag_manager_id') }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @endif

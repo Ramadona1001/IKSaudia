@@ -219,8 +219,8 @@ final class WebsiteSettingsForm
                 TextInput::make('branding.hero_background_video')->label('Hero video URL')->url(),
                 self::imageUpload('branding.loading_logo', 'Loading screen logo', 'site-settings/logos'),
             ]),
-            Section::make('Inner page hero pattern')
-                ->description('Background pattern on inner page banners (Services, About, Contact, etc.). Uses your accent color for built-in presets.')
+            Section::make('Site background pattern')
+                ->description('Repeating pattern overlay across the whole website. Choose a preset or upload a custom seamless tile. Adjust opacity to control visibility over the page background.')
                 ->columns(2)
                 ->schema([
                     Select::make('branding.page_hero_pattern')
@@ -241,6 +241,13 @@ final class WebsiteSettingsForm
                         ->minValue(16)
                         ->maxValue(200)
                         ->helperText('Size of one repeating tile. Hexagon default: 60.'),
+                    TextInput::make('branding.page_hero_pattern_opacity')
+                        ->label('Pattern overlay opacity (%)')
+                        ->numeric()
+                        ->default(25)
+                        ->minValue(0)
+                        ->maxValue(100)
+                        ->helperText('0 = hidden, 100 = fully visible. Recommended: 15–35.'),
                     self::imageUpload('branding.page_hero_pattern_image', 'Custom pattern image', 'site-settings/patterns')
                         ->visible(fn ($get) => $get('branding.page_hero_pattern') === 'custom')
                         ->helperText('Seamless PNG/SVG tile. Transparent patterns work best.'),

@@ -115,22 +115,7 @@
      position: relative;
    }
 
-   /* Site-wide background pattern (from /ik-admin/website-settings) */
-   body::before {
-     content: '';
-     position: fixed;
-     inset: 0;
-     z-index: 0;
-     background-image: var(--page-hero-pattern-image);
-     background-size: var(--page-hero-pattern-size, 60px 60px);
-     background-repeat: repeat;
-     opacity: var(--page-hero-pattern-opacity, 0.25);
-     pointer-events: none;
-   }
-
-   body.site-pattern-none::before {
-     display: none;
-   }
+   /* Site pattern is scoped to selected homepage sections only (see .site-pattern-section) */
 
    body > * {
      position: relative;
@@ -1179,7 +1164,7 @@
       ============================================================ */
    .services-section {
      /* background: var(--c-dark2); */
-     background: transparent;
+     background: #fff;
      position: relative;
      overflow: hidden;
    }
@@ -1695,7 +1680,7 @@
       Industries Section
       ============================================================ */
    .industries-section {
-     background: transparent;
+     background: #fff;
      position: relative;
      overflow: hidden;
    }
@@ -2079,7 +2064,7 @@
 
    /* Partners / clients: heading + single logo row */
    .partners-band-section {
-     background: transparent;
+     background: #fff;
      padding-block: clamp(48px, 6vw, 88px);
    }
 
@@ -3357,13 +3342,7 @@
    }
    
    .page-hero::before {
-     content: '';
-     position: absolute;
-     inset: 0;
-     background-image: var(--page-hero-pattern-image);
-     background-size: var(--page-hero-pattern-size, 60px 60px);
-     pointer-events: none;
-     opacity: 0.02;
+     display: none;
    }
    
    .page-hero::after {
@@ -3480,7 +3459,7 @@
       Contact Page
       ============================================================ */
    .contact-page {
-     background: transparent;
+     background: #fff;
    }
 
    .contact-page .contact-info-row {
@@ -4229,7 +4208,7 @@
    /* Product show pages (category + leaf) */
    .products-show-section,
    .products-category-section {
-     background: transparent;
+     background: #fff;
    }
 
    .product-feature-list {
@@ -4467,8 +4446,44 @@
      Homepage — white content area (after hero, before footer)
      ============================================================ */
   .home-main {
-    background: transparent;
+    background: #fff;
     color: var(--c-dark);
+  }
+
+  /* Pattern overlay — Vision/Mission/Values, Sectors We Serve, Delivered Projects only */
+  .home-main #foundation.foundation-section,
+  .home-main #industries.industries-section,
+  .home-main #projects.projects-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-main #foundation.foundation-section::before,
+  .home-main #industries.industries-section::before,
+  .home-main #projects.projects-section::before {
+    content: '';
+    display: block;
+    position: absolute;
+    inset: 0;
+    background-image: var(--page-hero-pattern-image);
+    background-size: var(--page-hero-pattern-size, 60px 60px);
+    background-repeat: repeat;
+    opacity: var(--page-hero-pattern-opacity, 0.25);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body.site-pattern-none .home-main #foundation.foundation-section::before,
+  body.site-pattern-none .home-main #industries.industries-section::before,
+  body.site-pattern-none .home-main #projects.projects-section::before {
+    display: none;
+  }
+
+  .home-main #foundation.foundation-section > *,
+  .home-main #industries.industries-section > *,
+  .home-main #projects.projects-section > * {
+    position: relative;
+    z-index: 1;
   }
 
   .home-main > section,
@@ -4525,11 +4540,6 @@
 
   .home-main .certifications-header .section-eyebrow {
     color: var(--c-gold);
-  }
-
-  .home-main .foundation-section::before,
-  .home-main .industries-section::before {
-    display: none;
   }
 
   .home-main .foundation-card {
@@ -4625,9 +4635,9 @@
     background: #e2e8f0;
   }
 
-  /* Inner pages — site pattern shows through section-pad blocks (same as homepage) */
+  /* Inner pages — solid content backgrounds (no site pattern) */
   body.inner-page #main-content {
-    background: transparent;
+    background: #fff;
   }
 
   body.inner-page #main-content .section-pad,
@@ -4638,7 +4648,7 @@
   body.inner-page #main-content .section-pad-sm.bg-dark2,
   body.inner-page #main-content .testimonials-section.section-pad,
   body.inner-page #main-content .faq-section.section-pad {
-    background: transparent;
+    background: #fff;
   }
 
   body.inner-page #main-content .section-pad .section-title,
@@ -4664,7 +4674,7 @@
   /* Projects listing page */
   .projects-index-section,
   .projects-show-section {
-    background: transparent;
+    background: #fff;
   }
 
   .project-show-hero-img {
@@ -4827,7 +4837,7 @@
   /* Services listing page */
   .services-index-section,
   .services-index-why {
-    background: transparent;
+    background: #fff;
   }
 
   .services-index-empty {
@@ -4876,7 +4886,7 @@
 
   /* Service detail pages */
   .service-show-section {
-    background: transparent;
+    background: #fff;
   }
 
   .service-show-section .section-title {

@@ -3444,7 +3444,7 @@
    }
    .custom-breadcrumb li a:hover { color: var(--c-gold); }
    
-   .custom-breadcrumb li.active { color: var(--c-gold); font-weight: 600; }
+   .custom-breadcrumb li.active {color: var(--bs-body-bg);font-weight: 600;}
    
    .custom-breadcrumb li:not(:last-child)::after {
      content: '>';

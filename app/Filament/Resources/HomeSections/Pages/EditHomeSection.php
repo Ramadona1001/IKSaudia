@@ -157,37 +157,7 @@ class EditHomeSection extends EditRecord
      */
     protected function foundationSettingsForForm(array $data): array
     {
-        $settings = FoundationSection::normalizeSettings(
-            is_array($data['settings'] ?? null) ? $data['settings'] : [],
-        );
-
-        foreach (['ar', 'en'] as $locale) {
-            $translation = $this->getRecord()->translationFor($locale);
-            $rawContent = $translation?->getAttributes()['content'] ?? null;
-            $payload = FoundationSection::decodePayload($rawContent);
-
-            if ($payload === null) {
-                continue;
-            }
-
-            if (! empty($payload['heading'])) {
-                $settings['heading'][$locale] = array_merge(
-                    $settings['heading'][$locale] ?? [],
-                    $payload['heading'],
-                );
-            }
-
-            foreach (['mission', 'vision', 'values'] as $group) {
-                if (! empty($payload[$group])) {
-                    $settings[$group][$locale] = array_merge(
-                        $settings[$group][$locale] ?? [],
-                        $payload[$group],
-                    );
-                }
-            }
-        }
-
-        return FoundationSection::normalizeSettings($settings);
+        return FoundationSection::settingsForAdminForm($this->getRecord());
     }
 
     /**

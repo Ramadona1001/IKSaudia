@@ -83,6 +83,29 @@ final class FoundationSection
     }
 
     /**
+     * Settings shaped for the Filament form — matches what the public site displays.
+     *
+     * @return array<string, mixed>
+     */
+    public static function settingsForAdminForm(?HomeSection $section): array
+    {
+        $settings = self::defaultSettings();
+
+        foreach (['ar', 'en'] as $locale) {
+            $settings['heading'][$locale] = self::headingForSection($section, $locale);
+
+            foreach (self::cardsForSection($section, $locale) as $card) {
+                $settings[$card['key']][$locale] = [
+                    'title' => $card['title'],
+                    'description' => $card['description'],
+                ];
+            }
+        }
+
+        return $settings;
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public static function defaultSettings(): array
@@ -118,7 +141,7 @@ final class FoundationSection
 
         foreach (['heading', 'mission', 'vision', 'values'] as $group) {
             foreach (['ar', 'en'] as $locale) {
-                $settings[$group][$locale] = array_merge(
+                $settings[$group][$locale] = self::mergeLocaleFields(
                     $defaults[$group][$locale] ?? [],
                     is_array($settings[$group][$locale] ?? null) ? $settings[$group][$locale] : [],
                 );
@@ -126,6 +149,28 @@ final class FoundationSection
         }
 
         return $settings;
+    }
+
+    /**
+     * @param  array<string, string>  $defaults
+     * @param  array<string, mixed>  $stored
+     * @return array<string, string>
+     */
+    private static function mergeLocaleFields(array $defaults, array $stored): array
+    {
+        $merged = $defaults;
+
+        foreach ($stored as $key => $value) {
+            if (! is_string($value)) {
+                continue;
+            }
+
+            if (trim($value) !== '') {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
     }
 
     /**

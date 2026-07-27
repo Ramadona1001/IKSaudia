@@ -50,6 +50,13 @@ final class FoundationSection
      */
     public static function localePayload(?HomeSection $section, string $locale): array
     {
+        if ($section && self::hasPersistedSettings($section)) {
+            return self::localePayloadFromSettings(
+                self::normalizeSettings($section->settings),
+                $locale,
+            );
+        }
+
         if ($section) {
             $translation = $section->relationLoaded('translations')
                 ? $section->translations->firstWhere('locale', $locale)
@@ -61,9 +68,10 @@ final class FoundationSection
             }
         }
 
-        $settings = self::normalizeSettings(is_array($section?->settings) ? $section->settings : []);
-
-        return self::localePayloadFromSettings($settings, $locale);
+        return self::localePayloadFromSettings(
+            self::normalizeSettings(is_array($section?->settings) ? $section->settings : []),
+            $locale,
+        );
     }
 
     /**
@@ -244,5 +252,32 @@ final class FoundationSection
         }
 
         return $translation->getAttributes()['content'] ?? null;
+    }
+
+    private static function hasPersistedSettings(HomeSection $section): bool
+    {
+        if (! is_array($section->settings) || $section->settings === []) {
+            return false;
+        }
+
+        foreach (['heading', 'mission', 'vision', 'values'] as $group) {
+            if (! is_array($section->settings[$group] ?? null)) {
+                continue;
+            }
+
+            foreach ($section->settings[$group] as $localeFields) {
+                if (! is_array($localeFields)) {
+                    continue;
+                }
+
+                foreach ($localeFields as $value) {
+                    if (is_string($value) && trim($value) !== '') {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -71,18 +71,23 @@ class EditHomeSection extends EditRecord
 
         $this->cachedTranslations = $translations;
 
-        $formSettings = data_get($this->form->getState(), 'settings');
-        if (is_array($formSettings)) {
-            $data['settings'] = $formSettings;
+        $type = $data['type'] ?? $this->record?->type;
+
+        if ($type === 'foundation') {
+            $formSettings = data_get($this->form->getState(), 'settings');
+            if (is_array($formSettings)) {
+                $data['settings'] = $formSettings;
+            }
         }
 
         $data = $this->prepareFoundationSettings(
             $this->prepareAboutSnippetSettings($data),
         );
 
-        $type = $data['type'] ?? $this->record?->type;
         if (in_array($type, ['foundation', 'about_snippet'], true)) {
-            $this->cachedStructuredSettings = is_array($data['settings'] ?? null) ? $data['settings'] : [];
+            $this->cachedStructuredSettings = is_array($data['settings'] ?? null)
+                ? $data['settings']
+                : null;
         }
 
         return $data;
@@ -115,14 +120,18 @@ class EditHomeSection extends EditRecord
 
     protected function persistFoundationContent(): void
     {
+        $rawSettings = data_get($this->form->getState(), 'settings');
+
+        if (! is_array($rawSettings)) {
+            $rawSettings = $this->cachedStructuredSettings ?? $this->record->settings ?? [];
+        }
+
         $settings = FoundationSection::normalizeSettings(
-            $this->cachedStructuredSettings
-            ?? data_get($this->form->getState(), 'settings')
-            ?? $this->record->settings
-            ?? [],
+            is_array($rawSettings) ? $rawSettings : [],
         );
 
         $this->record->update(['settings' => $settings]);
+        $this->record->refresh();
 
         foreach (['ar', 'en'] as $locale) {
             HomeSectionTranslation::query()->updateOrCreate(

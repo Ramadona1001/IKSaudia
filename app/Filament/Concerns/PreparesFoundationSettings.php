@@ -20,9 +20,9 @@ trait PreparesFoundationSettings
             return $data;
         }
 
-        $data['settings'] = FoundationSection::normalizeSettings(
-            is_array($data['settings'] ?? null) ? $data['settings'] : [],
-        );
+        if (is_array($data['settings'] ?? null)) {
+            $data['settings'] = FoundationSection::normalizeSettings($data['settings']);
+        }
 
         return $data;
     }

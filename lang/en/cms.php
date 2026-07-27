@@ -13,6 +13,8 @@ return [
         'foundation' => 'Mission, vision & values',
         'foundation_help' => 'Homepage cards for mission, vision, and values. Arabic and English are edited separately.',
         'foundation_heading' => 'Section heading',
+        'foundation_visibility_help' => 'When off, the section is hidden on the homepage and about page.',
+        'foundation_saved' => 'Mission, vision & values saved',
         'years_badge' => 'Years badge (floating)',
         'publishing' => 'Publishing',
         'seo_ar' => 'SEO — Arabic',
@@ -67,5 +69,8 @@ return [
         'parent_category' => 'Parent category',
         'legacy_page_id' => 'Legacy page ID',
         'product_pdf' => 'Technical sheet (PDF)',
+    ],
+    'actions' => [
+        'save' => 'Save',
     ],
 ];

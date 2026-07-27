@@ -9,17 +9,22 @@ use Filament\Schemas\Components\Utilities\Get;
 
 final class FoundationSettingsSchema
 {
-    public static function section(): Section
+    public static function contentSection(): Section
     {
         return Section::make(__('cms.sections.foundation'))
             ->description(__('cms.sections.foundation_help'))
             ->icon('heroicon-o-flag')
             ->columnSpanFull()
-            ->visible(fn (Get $get): bool => $get('type') === 'foundation')
             ->schema([
                 self::localeSection('ar', __('cms.tabs.arabic')),
                 self::localeSection('en', __('cms.tabs.english')),
             ]);
+    }
+
+    public static function section(): Section
+    {
+        return self::contentSection()
+            ->visible(fn (Get $get): bool => $get('type') === 'foundation');
     }
 
     private static function localeSection(string $locale, string $label): Section

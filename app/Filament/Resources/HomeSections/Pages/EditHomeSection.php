@@ -3,21 +3,20 @@
 namespace App\Filament\Resources\HomeSections\Pages;
 
 use App\Filament\Concerns\PreparesAboutSnippetSettings;
-use App\Filament\Concerns\PreparesFoundationSettings;
 use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
+use App\Filament\Pages\ManageFoundation;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
+use App\Models\HomeSection;
 use App\Models\HomeSectionTranslation;
 use App\Services\HomePageService;
 use App\Support\AboutSectionStats;
-use App\Support\FoundationSection;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditHomeSection extends EditRecord
 {
     use PreparesAboutSnippetSettings;
-    use PreparesFoundationSettings;
     use SyncsHomeSectionSlides;
     use SyncsModelTranslations;
 
@@ -25,6 +24,19 @@ class EditHomeSection extends EditRecord
 
     /** @var array<string, mixed>|null */
     protected ?array $cachedStructuredSettings = null;
+
+    public function mount(int|string $record): void
+    {
+        $section = HomeSection::query()->findOrFail($record);
+
+        if ($section->type === 'foundation') {
+            $this->redirect(ManageFoundation::getUrl());
+
+            return;
+        }
+
+        parent::mount($record);
+    }
 
     protected function getHeaderActions(): array
     {
@@ -56,10 +68,6 @@ class EditHomeSection extends EditRecord
             $data = $this->prepareAboutSnippetSettings($data);
         }
 
-        if ($this->getRecord()->type === 'foundation') {
-            $data['settings'] = $this->foundationSettingsForForm($data);
-        }
-
         return $data;
     }
 
@@ -71,20 +79,10 @@ class EditHomeSection extends EditRecord
 
         $this->cachedTranslations = $translations;
 
+        $data = $this->prepareAboutSnippetSettings($data);
+
         $type = $data['type'] ?? $this->record?->type;
-
-        if ($type === 'foundation') {
-            $formSettings = data_get($this->form->getState(), 'settings');
-            if (is_array($formSettings)) {
-                $data['settings'] = $formSettings;
-            }
-        }
-
-        $data = $this->prepareFoundationSettings(
-            $this->prepareAboutSnippetSettings($data),
-        );
-
-        if (in_array($type, ['foundation', 'about_snippet'], true)) {
+        if ($type === 'about_snippet') {
             $this->cachedStructuredSettings = is_array($data['settings'] ?? null)
                 ? $data['settings']
                 : null;
@@ -97,12 +95,6 @@ class EditHomeSection extends EditRecord
     {
         if ($this->record->type === 'hero') {
             $this->syncSlides($this->record, $this->cachedSlides);
-        }
-
-        if ($this->record->type === 'foundation') {
-            $this->persistFoundationContent();
-
-            return;
         }
 
         if ($this->record->type === 'about_snippet') {
@@ -118,35 +110,6 @@ class EditHomeSection extends EditRecord
         );
     }
 
-    protected function persistFoundationContent(): void
-    {
-        $rawSettings = data_get($this->form->getState(), 'settings');
-
-        if (! is_array($rawSettings)) {
-            $rawSettings = $this->cachedStructuredSettings ?? $this->record->settings ?? [];
-        }
-
-        $settings = FoundationSection::normalizeSettings(
-            is_array($rawSettings) ? $rawSettings : [],
-        );
-
-        $this->record->update(['settings' => $settings]);
-        $this->record->refresh();
-
-        foreach (['ar', 'en'] as $locale) {
-            HomeSectionTranslation::query()->updateOrCreate(
-                ['home_section_id' => $this->record->id, 'locale' => $locale],
-                [
-                    'content' => FoundationSection::encodePayload(
-                        FoundationSection::localePayloadFromSettings($settings, $locale),
-                    ),
-                ],
-            );
-        }
-
-        app(HomePageService::class)->clearCache();
-    }
-
     protected function persistAboutSnippetSettings(): void
     {
         $settings = $this->normalizeAboutSettings(
@@ -158,15 +121,6 @@ class EditHomeSection extends EditRecord
 
         $this->record->update(['settings' => $settings]);
         app(HomePageService::class)->clearCache();
-    }
-
-    /**
-     * @param  array<string, mixed>  $data
-     * @return array<string, mixed>
-     */
-    protected function foundationSettingsForForm(array $data): array
-    {
-        return FoundationSection::settingsForAdminForm($this->getRecord());
     }
 
     /**

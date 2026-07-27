@@ -33,7 +33,6 @@ class HomeSectionForm
                             ->options([
                                 'hero' => 'Hero',
                                 'about_snippet' => 'About snippet',
-                                'foundation' => 'Mission, vision & values',
                                 'stats' => 'Stats',
                                 'services_grid' => 'Services grid',
                                 'projects_carousel' => 'Projects carousel',
@@ -55,16 +54,15 @@ class HomeSectionForm
                             ->columnSpanFull(),
                         KeyValue::make('settings')
                             ->label('Layout settings')
-                            ->visible(fn (Get $get): bool => ! in_array($get('type'), ['hero', 'about_snippet', 'foundation'], true))
+                            ->visible(fn (Get $get): bool => ! in_array($get('type'), ['hero', 'about_snippet'], true))
                             ->columnSpanFull(),
                     ]),
                 HeroSlidesSchema::section(),
                 AboutSnippetSettingsSchema::section(),
                 AboutSnippetContentSchema::section(),
-                FoundationSettingsSchema::section(),
                 Tabs::make('Translations')
                     ->columnSpanFull()
-                    ->visible(fn (Get $get): bool => ! in_array($get('type'), ['hero', 'about_snippet', 'foundation'], true))
+                    ->visible(fn (Get $get): bool => ! in_array($get('type'), ['hero', 'about_snippet'], true))
                     ->tabs([
                         self::translationTab('ar', 'العربية'),
                         self::translationTab('en', 'English'),

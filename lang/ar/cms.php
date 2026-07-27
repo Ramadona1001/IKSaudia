@@ -13,6 +13,8 @@ return [
         'foundation' => 'المهمة والرؤية والقيم',
         'foundation_help' => 'بطاقات الصفحة الرئيسية للمهمة والرؤية والقيم. العربية والإنجليزية منفصلتان.',
         'foundation_heading' => 'عنوان القسم',
+        'foundation_visibility_help' => 'عند الإيقاف، يُخفى القسم من الصفحة الرئيسية وصفحة من نحن.',
+        'foundation_saved' => 'تم حفظ المهمة والرؤية والقيم',
         'years_badge' => 'شارة السنوات (على الصورة)',
         'publishing' => 'النشر',
         'seo_ar' => 'SEO — العربية',
@@ -67,5 +69,8 @@ return [
         'parent_category' => 'الفئة الرئيسية',
         'legacy_page_id' => 'معرف الصفحة القديمة',
         'product_pdf' => 'الورقة الفنية (PDF)',
+    ],
+    'actions' => [
+        'save' => 'حفظ',
     ],
 ];

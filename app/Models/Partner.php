@@ -15,12 +15,11 @@ class Partner extends Model
     use HasTranslations;
     use SoftDeletes;
 
-    protected $fillable = ['uuid', 'featured_image', 'website_url', 'is_featured', 'is_published', 'sort_order'];
+    protected $fillable = ['uuid', 'featured_image', 'website_url', 'is_published', 'sort_order'];
 
     protected function casts(): array
     {
         return [
-            'is_featured' => 'boolean',
             'is_published' => 'boolean',
         ];
     }

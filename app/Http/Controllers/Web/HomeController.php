@@ -38,7 +38,7 @@ class HomeController extends Controller
             'featuredProjects' => $this->projects->featured($locale, 6),
             'featuredIndustries' => $this->industries->featured($locale, 6),
             'featuredCertifications' => $this->certifications->featured($locale, 8),
-            'featuredPartners' => $this->partners->featured($locale, 6),
+            'publishedPartners' => $this->partners->publishedList($locale),
             'featuredClients' => $this->clients->featured($locale, 10),
             'homeFaqs' => $this->faqs->flat($locale, 6),
         ]);

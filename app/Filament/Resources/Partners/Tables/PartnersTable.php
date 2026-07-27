@@ -24,7 +24,6 @@ class PartnersTable
                     ->url(fn (?string $state): ?string => filled($state) ? $state : null)
                     ->openUrlInNewTab()
                     ->toggleable(),
-                IconColumn::make('is_featured')->boolean(),
                 IconColumn::make('is_published')->boolean()->label('Published'),
                 TextColumn::make('updated_at')->dateTime()->sortable(),
             ])

@@ -22,27 +22,10 @@ class PartnerCatalogService
         });
     }
 
-    /** @return Collection<int, Partner> */
-    public function featured(?string $locale = null, int $limit = 6): Collection
-    {
-        $locale ??= app()->getLocale();
-
-        return Cache::remember("partners.featured.{$locale}", 3600, function () use ($locale, $limit) {
-            return Partner::query()
-                ->where('is_published', true)
-                ->where('is_featured', true)
-                ->with(['translations' => fn ($q) => $q->where('locale', $locale)])
-                ->orderBy('sort_order')
-                ->limit($limit)
-                ->get();
-        });
-    }
-
     public function clearCache(): void
     {
         foreach (config('locales.supported', ['ar', 'en']) as $locale) {
             Cache::forget("partners.list.{$locale}");
-            Cache::forget("partners.featured.{$locale}");
         }
     }
 }

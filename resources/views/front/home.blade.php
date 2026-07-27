@@ -430,7 +430,7 @@
     {{-- ============================================================
          SECTION 6 — PARTNERS (heading + single logo row)
          ============================================================ --}}
-    @if ($featuredPartners->isNotEmpty() || true)
+    @if ($publishedPartners->isNotEmpty() || true)
     @php
         $defaultPartners = [
             ['name' => 'SIEMENS'],
@@ -441,8 +441,8 @@
             ['name' => "LLOYD'S"],
         ];
 
-        $partnerMarqueeItems = $featuredPartners->isNotEmpty()
-            ? $featuredPartners->map(function ($partner) use ($locale) {
+        $partnerMarqueeItems = $publishedPartners->isNotEmpty()
+            ? $publishedPartners->map(function ($partner) use ($locale) {
                 $translation = $partner->translate($locale);
 
                 return [

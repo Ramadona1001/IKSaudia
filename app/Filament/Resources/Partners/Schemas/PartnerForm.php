@@ -16,7 +16,6 @@ class PartnerForm
             Section::make('Partner details')->columns(2)->schema([
                 FormSchemas::featuredImageUpload('partners'),
                 TextInput::make('website_url')->label('Website URL')->url()->maxLength(255),
-                Toggle::make('is_featured')->label('Featured'),
             ]),
             Section::make('Publishing')->columns(2)->schema([
                 Toggle::make('is_published')->label('Published')->default(false),

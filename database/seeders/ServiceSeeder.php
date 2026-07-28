@@ -56,7 +56,6 @@ class ServiceSeeder extends Seeder
             [
                 'uuid' => 'seed-industrial-manufacturing',
                 'sort_order' => 1,
-                'is_featured' => true,
                 'icon' => 'bi-factory',
                 'translations' => [
                     'ar' => [
@@ -84,7 +83,6 @@ class ServiceSeeder extends Seeder
             [
                 'uuid' => 'seed-industrial-trading',
                 'sort_order' => 2,
-                'is_featured' => true,
                 'icon' => 'bi-truck',
                 'translations' => [
                     'ar' => [
@@ -112,7 +110,6 @@ class ServiceSeeder extends Seeder
             [
                 'uuid' => 'seed-technical-support-services',
                 'sort_order' => 3,
-                'is_featured' => true,
                 'icon' => 'bi-tools',
                 'translations' => [
                     'ar' => [
@@ -140,7 +137,6 @@ class ServiceSeeder extends Seeder
             [
                 'uuid' => 'seed-custom-solutions',
                 'sort_order' => 4,
-                'is_featured' => true,
                 'icon' => 'bi-puzzle',
                 'translations' => [
                     'ar' => [

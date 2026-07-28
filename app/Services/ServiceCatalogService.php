@@ -19,15 +19,13 @@ class ServiceCatalogService
     }
 
     /** @return Collection<int, Service> */
-    public function featured(string $locale, int $limit = 6): Collection
+    public function publishedAll(string $locale): Collection
     {
-        return Cache::remember("services.featured.{$locale}", 3600, function () use ($locale, $limit) {
+        return Cache::remember("services.published.{$locale}", 3600, function () use ($locale) {
             return Service::query()
                 ->published()
-                ->where('is_featured', true)
                 ->with(['translations' => fn ($q) => $q->where('locale', $locale)])
                 ->orderBy('sort_order')
-                ->limit($limit)
                 ->get();
         });
     }

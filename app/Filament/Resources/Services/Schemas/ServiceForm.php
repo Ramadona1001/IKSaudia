@@ -26,8 +26,6 @@ class ServiceForm
                         FormSchemas::featuredImageUpload('services'),
                         TextInput::make('icon')
                             ->placeholder('heroicon name or CSS class'),
-                        Toggle::make('is_featured')
-                            ->label('Featured on homepage'),
                         Toggle::make('is_published')
                             ->default(false),
                         DateTimePicker::make('published_at')

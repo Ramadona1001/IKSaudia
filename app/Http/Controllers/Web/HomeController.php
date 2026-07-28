@@ -34,7 +34,7 @@ class HomeController extends Controller
             'sections' => $this->homePage->sections($locale),
             'foundationSection' => $this->homePage->sectionByKey('foundation', $locale),
             'locales' => $this->locales->active(),
-            'featuredServices' => $this->services->featured($locale, 6),
+            'featuredServices' => $this->services->publishedAll($locale),
             'featuredProjects' => $this->projects->featured($locale, 6),
             'featuredIndustries' => $this->industries->featured($locale, 6),
             'featuredCertifications' => $this->certifications->featured($locale, 8),

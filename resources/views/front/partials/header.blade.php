@@ -104,7 +104,7 @@
                         </a>
                         <ul class="nav-dropdown-menu">
                             @if ($item['dropdown'] === 'services')
-                                @foreach ($featuredServices->take(6) as $service)
+                                @foreach ($featuredServices as $service)
                                     @php $st = $service->translate($locale); @endphp
                                     @if ($st)
                                         <li>

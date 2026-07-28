@@ -120,7 +120,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('components.layout.site-header', function ($view): void {
             $locale = app()->getLocale();
             $navService = app(NavigationService::class);
-            $view->with('featuredServices', app(ServiceCatalogService::class)->featured($locale, 6));
+            $view->with('featuredServices', app(ServiceCatalogService::class)->publishedAll($locale));
             $view->with('headerNav', $navService->headerItems($locale));
             $view->with('navService', $navService);
         });
@@ -128,7 +128,7 @@ class AppServiceProvider extends ServiceProvider
         // Share featured services & industries with the front theme header dropdowns.
         View::composer(['front.partials.header', 'front.partials.footer'], function ($view): void {
             $locale = app()->getLocale();
-            $view->with('featuredServices', app(ServiceCatalogService::class)->featured($locale, 6));
+            $view->with('featuredServices', app(ServiceCatalogService::class)->publishedAll($locale));
             $view->with('featuredIndustries', app(\App\Services\IndustryCatalogService::class)->featured($locale, 6));
         });
     }

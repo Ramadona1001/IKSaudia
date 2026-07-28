@@ -39,7 +39,7 @@ class ContentCacheService
     public function forgetServices(): void
     {
         foreach ($this->localeCodes() as $locale) {
-            Cache::forget("services.featured.{$locale}");
+            Cache::forget("services.published.{$locale}");
         }
     }
 

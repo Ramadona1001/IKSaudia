@@ -121,7 +121,7 @@
                     <div class="footer-links-group">
                         <h3 class="footer-heading">{{ __('footer.our_services') }}</h3>
                         <ul class="footer-links">
-                            @forelse ($featuredServices->take(6) as $service)
+                            @forelse ($featuredServices as $service)
                                 @php $st = $service->translate($locale); @endphp
                                 @if ($st)
                                     <li>

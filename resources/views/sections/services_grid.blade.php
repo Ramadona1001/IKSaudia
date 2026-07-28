@@ -1,6 +1,6 @@
 @php
     $locale = app()->getLocale();
-    $featured = app(\App\Services\ServiceCatalogService::class)->featured($locale, 6);
+    $featured = app(\App\Services\ServiceCatalogService::class)->publishedAll($locale);
 @endphp
 @if ($featured->isNotEmpty())
 <section class="border-b border-white/10 py-20">

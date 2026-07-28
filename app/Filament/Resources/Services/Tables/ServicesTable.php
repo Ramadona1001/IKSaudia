@@ -26,7 +26,6 @@ class ServicesTable
                     ->label('Name')
                     ->getStateUsing(fn ($record) => $record?->translate('ar')?->title ?? $record?->translate('en')?->title ?? '—')
                     ->searchable(),
-                IconColumn::make('is_featured')->boolean()->label('Featured'),
                 IconColumn::make('is_published')->boolean()->label('Published'),
                 TextColumn::make('updated_at')->dateTime()->sortable(),
             ])

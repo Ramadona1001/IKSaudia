@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="lg:col-span-8">
                                             <div class="grid gap-2 sm:grid-cols-2">
-                                                @foreach ($featuredServices->take(6) as $service)
+                                                @foreach ($featuredServices as $service)
                                                     @php $st = $service->translate($locale); @endphp
                                                     @if ($st)
                                                         <a href="{{ route('services.show', [$locale, $st->slug]) }}"
@@ -160,7 +160,7 @@
                         <svg class="h-5 w-5 transition-transform" :class="mobileServices && 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="mobileServices" x-transition class="ms-2 space-y-1 border-s border-white/10 ps-4">
-                        @foreach ($featuredServices->take(5) as $service)
+                        @foreach ($featuredServices as $service)
                             @php $st = $service->translate($locale); @endphp
                             @if ($st)
                                 <a href="{{ route('services.show', [$locale, $st->slug]) }}" @click="open=false" class="block rounded-lg px-3 py-2.5 text-sm text-steel-400 hover:text-accent">{{ $st->title }}</a>

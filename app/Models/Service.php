@@ -24,7 +24,6 @@ class Service extends Model
         'uuid',
         'featured_image',
         'icon',
-        'is_featured',
         'is_published',
         'published_at',
         'sort_order',
@@ -33,7 +32,6 @@ class Service extends Model
     protected function casts(): array
     {
         return [
-            'is_featured' => 'boolean',
             'is_published' => 'boolean',
             'published_at' => 'datetime',
         ];

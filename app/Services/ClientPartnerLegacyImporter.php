@@ -99,7 +99,6 @@ final class ClientPartnerLegacyImporter
 
         $client->fill([
             'featured_image' => $this->downloadImage($entry['image_url'], "clients/{$slug}.jpg"),
-            'is_featured' => $sortOrder < 8,
             'is_published' => true,
             'sort_order' => $sortOrder,
         ]);

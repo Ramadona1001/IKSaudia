@@ -25,6 +25,10 @@ class ProductsTable
                     ->label('Category')
                     ->getStateUsing(fn ($record) => $record?->parent?->translate('en')?->title ?? '—'),
                 TextColumn::make('legacy_page_id')->label('Legacy ID')->toggleable(),
+                IconColumn::make('pdf_path')
+                    ->label('PDF')
+                    ->boolean()
+                    ->getStateUsing(fn ($record) => filled($record?->pdf_path)),
                 IconColumn::make('is_featured')->boolean(),
                 IconColumn::make('is_published')->boolean()->label('Published'),
                 TextColumn::make('updated_at')->dateTime()->sortable(),

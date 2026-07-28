@@ -83,14 +83,29 @@
                             <div class="product-detail-prose">{!! safe_html($body) !!}</div>
                         @endif
 
-                        <div class="product-detail-split__actions">
-                            @if ($product->pdfUrl())
-                                <a href="{{ $product->pdfUrl() }}" class="btn-gold" target="_blank" rel="noopener">
-                                    <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
-                                    <span>{{ __('front.products.view_pdf') }}</span>
+                        @if ($product->hasSpecificationPdf())
+                            <div class="product-spec-card" data-aos="fade-up" data-aos-delay="50">
+                                <div class="product-spec-card__icon" aria-hidden="true">
+                                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                                </div>
+                                <div class="product-spec-card__body">
+                                    <h3 class="product-spec-card__title">{{ __('front.products.spec_pdf_title') }}</h3>
+                                    <p class="product-spec-card__desc">{{ __('front.products.spec_pdf_desc') }}</p>
+                                </div>
+                                <a
+                                    href="{{ $product->pdfUrl() }}"
+                                    class="btn-gold product-spec-card__btn"
+                                    download="{{ $product->specificationPdfDownloadName($locale) }}"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    <i class="bi bi-download" aria-hidden="true"></i>
+                                    <span>{{ __('front.products.download_spec_pdf') }}</span>
                                 </a>
-                            @endif
+                            </div>
+                        @endif
 
+                        <div class="product-detail-split__actions">
                             <a href="{{ route('contact', $locale) }}" class="btn-outline-gold">
                                 <i class="bi bi-chat-dots-fill" aria-hidden="true"></i>
                                 <span>{{ __('front.products.talk_experts') }}</span>

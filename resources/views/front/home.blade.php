@@ -373,7 +373,7 @@
     {{-- ============================================================
          SECTION 5 — OUR CLIENTS (heading + single logo row)
          ============================================================ --}}
-    @if ($featuredClients->isNotEmpty() || true)
+    @if ($publishedClients->isNotEmpty() || true)
     @php
         $locale = app()->getLocale();
         $defaultClients = [
@@ -389,8 +389,8 @@
             ['name' => 'TASNEE',  'icon' => 'bi-gear-fill'],
         ];
 
-        $clientMarqueeItems = $featuredClients->isNotEmpty()
-            ? $featuredClients->map(function ($client) use ($locale) {
+        $clientMarqueeItems = $publishedClients->isNotEmpty()
+            ? $publishedClients->map(function ($client) use ($locale) {
                 $translation = $client->translate($locale);
 
                 return [

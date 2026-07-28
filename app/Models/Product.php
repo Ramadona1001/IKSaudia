@@ -82,4 +82,19 @@ class Product extends Model
 
         return \Illuminate\Support\Facades\Storage::disk('public')->url($this->pdf_path);
     }
+
+    public function hasSpecificationPdf(): bool
+    {
+        return filled($this->pdf_path);
+    }
+
+    public function specificationPdfDownloadName(?string $locale = null): string
+    {
+        $locale ??= app()->getLocale();
+        $slug = $this->translate($locale)?->slug
+            ?? $this->translate('en')?->slug
+            ?? 'product';
+
+        return $slug.'-technical-specifications.pdf';
+    }
 }

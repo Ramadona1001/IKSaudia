@@ -39,16 +39,25 @@ class ProductForm
                         ->disabled()
                         ->dehydrated(),
                     FormSchemas::featuredImageUpload('products'),
+                    TextInput::make('icon')->placeholder('bi-box-seam'),
+                    Toggle::make('is_featured')->label(__('cms.fields.featured')),
+                ]),
+            Section::make(__('cms.sections.product_spec_pdf'))
+                ->description(__('cms.sections.product_spec_pdf_help'))
+                ->icon('heroicon-o-document-arrow-down')
+                ->columnSpanFull()
+                ->schema([
                     FileUpload::make('pdf_path')
                         ->label(__('cms.fields.product_pdf'))
+                        ->helperText(__('cms.fields.product_pdf_help'))
                         ->acceptedFileTypes(['application/pdf'])
                         ->disk('public')
                         ->directory('products/pdfs')
                         ->visibility('public')
                         ->downloadable()
-                        ->openable(),
-                    TextInput::make('icon')->placeholder('bi-box-seam'),
-                    Toggle::make('is_featured')->label(__('cms.fields.featured')),
+                        ->openable()
+                        ->maxSize(20480)
+                        ->columnSpanFull(),
                 ]),
             FormSchemas::publishSection()->columnSpanFull(),
             FormSchemas::translationTabs(fn (string $locale) => FormSchemas::contentFields($locale, true)),

@@ -20,6 +20,8 @@ return [
         'seo_ar' => 'SEO — العربية',
         'seo_en' => 'SEO — English',
         'product_settings' => 'إعدادات المنتج',
+        'product_spec_pdf' => 'المواصفات التقنية (PDF)',
+        'product_spec_pdf_help' => 'ارفع ملف المواصفات. يظهر زر التحميل في صفحة المنتج عند إرفاق ملف PDF.',
     ],
     'widgets' => [
         'published_pages' => 'صفحات منشورة',
@@ -69,6 +71,7 @@ return [
         'parent_category' => 'الفئة الرئيسية',
         'legacy_page_id' => 'معرف الصفحة القديمة',
         'product_pdf' => 'الورقة الفنية (PDF)',
+        'product_pdf_help' => 'ملف PDF فقط. الحد الأقصى 20 ميجابايت. يظهر كزر «تحميل المواصفات التقنية» في صفحة المنتج.',
     ],
     'actions' => [
         'save' => 'حفظ',

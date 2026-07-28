@@ -186,6 +186,9 @@ return [
         'about_product' => 'Product Overview',
         'category' => 'Category',
         'view_pdf' => 'View Technical Sheet (PDF)',
+        'download_spec_pdf' => 'Download Technical Specifications (PDF)',
+        'spec_pdf_title' => 'Technical Specifications',
+        'spec_pdf_desc' => 'Download the full product datasheet with materials, dimensions, and certifications.',
         'no_products' => 'No products have been published yet. Please check back soon.',
     ],
 

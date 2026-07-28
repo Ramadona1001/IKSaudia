@@ -20,6 +20,8 @@ return [
         'seo_ar' => 'SEO — Arabic',
         'seo_en' => 'SEO — English',
         'product_settings' => 'Product settings',
+        'product_spec_pdf' => 'Technical specification (PDF)',
+        'product_spec_pdf_help' => 'Upload the product datasheet. A download button appears on the product page when a PDF is attached.',
     ],
     'widgets' => [
         'published_pages' => 'Published pages',
@@ -69,6 +71,7 @@ return [
         'parent_category' => 'Parent category',
         'legacy_page_id' => 'Legacy page ID',
         'product_pdf' => 'Technical sheet (PDF)',
+        'product_pdf_help' => 'PDF only. Max 20 MB. Shown as “Download technical specifications” on the public product page.',
     ],
     'actions' => [
         'save' => 'Save',

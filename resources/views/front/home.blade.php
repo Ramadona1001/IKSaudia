@@ -563,7 +563,12 @@
     {{-- ============================================================
          SECTION 7 — FAQ
          ============================================================ --}}
-    @if ($homeFaqs->isNotEmpty())
+    @php
+        $homeFaqItems = collect($homeFaqCategories ?? [])
+            ->flatMap(fn (array $category) => $category['items'] ?? [])
+            ->values();
+    @endphp
+    @if ($homeFaqItems->isNotEmpty())
     <section id="faq" class="faq-section section-pad">
         <div class="container">
             @php $faqHeading = \App\Support\HomeSectionHeading::resolve('faq', $locale); @endphp
@@ -577,14 +582,22 @@
             </div>
 
             <div class="faq-wrap" data-aos="fade-up" data-aos-delay="100">
-                @foreach ($homeFaqs as $faq)
-                    <x-front.faq-item :question="$faq['question']" :answer="$faq['answer']" :open="$loop->first" />
+                @foreach ($homeFaqItems as $faq)
+                    <x-front.faq-item
+                        :question="$faq['question']"
+                        :answer="$faq['answer']"
+                        :open="$loop->first"
+                    />
                 @endforeach
             </div>
 
             <div class="text-center mt-5" data-aos="fade-up">
                 <p class="section-desc" style="text-align:center;margin-bottom:24px;">{{ __('front.home.faq.cta') }}</p>
-                <a href="{{ route('contact', app()->getLocale()) }}" class="btn-gold">
+                <a href="{{ route('faq', $locale) }}" class="btn-outline-gold me-3 mb-2">
+                    <span>{{ __('navigation.faq') }}</span>
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="{{ route('contact', $locale) }}" class="btn-gold mb-2">
                     <i class="bi bi-chat-dots-fill" aria-hidden="true"></i>
                     <span>{{ __('front.home.faq.ask_experts') }}</span>
                 </a>

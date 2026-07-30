@@ -40,7 +40,7 @@ class HomeController extends Controller
             'featuredCertifications' => $this->certifications->featured($locale, 8),
             'publishedPartners' => $this->partners->publishedList($locale),
             'publishedClients' => $this->clients->publishedList($locale),
-            'homeFaqs' => $this->faqs->flat($locale, 6),
+            'homeFaqCategories' => $this->faqs->categories($locale),
         ]);
     }
 }

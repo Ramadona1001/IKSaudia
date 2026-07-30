@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Services\SettingsService;
+use App\Support\ContactForm;
 use Illuminate\Database\Seeder;
 
 class SiteSettingsSeeder extends Seeder
@@ -113,21 +114,7 @@ class SiteSettingsSeeder extends Seeder
                 'form_recipients' => [
                     ['email' => 'info@iksaudi.com'],
                 ],
-                'form_eyebrow' => ['ar' => 'أرسل رسالة', 'en' => 'Send a Message'],
-                'form_title' => ['ar' => 'طلب عرض سعر أو', 'en' => 'Request a Quote or'],
-                'form_title_accent' => ['ar' => 'ناقش مشروعك', 'en' => 'Discuss Your Project'],
-                'form_intro' => [
-                    'ar' => 'املأ النموذج وسيتواصل فريقنا معك خلال 24 ساعة.',
-                    'en' => 'Fill in the form and our team will get back to you within 24 hours.',
-                ],
-                'form_fields' => [
-                    ['key' => 'name', 'type' => 'text', 'label_en' => 'Full Name', 'label_ar' => 'الاسم الكامل', 'placeholder_en' => 'Eng. Mohammed Al-…', 'placeholder_ar' => 'م. محمد ال...', 'is_required' => true, 'width' => 'half', 'is_visible' => true, 'sort_order' => 0, 'options' => []],
-                    ['key' => 'company', 'type' => 'text', 'label_en' => 'Company Name', 'label_ar' => 'اسم الشركة', 'placeholder_en' => 'Saudi Aramco, SABIC…', 'placeholder_ar' => 'أرامكو السعودية، سابك...', 'is_required' => false, 'width' => 'half', 'is_visible' => true, 'sort_order' => 1, 'options' => []],
-                    ['key' => 'email', 'type' => 'email', 'label_en' => 'Email Address', 'label_ar' => 'البريد الإلكتروني', 'placeholder_en' => 'you@company.com', 'placeholder_ar' => 'you@company.com', 'is_required' => true, 'width' => 'half', 'is_visible' => true, 'sort_order' => 2, 'options' => []],
-                    ['key' => 'phone', 'type' => 'tel', 'label_en' => 'Phone Number', 'label_ar' => 'رقم الهاتف', 'placeholder_en' => '+966 5X XXX XXXX', 'placeholder_ar' => '+966 5X XXX XXXX', 'is_required' => false, 'width' => 'half', 'is_visible' => true, 'sort_order' => 3, 'options' => []],
-                    ['key' => 'subject', 'type' => 'text', 'label_en' => 'Subject', 'label_ar' => 'الموضوع', 'placeholder_en' => 'How can we help?', 'placeholder_ar' => 'كيف يمكننا المساعدة؟', 'is_required' => true, 'width' => 'full', 'is_visible' => true, 'sort_order' => 4, 'options' => []],
-                    ['key' => 'message', 'type' => 'textarea', 'label_en' => 'Project Description', 'label_ar' => 'وصف المشروع', 'placeholder_en' => 'Describe your project requirements, specifications, timeline, and any relevant details…', 'placeholder_ar' => 'صف متطلبات مشروعك والمواصفات والجدول الزمني وأي تفاصيل ذات صلة...', 'is_required' => true, 'width' => 'full', 'is_visible' => true, 'sort_order' => 5, 'options' => []],
-                ],
+                ...ContactForm::settingsPayload(),
             ],
             'social' => [
                 'links' => [

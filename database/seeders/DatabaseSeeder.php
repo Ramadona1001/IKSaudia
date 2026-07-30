@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             NavigationSeeder::class,
             RedirectSeeder::class,
             SiteSettingsSeeder::class,
+            ContactFormSettingsSeeder::class,
         ]);
     }
 }

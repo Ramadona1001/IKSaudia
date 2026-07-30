@@ -25,6 +25,55 @@ final class ContactForm
     /**
      * @return list<array<string, mixed>>
      */
+    public static function defaultFields(): array
+    {
+        return [
+            self::defaultField('name', 'text', 'front.contact.fields.name', 'front.contact.fields.name_ph', true, 'half', 0),
+            self::defaultField('company', 'text', 'front.contact.fields.company', 'front.contact.fields.company_ph', false, 'half', 1),
+            self::defaultField('email', 'email', 'front.contact.fields.email', 'front.contact.fields.email_ph', true, 'half', 2),
+            self::defaultField('phone', 'tel', 'front.contact.fields.phone', 'front.contact.fields.phone_ph', false, 'half', 3),
+            self::defaultField('subject', 'text', 'front.contact.fields.subject', 'front.contact.fields.subject_ph', true, 'full', 4),
+            self::defaultField('message', 'textarea', 'front.contact.fields.message', 'front.contact.fields.message_ph', true, 'full', 5),
+        ];
+    }
+
+    /**
+     * Website settings payload for seeders / admin defaults.
+     *
+     * @return array{
+     *     form_eyebrow: array{ar: string, en: string},
+     *     form_title: array{ar: string, en: string},
+     *     form_title_accent: array{ar: string, en: string},
+     *     form_intro: array{ar: string, en: string},
+     *     form_fields: list<array<string, mixed>>
+     * }
+     */
+    public static function settingsPayload(): array
+    {
+        return [
+            'form_eyebrow' => [
+                'ar' => __('front.contact.form_eyebrow', [], 'ar'),
+                'en' => __('front.contact.form_eyebrow', [], 'en'),
+            ],
+            'form_title' => [
+                'ar' => __('front.contact.form_title1', [], 'ar'),
+                'en' => __('front.contact.form_title1', [], 'en'),
+            ],
+            'form_title_accent' => [
+                'ar' => __('front.contact.form_title2', [], 'ar'),
+                'en' => __('front.contact.form_title2', [], 'en'),
+            ],
+            'form_intro' => [
+                'ar' => __('front.contact.form_intro', [], 'ar'),
+                'en' => __('front.contact.form_intro', [], 'en'),
+            ],
+            'form_fields' => self::defaultFields(),
+        ];
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
     public static function fields(): array
     {
         $configured = collect(setting('contact.form_fields', []))
@@ -37,21 +86,6 @@ final class ContactForm
         }
 
         return self::defaultFields();
-    }
-
-    /**
-     * @return list<array<string, mixed>>
-     */
-    public static function defaultFields(): array
-    {
-        return [
-            self::defaultField('name', 'text', 'front.contact.fields.name', 'front.contact.fields.name_ph', true, 'half', 0),
-            self::defaultField('company', 'text', 'front.contact.fields.company', 'front.contact.fields.company_ph', false, 'half', 1),
-            self::defaultField('email', 'email', 'front.contact.fields.email', 'front.contact.fields.email_ph', true, 'half', 2),
-            self::defaultField('phone', 'tel', 'front.contact.fields.phone', 'front.contact.fields.phone_ph', false, 'half', 3),
-            self::defaultField('subject', 'text', 'front.contact.fields.subject', 'front.contact.fields.subject_ph', true, 'full', 4),
-            self::defaultField('message', 'textarea', 'front.contact.fields.message', 'front.contact.fields.message_ph', true, 'full', 5),
-        ];
     }
 
     public static function label(array $field, ?string $locale = null): string

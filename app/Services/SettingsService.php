@@ -92,6 +92,51 @@ class SettingsService
   }
 
   /**
+   * Persist only settings present in $formData (does not wipe omitted keys).
+   *
+   * @param  array<string, mixed>  $formData
+   */
+  public function syncPartialFromForm(array $formData): void
+  {
+    DB::transaction(function () use ($formData): void {
+      foreach ($this->definitions() as $dotKey => $definition) {
+        if (! $this->formDataHas($formData, $dotKey)) {
+          continue;
+        }
+
+        $value = data_get($formData, $dotKey);
+
+        if (Arr::get($definition, 'translatable')) {
+          $this->persistTranslatable($dotKey, $definition, is_array($value) ? $value : []);
+        } else {
+          $this->persistScalar($dotKey, $definition, $value);
+        }
+      }
+    });
+
+    $this->clearCache();
+  }
+
+  /**
+   * @param  array<string, mixed>  $formData
+   */
+  protected function formDataHas(array $formData, string $dotKey): bool
+  {
+    $segments = explode('.', $dotKey);
+    $current = $formData;
+
+    foreach ($segments as $segment) {
+      if (! is_array($current) || ! array_key_exists($segment, $current)) {
+        return false;
+      }
+
+      $current = $current[$segment];
+    }
+
+    return true;
+  }
+
+  /**
    * Build nested form state for Filament.
    *
    * @return array<string, mixed>

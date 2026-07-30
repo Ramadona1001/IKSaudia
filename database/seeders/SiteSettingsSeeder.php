@@ -4,12 +4,15 @@ namespace Database\Seeders;
 
 use App\Services\SettingsService;
 use App\Support\ContactForm;
+use App\Support\FooterLink;
 use Illuminate\Database\Seeder;
 
 class SiteSettingsSeeder extends Seeder
 {
     public function run(): void
     {
+        $footerLinkGroups = FooterLink::linkGroupsPayload();
+
         app(SettingsService::class)->syncFromForm([
             'general' => [
                 'site_name' => [
@@ -61,22 +64,10 @@ class SiteSettingsSeeder extends Seeder
                     'ar' => 'الشركة السعودية للصناعات',
                     'en' => 'IK Saudi For Industries',
                 ],
-                'quick_links' => [
-                    ['label_en' => 'About Us', 'label_ar' => 'من نحن', 'url' => 'route:about', 'is_visible' => true, 'sort_order' => 0],
-                    ['label_en' => 'Services', 'label_ar' => 'الخدمات', 'url' => 'route:services.index', 'is_visible' => true, 'sort_order' => 1],
-                    ['label_en' => 'Industries', 'label_ar' => 'القطاعات', 'url' => 'route:industries.index', 'is_visible' => true, 'sort_order' => 2],
-                    ['label_en' => 'Products', 'label_ar' => 'المنتجات', 'url' => 'route:products.index', 'is_visible' => true, 'sort_order' => 3],
-                    ['label_en' => 'Clients', 'label_ar' => 'العملاء', 'url' => 'route:clients', 'is_visible' => true, 'sort_order' => 4],
-                    ['label_en' => 'Partners', 'label_ar' => 'الشركاء', 'url' => 'route:partners', 'is_visible' => true, 'sort_order' => 5],
-                    ['label_en' => 'FAQ', 'label_ar' => 'الأسئلة الشائعة', 'url' => 'route:faq', 'is_visible' => true, 'sort_order' => 6],
-                    ['label_en' => 'Contact', 'label_ar' => 'اتصل بنا', 'url' => 'route:contact', 'is_visible' => true, 'sort_order' => 7],
-                ],
-                'service_links' => [],
-                'industry_links' => [],
-                'legal_links' => [
-                    ['label_ar' => 'الخصوصية', 'label_en' => 'Privacy', 'url' => 'privacy-policy', 'is_visible' => true, 'sort_order' => 1],
-                    ['label_ar' => 'الشروط', 'label_en' => 'Terms', 'url' => 'terms-of-use', 'is_visible' => true, 'sort_order' => 2],
-                ],
+                'quick_links' => $footerLinkGroups['quick_links'],
+                'service_links' => $footerLinkGroups['service_links'],
+                'industry_links' => $footerLinkGroups['industry_links'],
+                'legal_links' => $footerLinkGroups['legal_links'],
                 'certification_badges' => [
                     ['code' => 'ISO', 'label' => 'ISO', 'enabled' => true],
                     ['code' => 'ASME', 'label' => 'ASME', 'enabled' => true],

@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Models\Industry;
+use App\Models\Service;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
@@ -112,6 +114,128 @@ final class FooterLink
             ->filter()
             ->values()
             ->all();
+    }
+
+    /**
+     * @param  Collection<int, mixed>  $industries
+     * @return list<array<string, mixed>>
+     */
+    public static function linksFromIndustries(Collection $industries, ?string $locale = null): array
+    {
+        $locale ??= app()->getLocale();
+
+        return $industries
+            ->map(function ($industry, int $index) use ($locale): ?array {
+                $translation = $industry->translate($locale);
+
+                if (! $translation || ! filled($translation->slug ?? null)) {
+                    return null;
+                }
+
+                $english = $industry->translate('en');
+                $arabic = $industry->translate('ar');
+
+                return [
+                    'label_en' => $english?->title ?? $translation->title,
+                    'label_ar' => $arabic?->title ?? $translation->title,
+                    'url' => 'route:industries.show/'.$translation->slug,
+                    'is_visible' => true,
+                    'sort_order' => $index,
+                ];
+            })
+            ->filter()
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Footer link groups for website settings seeders.
+     *
+     * @return array{
+     *     quick_links: list<array<string, mixed>>,
+     *     service_links: list<array<string, mixed>>,
+     *     industry_links: list<array<string, mixed>>,
+     *     legal_links: list<array<string, mixed>>
+     * }
+     */
+    public static function linkGroupsPayload(): array
+    {
+        $services = Service::query()
+            ->where('is_published', true)
+            ->orderBy('sort_order')
+            ->with('translations')
+            ->get();
+
+        $industries = Industry::query()
+            ->where('is_published', true)
+            ->orderBy('sort_order')
+            ->with('translations')
+            ->get();
+
+        $serviceLinks = self::linksFromServices($services);
+        $industryLinks = self::linksFromIndustries($industries);
+
+        return [
+            'quick_links' => self::defaultQuickLinks(),
+            'service_links' => $serviceLinks !== [] ? $serviceLinks : self::defaultServiceLinks(),
+            'industry_links' => $industryLinks !== [] ? $industryLinks : self::defaultIndustryLinks(),
+            'legal_links' => self::defaultLegalLinks(),
+        ];
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    public static function defaultLegalLinks(): array
+    {
+        return [
+            [
+                'label_en' => __('common.privacy', [], 'en'),
+                'label_ar' => __('common.privacy', [], 'ar'),
+                'url' => 'privacy-policy',
+                'is_visible' => true,
+                'sort_order' => 0,
+            ],
+            [
+                'label_en' => __('common.terms', [], 'en'),
+                'label_ar' => __('common.terms', [], 'ar'),
+                'url' => 'terms-of-use',
+                'is_visible' => true,
+                'sort_order' => 1,
+            ],
+        ];
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    public static function defaultServiceLinks(): array
+    {
+        return [
+            [
+                'label_en' => __('navigation.services', [], 'en'),
+                'label_ar' => __('navigation.services', [], 'ar'),
+                'url' => 'route:services.index',
+                'is_visible' => true,
+                'sort_order' => 0,
+            ],
+        ];
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    public static function defaultIndustryLinks(): array
+    {
+        return [
+            [
+                'label_en' => __('navigation.industries', [], 'en'),
+                'label_ar' => __('navigation.industries', [], 'ar'),
+                'url' => 'route:industries.index',
+                'is_visible' => true,
+                'sort_order' => 0,
+            ],
+        ];
     }
 
     private static function routeUrl(string $route, string $locale): string

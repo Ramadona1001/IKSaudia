@@ -182,6 +182,7 @@
         $aboutSettings = is_array($aboutSection?->settings) ? $aboutSection->settings : [];
         $aboutStats = \App\Support\AboutSectionStats::forLocale($aboutSettings, $locale);
         $aboutYearsBadge = \App\Support\AboutSectionStats::yearsBadgeForLocale($aboutSettings, $locale);
+        $aboutHeading = \App\Support\HomeSectionHeading::resolve('about', $locale, $aboutSection);
     @endphp
     <section id="about" class="about-section section-pad">
         <div class="container">
@@ -216,16 +217,16 @@
 
                 <div class="col-lg-6" data-aos="fade-left">
                     <div class="about-content">
-                        <div class="section-eyebrow">{{ $aboutT?->subtitle ?: __('front.home.about.eyebrow') }}</div>
+                        <div class="section-eyebrow">{{ $aboutHeading['eyebrow'] }}</div>
                         <h2 class="section-title">
-                            @if ($aboutT?->title)
-                                <span>{{ $aboutT->title }}</span>
-                            @else
-                                <span>{{ __('front.home.about.title') }}</span>
-                                <span class="accent">{{ __('front.home.about.highlight') }}</span>
+                            @if ($aboutHeading['title'])
+                                <span>{{ $aboutHeading['title'] }}</span>
+                            @endif
+                            @if ($aboutHeading['highlight'])
+                                <span class="accent">{{ $aboutHeading['highlight'] }}</span>
                             @endif
                         </h2>
-                        <p class="section-desc">{{ $aboutT?->bodyText() ?: __('front.home.about.desc') }}</p>
+                        <p class="section-desc">{{ $aboutHeading['description'] }}</p>
 
                         <div class="about-stats">
                             @foreach ($aboutStats as $stat)
@@ -259,7 +260,7 @@
         $foundationSection = $foundationSection
             ?? ($sections ?? collect())->firstWhere('key', 'foundation')
             ?? ($sections ?? collect())->firstWhere('type', 'foundation');
-        $foundationHeading = \App\Support\FoundationSection::headingForSection($foundationSection, $locale);
+        $foundationHeading = \App\Support\HomeSectionHeading::resolve('foundation', $locale, $foundationSection);
         $foundationCards = \App\Support\FoundationSection::cardsForSection($foundationSection, $locale);
     @endphp
     @if ($foundationSection && $foundationSection->is_active)
@@ -295,12 +296,13 @@
          ============================================================ --}}
          <section id="services" class="services-section section-pad">
             <div class="container">
+                @php $servicesHeading = \App\Support\HomeSectionHeading::resolve('services', $locale); @endphp
                 <div class="services-header" data-aos="fade-up">
                     <x-front.section-heading
-                        :eyebrow="__('front.services.tag')"
-                        :title="__('front.services.title')"
-                        :highlight="__('front.services.highlight')"
-                        :description="__('front.services.subtitle')"
+                        :eyebrow="$servicesHeading['eyebrow']"
+                        :title="$servicesHeading['title']"
+                        :highlight="$servicesHeading['highlight']"
+                        :description="$servicesHeading['description']"
                     />
                 </div>
     
@@ -333,14 +335,15 @@
          SECTION 4 — INDUSTRIES
          ============================================================ --}}
     @if ($featuredIndustries->isNotEmpty())
+    @php $industriesHeading = \App\Support\HomeSectionHeading::resolve('industries', $locale); @endphp
     <section id="industries" class="industries-section section-pad">
         <div class="container">
             <div class="industries-header" data-aos="fade-up">
                 <x-front.section-heading
-                    :eyebrow="__('front.home.industries.eyebrow')"
-                    :title="__('front.home.industries.title')"
-                    :highlight="__('front.home.industries.highlight')"
-                    :description="__('front.home.industries.desc')"
+                    :eyebrow="$industriesHeading['eyebrow']"
+                    :title="$industriesHeading['title']"
+                    :highlight="$industriesHeading['highlight']"
+                    :description="$industriesHeading['description']"
                 />
             </div>
 
@@ -407,12 +410,13 @@
     @endphp
     <section id="clients" class="partners-band-section section-pad">
         <div class="container">
+            @php $clientsHeading = \App\Support\HomeSectionHeading::resolve('clients', $locale); @endphp
             <div class="partners-band-header" data-aos="fade-up">
                 <x-front.section-heading
-                    :eyebrow="__('front.home.clients.eyebrow')"
-                    :title="__('front.home.clients.title')"
-                    :highlight="__('front.home.clients.highlight')"
-                    :description="__('front.home.clients.desc')"
+                    :eyebrow="$clientsHeading['eyebrow']"
+                    :title="$clientsHeading['title']"
+                    :highlight="$clientsHeading['highlight']"
+                    :description="$clientsHeading['description']"
                 />
             </div>
         </div>
@@ -459,12 +463,13 @@
     @endphp
     <section id="partners" class="partners-band-section section-pad">
         <div class="container">
+            @php $partnersHeading = \App\Support\HomeSectionHeading::resolve('partners', $locale); @endphp
             <div class="partners-band-header" data-aos="fade-up">
                 <x-front.section-heading
-                    :eyebrow="__('front.home.partners.eyebrow')"
-                    :title="__('front.home.partners.title')"
-                    :highlight="__('front.home.partners.highlight')"
-                    :description="__('front.home.partners.desc')"
+                    :eyebrow="$partnersHeading['eyebrow']"
+                    :title="$partnersHeading['title']"
+                    :highlight="$partnersHeading['highlight']"
+                    :description="$partnersHeading['description']"
                 />
             </div>
         </div>
@@ -485,11 +490,13 @@
     @if (isset($featuredProjects) && $featuredProjects->isNotEmpty())
         <section id="projects" class="projects-section section-pad">
             <div class="container">
+                @php $projectsHeading = \App\Support\HomeSectionHeading::resolve('projects', $locale); @endphp
                 <div class="services-header" data-aos="fade-up">
                     <x-front.section-heading
-                        :eyebrow="__('projects.index.overline')"
-                        :title="__('projects.index.title')"
-                        :description="__('projects.index.subtitle')"
+                        :eyebrow="$projectsHeading['eyebrow']"
+                        :title="$projectsHeading['title']"
+                        :highlight="$projectsHeading['highlight']"
+                        :description="$projectsHeading['description']"
                     />
                 </div>
 
@@ -528,12 +535,13 @@
     @if ($certCards->isNotEmpty())
         <section id="certifications" class="certifications-section section-pad">
             <div class="container">
+                @php $certificationsHeading = \App\Support\HomeSectionHeading::resolve('certifications', $locale); @endphp
                 <div class="certifications-header" data-aos="fade-up">
                     <x-front.section-heading
-                        :eyebrow="__('front.home.certs.eyebrow') ?: __('navigation.certifications')"
-                        :title="__('front.home.certs.title') ?: __('common.certifications')"
-                        :highlight="__('front.home.certs.highlight')"
-                        :description="__('front.home.certs.desc')"
+                        :eyebrow="$certificationsHeading['eyebrow']"
+                        :title="$certificationsHeading['title']"
+                        :highlight="$certificationsHeading['highlight']"
+                        :description="$certificationsHeading['description']"
                     />
                 </div>
 
@@ -558,12 +566,13 @@
     @if ($homeFaqs->isNotEmpty())
     <section id="faq" class="faq-section section-pad">
         <div class="container">
+            @php $faqHeading = \App\Support\HomeSectionHeading::resolve('faq', $locale); @endphp
             <div class="faq-header" data-aos="fade-up">
                 <x-front.section-heading
-                    :eyebrow="__('front.home.faq.eyebrow')"
-                    :title="__('front.home.faq.title')"
-                    :highlight="__('front.home.faq.highlight')"
-                    :description="__('front.home.faq.desc')"
+                    :eyebrow="$faqHeading['eyebrow']"
+                    :title="$faqHeading['title']"
+                    :highlight="$faqHeading['highlight']"
+                    :description="$faqHeading['description']"
                 />
             </div>
 

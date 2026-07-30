@@ -11,13 +11,16 @@ class ContactSubmission extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'reference_number', 'name', 'email', 'phone', 'company', 'subject', 'message',
+        'reference_number', 'name', 'email', 'phone', 'company', 'subject', 'message', 'custom_fields',
         'status', 'locale', 'ip_address', 'user_agent', 'admin_notes', 'read_at', 'read_by',
     ];
 
     protected function casts(): array
     {
-        return ['read_at' => 'datetime'];
+        return [
+            'read_at' => 'datetime',
+            'custom_fields' => 'array',
+        ];
     }
 
     public function readBy(): BelongsTo

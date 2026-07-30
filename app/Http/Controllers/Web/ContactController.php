@@ -8,6 +8,7 @@ use App\Jobs\NotifyContactSubmission;
 use App\Models\ContactSubmission;
 use App\Services\LocaleService;
 use App\Services\Security\SecurityEventLogger;
+use App\Support\ContactForm;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -41,7 +42,7 @@ class ContactController extends Controller
         }
 
         $submission = ContactSubmission::query()->create([
-            ...$request->safe()->except(['website', 'form_started_at']),
+            ...ContactForm::mapToSubmission($request->validated()),
             'reference_number' => 'IK-'.strtoupper(Str::random(8)),
             'locale' => $locale,
             'status' => 'new',

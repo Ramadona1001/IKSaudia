@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ContactSubmissions\Schemas;
 
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -33,6 +34,11 @@ class ContactSubmissionForm
                 TextInput::make('company')->disabled(),
                 TextInput::make('subject')->disabled()->columnSpanFull(),
                 Textarea::make('message')->disabled()->rows(6)->columnSpanFull(),
+                KeyValue::make('custom_fields')
+                    ->label('Additional fields')
+                    ->disabled()
+                    ->columnSpanFull()
+                    ->visible(fn ($record) => is_array($record?->custom_fields) && $record->custom_fields !== []),
             ]),
             Section::make('Meta')->columns(2)->collapsed()->schema([
                 TextInput::make('locale')->disabled(),

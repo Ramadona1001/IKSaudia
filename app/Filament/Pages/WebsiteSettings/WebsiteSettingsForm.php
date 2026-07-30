@@ -4,6 +4,7 @@ namespace App\Filament\Pages\WebsiteSettings;
 
 use App\Models\PageTranslation;
 use App\Services\NavigationService;
+use App\Support\HomeSectionHeading;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
@@ -29,6 +30,7 @@ final class WebsiteSettingsForm
                 Tab::make('General')->icon(Heroicon::OutlinedCog6Tooth)->schema(self::generalTab()),
                 Tab::make('Branding')->icon(Heroicon::OutlinedSwatch)->schema(self::brandingTab()),
                 Tab::make('Footer')->icon(Heroicon::OutlinedBars3BottomLeft)->schema(self::footerTab()),
+                Tab::make('Homepage')->icon(Heroicon::OutlinedHome)->schema(self::homepageTab()),
                 Tab::make('Contact')->icon(Heroicon::OutlinedPhone)->schema(self::contactTab()),
                 Tab::make('Social')->icon(Heroicon::OutlinedShare)->schema(self::socialTab()),
                 Tab::make('Newsletter')->icon(Heroicon::OutlinedEnvelopeOpen)->schema(self::newsletterTab()),
@@ -256,6 +258,29 @@ final class WebsiteSettingsForm
     }
 
     /** @return array<int, mixed> */
+    protected static function homepageTab(): array
+    {
+        $sections = [];
+
+        foreach (HomeSectionHeading::sectionLabels() as $key => $label) {
+            $sections[] = Section::make($label)
+                ->collapsed()
+                ->schema([
+                    ...self::translatableText("homepage.section_headings.{$key}.eyebrow", 'Eyebrow / overline'),
+                    ...self::translatableText("homepage.section_headings.{$key}.title", 'Title (line 1)'),
+                    ...self::translatableText("homepage.section_headings.{$key}.highlight", 'Title highlight (accent)'),
+                    ...self::translatableTextarea("homepage.section_headings.{$key}.description", 'Description / subtitle'),
+                ]);
+        }
+
+        return [
+            Section::make('Homepage section headings')
+                ->description('Edit the title and subtitle shown above each homepage section. Leave a field empty to keep the current CMS or default text.')
+                ->schema($sections),
+        ];
+    }
+
+    /** @return array<int, mixed> */
     protected static function footerTab(): array
     {
         return [
@@ -270,11 +295,13 @@ final class WebsiteSettingsForm
                 ...self::translatableTextarea('footer.cta_subtitle', 'CTA subtitle'),
                 self::imageUpload('footer.background_image', 'Footer background', 'site-settings/footer'),
             ]),
-            Section::make('Link groups')->collapsed()->schema([
-                self::linkRepeater('footer.quick_links', 'Quick links'),
-                self::linkRepeater('footer.service_links', 'Service links'),
+            Section::make('Link groups')
+                ->description('Manage footer columns: Company (quick links), Our services, Industries, and legal links in the bottom bar.')
+                ->schema([
+                self::linkRepeater('footer.quick_links', 'Quick links (Company column)'),
+                self::linkRepeater('footer.service_links', 'Service links (Our services column)'),
                 self::linkRepeater('footer.industry_links', 'Industry links'),
-                self::linkRepeater('footer.legal_links', 'Legal links'),
+                self::linkRepeater('footer.legal_links', 'Legal links (bottom bar)'),
             ]),
             Section::make('Certifications')->schema([
                 Repeater::make('footer.certification_badges')
@@ -294,6 +321,81 @@ final class WebsiteSettingsForm
     protected static function contactTab(): array
     {
         return [
+            Section::make('Contact form')
+                ->description('Edit the contact page form heading and fields. Drag fields to reorder. Use standard keys (name, email, phone, company, subject, message) so submissions map to the admin inbox.')
+                ->schema([
+                    ...self::translatableText('contact.form_eyebrow', 'Form overline'),
+                    ...self::translatableText('contact.form_title', 'Form title (line 1)'),
+                    ...self::translatableText('contact.form_title_accent', 'Form title accent (line 2)'),
+                    ...self::translatableTextarea('contact.form_intro', 'Form subtitle / intro'),
+                    Repeater::make('contact.form_fields')
+                        ->label('Form fields')
+                        ->schema([
+                            TextInput::make('key')
+                                ->label('Field key')
+                                ->required()
+                                ->maxLength(50)
+                                ->regex('/^[a-z][a-z0-9_]*$/')
+                                ->helperText('Examples: name, email, phone, company, subject, message, budget'),
+                            Select::make('type')
+                                ->label('Input type')
+                                ->options([
+                                    'text' => 'Text',
+                                    'email' => 'Email',
+                                    'tel' => 'Phone',
+                                    'textarea' => 'Textarea',
+                                    'number' => 'Number',
+                                    'url' => 'URL',
+                                    'select' => 'Dropdown',
+                                ])
+                                ->default('text')
+                                ->required()
+                                ->live()
+                                ->native(false),
+                            TextInput::make('label_en')->label('Label (EN)')->required()->maxLength(120),
+                            TextInput::make('label_ar')->label('Label (AR)')->maxLength(120),
+                            TextInput::make('placeholder_en')->label('Placeholder (EN)')->maxLength(255),
+                            TextInput::make('placeholder_ar')->label('Placeholder (AR)')->maxLength(255),
+                            Select::make('width')
+                                ->label('Width')
+                                ->options([
+                                    'half' => 'Half width (2 columns)',
+                                    'full' => 'Full width',
+                                ])
+                                ->default('half')
+                                ->native(false),
+                            Toggle::make('is_required')->label('Required')->default(false),
+                            Toggle::make('is_visible')->label('Visible')->default(true),
+                            Repeater::make('options')
+                                ->label('Dropdown options')
+                                ->visible(fn ($get) => $get('type') === 'select')
+                                ->schema([
+                                    TextInput::make('value')->label('Value')->required(),
+                                    TextInput::make('label_en')->label('Label (EN)')->required(),
+                                    TextInput::make('label_ar')->label('Label (AR)'),
+                                ])
+                                ->columns(3)
+                                ->defaultItems(0)
+                                ->collapsible(),
+                            Hidden::make('sort_order')->default(0),
+                        ])
+                        ->columns(2)
+                        ->collapsible()
+                        ->reorderable()
+                        ->itemLabel(fn (array $state): ?string => ($state['label_en'] ?? $state['key'] ?? 'Field'))
+                        ->defaultItems(0)
+                        ->dehydrateStateUsing(function (?array $state): array {
+                            if (! is_array($state)) {
+                                return [];
+                            }
+
+                            return collect($state)
+                                ->filter(fn ($row) => is_array($row))
+                                ->values()
+                                ->map(fn (array $row, int $index) => array_merge($row, ['sort_order' => $index]))
+                                ->all();
+                        }),
+                ]),
             Section::make('Address & map')->schema([
                 ...self::translatableTextarea('contact.address', 'Company address'),
                 Textarea::make('contact.maps_embed')
@@ -469,12 +571,14 @@ final class WebsiteSettingsForm
                 TextInput::make('url')
                     ->label('URL')
                     ->required()
-                    ->helperText('Full URL (https://…) or page slug (e.g. privacy-policy).'),
+                    ->helperText('Examples: https://…, /en/contact, about-us (CMS page), route:services.index, route:services.show/my-service'),
                 Toggle::make('is_visible')->label('Visible')->default(true),
                 TextInput::make('sort_order')->label('Sort')->numeric()->default(0),
             ])
             ->columns(2)
             ->collapsible()
+            ->reorderable()
+            ->itemLabel(fn (array $state): ?string => self::navigationItemLabel($state))
             ->defaultItems(0);
     }
 

@@ -38,8 +38,19 @@ class ContentCacheService
 
     public function forgetServices(): void
     {
+        $slugs = \App\Models\ServiceTranslation::query()
+            ->distinct()
+            ->pluck('slug')
+            ->filter()
+            ->all();
+
         foreach ($this->localeCodes() as $locale) {
             Cache::forget("services.published.{$locale}");
+            Cache::forget("services.featured.{$locale}");
+
+            foreach ($slugs as $slug) {
+                Cache::forget("service.{$locale}.{$slug}");
+            }
         }
     }
 

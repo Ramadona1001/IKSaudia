@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Services\Pages;
 
+use App\Filament\Concerns\PreparesPublishableAttributes;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Resources\Services\ServiceResource;
 use App\Models\SeoMeta;
@@ -10,6 +11,7 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateService extends CreateRecord
 {
+    use PreparesPublishableAttributes;
     use SyncsModelTranslations;
 
     protected static string $resource = ServiceResource::class;
@@ -21,7 +23,7 @@ class CreateService extends CreateRecord
         $this->cachedSeo = $data['seo'] ?? [];
         unset($data['seo']);
 
-        return $data;
+        return $this->preparePublishableAttributes($data);
     }
 
     protected function afterCreate(): void

@@ -13,7 +13,8 @@ class ServiceCatalogService
     {
         return Service::query()
             ->published()
-            ->with(['translations' => fn ($q) => $q->where('locale', $locale)])
+            ->whereHas('translations', fn ($query) => $query->whereNotNull('title')->where('title', '!=', ''))
+            ->with('translations')
             ->orderBy('sort_order')
             ->paginate($perPage);
     }
@@ -21,10 +22,11 @@ class ServiceCatalogService
     /** @return Collection<int, Service> */
     public function publishedAll(string $locale): Collection
     {
-        return Cache::remember("services.published.{$locale}", 3600, function () use ($locale) {
+        return Cache::remember("services.published.{$locale}", 3600, function () {
             return Service::query()
                 ->published()
-                ->with(['translations' => fn ($q) => $q->where('locale', $locale)])
+                ->whereHas('translations', fn ($query) => $query->whereNotNull('title')->where('title', '!=', ''))
+                ->with('translations')
                 ->orderBy('sort_order')
                 ->get();
         });

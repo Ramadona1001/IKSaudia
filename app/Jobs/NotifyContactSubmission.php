@@ -39,8 +39,43 @@ class NotifyContactSubmission implements ShouldQueue
             return;
         }
 
+        $lines = [
+            'New contact submission',
+            '',
+            'Reference: '.$this->submission->reference_number,
+            'Name: '.$this->submission->name,
+        ];
+
+        if (filled($this->submission->email)) {
+            $lines[] = 'Email: '.$this->submission->email;
+        }
+
+        if (filled($this->submission->phone)) {
+            $lines[] = 'Phone: '.$this->submission->phone;
+        }
+
+        if (filled($this->submission->company)) {
+            $lines[] = 'Company: '.$this->submission->company;
+        }
+
+        if (filled($this->submission->subject)) {
+            $lines[] = 'Subject: '.$this->submission->subject;
+        }
+
+        $lines[] = '';
+        $lines[] = $this->submission->message;
+
+        if (is_array($this->submission->custom_fields) && $this->submission->custom_fields !== []) {
+            $lines[] = '';
+            $lines[] = 'Additional fields:';
+
+            foreach ($this->submission->custom_fields as $key => $value) {
+                $lines[] = $key.': '.$value;
+            }
+        }
+
         Mail::raw(
-            "New contact submission\n\nReference: {$this->submission->reference_number}\nName: {$this->submission->name}\nEmail: {$this->submission->email}\n\n{$this->submission->message}",
+            implode("\n", $lines),
             function ($message) use ($to, $recipients) {
                 $message->to($to)->subject('[IK Saudi] Contact: '.$this->submission->reference_number);
                 if (count($recipients) > 1) {

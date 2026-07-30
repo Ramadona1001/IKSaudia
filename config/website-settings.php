@@ -21,6 +21,7 @@ return [
         'general' => ['label' => 'General', 'icon' => 'heroicon-o-cog-6-tooth', 'sort' => 10],
         'branding' => ['label' => 'Branding', 'icon' => 'heroicon-o-swatch', 'sort' => 20],
         'footer' => ['label' => 'Footer', 'icon' => 'heroicon-o-bars-3-bottom-left', 'sort' => 30],
+        'homepage' => ['label' => 'Homepage', 'icon' => 'heroicon-o-home', 'sort' => 35],
         'contact' => ['label' => 'Contact', 'icon' => 'heroicon-o-phone', 'sort' => 40],
         'social' => ['label' => 'Social Media', 'icon' => 'heroicon-o-share', 'sort' => 50],
         'newsletter' => ['label' => 'Newsletter', 'icon' => 'heroicon-o-envelope-open', 'sort' => 60],
@@ -79,6 +80,9 @@ return [
         'footer.cta_subtitle' => ['group' => 'footer', 'type' => 'textarea', 'translatable' => true, 'label' => 'Footer CTA subtitle'],
         'footer.background_image' => ['group' => 'footer', 'type' => 'image', 'translatable' => false, 'label' => 'Footer background image'],
 
+        // ── Homepage ─────────────────────────────────────────────────────
+        'homepage.section_headings' => ['group' => 'homepage', 'type' => 'json', 'translatable' => false, 'label' => 'Homepage section headings'],
+
         // ── Contact ──────────────────────────────────────────────────────
         'contact.address' => ['group' => 'contact', 'type' => 'textarea', 'translatable' => true, 'label' => 'Address'],
         'contact.maps_embed' => ['group' => 'contact', 'type' => 'textarea', 'translatable' => false, 'label' => 'Google Maps embed HTML'],
@@ -88,6 +92,11 @@ return [
         'contact.working_hours' => ['group' => 'contact', 'type' => 'textarea', 'translatable' => true, 'label' => 'Working hours'],
         'contact.emergency_phone' => ['group' => 'contact', 'type' => 'text', 'translatable' => false, 'label' => 'Emergency contact'],
         'contact.form_recipients' => ['group' => 'contact', 'type' => 'json', 'translatable' => false, 'label' => 'Contact form recipients'],
+        'contact.form_eyebrow' => ['group' => 'contact', 'type' => 'text', 'translatable' => true, 'label' => 'Contact form overline'],
+        'contact.form_title' => ['group' => 'contact', 'type' => 'text', 'translatable' => true, 'label' => 'Contact form title'],
+        'contact.form_title_accent' => ['group' => 'contact', 'type' => 'text', 'translatable' => true, 'label' => 'Contact form title accent'],
+        'contact.form_intro' => ['group' => 'contact', 'type' => 'textarea', 'translatable' => true, 'label' => 'Contact form intro'],
+        'contact.form_fields' => ['group' => 'contact', 'type' => 'json', 'translatable' => false, 'label' => 'Contact form fields'],
 
         // ── Social ───────────────────────────────────────────────────────
         'social.links' => ['group' => 'social', 'type' => 'json', 'translatable' => false, 'label' => 'Social links'],

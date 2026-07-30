@@ -10,13 +10,17 @@ trait HasTranslations
     public function translate(?string $locale = null): ?Model
     {
         $locale ??= app()->getLocale();
+        $fallback = (string) config('locales.fallback', 'en');
 
         $translations = $this->relationLoaded('translations')
             ? $this->translations
             : $this->translations()->get();
 
-        return $translations->firstWhere('locale', $locale)
-            ?? $translations->firstWhere('locale', config('locales.fallback'));
+        $match = $translations->firstWhere('locale', $locale)
+            ?? ($fallback !== $locale ? $translations->firstWhere('locale', $fallback) : null)
+            ?? $translations->first(fn (Model $translation): bool => filled($translation->title ?? null));
+
+        return $match instanceof Model ? $match : null;
     }
 
     public function translationFor(string $locale): ?Model

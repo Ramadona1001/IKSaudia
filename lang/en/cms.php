@@ -35,6 +35,7 @@ return [
     ],
     'fields' => [
         'published' => 'Published',
+        'service_publish_help' => 'Service appears on the site only when published and it has a title in at least one language.',
         'publish_at' => 'Publish at',
         'name' => 'Name',
         'title' => 'Title',

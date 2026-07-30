@@ -29,10 +29,19 @@ trait SyncsModelTranslations
                 ->filter(fn ($value) => $value !== null && $value !== '')
                 ->all();
 
+            if (
+                in_array('slug', $fields, true)
+                && in_array('title', $fields, true)
+                && empty($payload['slug'])
+                && ! empty($payload['title'])
+            ) {
+                $payload['slug'] = \Illuminate\Support\Str::slug((string) $payload['title']);
+            }
+
             $payload = app(HtmlSanitizer::class)->cleanFields(
                 $payload,
                 array_values(array_intersect($fields, [
-                    'body', 'content', 'description', 'requirements', 'responsibilities', 'benefits', 'excerpt',
+                    'body', 'content', 'description', 'requirements', 'responsibilities', 'benefits', 'excerpt', 'answer',
                 ]))
             );
 

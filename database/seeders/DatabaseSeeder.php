@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ProjectSeeder::class,
             ClientSeeder::class,
             PartnerSeeder::class,
+            FaqSeeder::class,
             NewsPostSeeder::class,
             CareerSeeder::class,
             GallerySeeder::class,

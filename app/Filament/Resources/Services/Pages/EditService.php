@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Services\Pages;
 
+use App\Filament\Concerns\PreparesPublishableAttributes;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Resources\Services\ServiceResource;
 use App\Models\SeoMeta;
@@ -11,6 +12,7 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditService extends EditRecord
 {
+    use PreparesPublishableAttributes;
     use SyncsModelTranslations;
 
     protected static string $resource = ServiceResource::class;
@@ -53,7 +55,7 @@ class EditService extends EditRecord
         $this->cachedSeo = $data['seo'] ?? [];
         unset($data['seo']);
 
-        return $data;
+        return $this->preparePublishableAttributes($data);
     }
 
     protected function afterSave(): void

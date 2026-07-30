@@ -1,7 +1,9 @@
 @php
     $locale = app()->getLocale();
     $siteSettings = $siteSettings ?? \App\Data\WebsiteSettingsBag::make($locale);
-    $companyLinks = config('front-nav.footer.company', []);
+    $companyLinks = \App\Support\FooterLink::visibleGroup('quick_links', $locale, \App\Support\FooterLink::defaultQuickLinks());
+    $serviceLinks = \App\Support\FooterLink::visibleGroup('service_links');
+    $serviceLinksFallback = \App\Support\FooterLink::linksFromServices($featuredServices ?? collect(), $locale);
 
     $brand = setting('general.site_name') ?: __('common.app_name_short');
     $tagline = setting('general.site_tagline') ?: __('common.app_tagline');
@@ -106,14 +108,12 @@
                         <h3 class="footer-heading">{{ __('common.company') }}</h3>
                         <ul class="footer-links">
                             @foreach ($companyLinks as $link)
-                                @if (Route::has($link['route']))
-                                    <li>
-                                        <a href="{{ in_array($link['route'], ['products.index', 'products.show'], true) ? route($link['route']) : route($link['route'], $locale) }}">
-                                            <i class="bi bi-chevron-right footer-link-icon" aria-hidden="true"></i>
-                                            <span>{{ __($link['label']) }}</span>
-                                        </a>
-                                    </li>
-                                @endif
+                                <li>
+                                    <a href="{{ \App\Support\FooterLink::url((string) ($link['url'] ?? ''), $locale) }}">
+                                        <i class="bi bi-chevron-right footer-link-icon" aria-hidden="true"></i>
+                                        <span>{{ \App\Support\FooterLink::label($link, $locale) }}</span>
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -121,24 +121,32 @@
                     <div class="footer-links-group">
                         <h3 class="footer-heading">{{ __('footer.our_services') }}</h3>
                         <ul class="footer-links">
-                            @forelse ($featuredServices as $service)
-                                @php $st = $service->translate($locale); @endphp
-                                @if ($st)
+                            @if (count($serviceLinks) > 0)
+                                @foreach ($serviceLinks as $link)
                                     <li>
-                                        <a href="{{ route('services.show', [$locale, $st->slug]) }}">
+                                        <a href="{{ \App\Support\FooterLink::url((string) ($link['url'] ?? ''), $locale) }}">
                                             <i class="bi bi-chevron-right footer-link-icon" aria-hidden="true"></i>
-                                            <span>{{ $st->title }}</span>
+                                            <span>{{ \App\Support\FooterLink::label($link, $locale) }}</span>
                                         </a>
                                     </li>
-                                @endif
-                            @empty
-                                <li>
-                                    <a href="{{ route('services.index', $locale) }}">
-                                        <i class="bi bi-chevron-right footer-link-icon" aria-hidden="true"></i>
-                                        <span>{{ __('navigation.all_services') }}</span>
-                                    </a>
-                                </li>
-                            @endforelse
+                                @endforeach
+                            @else
+                                @forelse ($serviceLinksFallback as $link)
+                                    <li>
+                                        <a href="{{ \App\Support\FooterLink::url((string) ($link['url'] ?? ''), $locale) }}">
+                                            <i class="bi bi-chevron-right footer-link-icon" aria-hidden="true"></i>
+                                            <span>{{ \App\Support\FooterLink::label($link, $locale) }}</span>
+                                        </a>
+                                    </li>
+                                @empty
+                                    <li>
+                                        <a href="{{ route('services.index', $locale) }}">
+                                            <i class="bi bi-chevron-right footer-link-icon" aria-hidden="true"></i>
+                                            <span>{{ __('navigation.all_services') }}</span>
+                                        </a>
+                                    </li>
+                                @endforelse
+                            @endif
                         </ul>
                     </div>
                 </div>

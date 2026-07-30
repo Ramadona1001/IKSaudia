@@ -1,11 +1,10 @@
 @php
     $siteSettings = $siteSettings ?? \App\Data\WebsiteSettingsBag::make(app()->getLocale());
-    $whatsapp = setting('contact.whatsapp') ?: ($siteSettings->primaryPhone()['number'] ?? null);
-    $whatsappNumber = $whatsapp ? preg_replace('/[^0-9]/', '', (string) $whatsapp) : null;
+    $whatsapp = $siteSettings->whatsappFormatted();
 @endphp
 
-@if ($whatsappNumber)
-    <a href="https://wa.me/{{ $whatsappNumber }}"
+@if ($whatsapp)
+    <a href="{{ $whatsapp }}"
        id="whatsapp-btn"
        aria-label="{{ __('common.contact_whatsapp') }}"
        target="_blank"

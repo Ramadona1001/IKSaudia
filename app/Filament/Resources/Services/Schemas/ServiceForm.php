@@ -27,7 +27,9 @@ class ServiceForm
                         TextInput::make('icon')
                             ->placeholder('heroicon name or CSS class'),
                         Toggle::make('is_published')
-                            ->default(false),
+                            ->label(__('cms.fields.published'))
+                            ->default(false)
+                            ->helperText(__('cms.fields.service_publish_help')),
                         DateTimePicker::make('published_at')
                             ->seconds(false),
                         TextInput::make('sort_order')

@@ -99,7 +99,12 @@ final readonly class WebsiteSettingsBag
    */
   public function whatsappFormatted(?string $fallback = null): ?string
   {
-    $raw = (string) ($this->get('contact', 'whatsapp_number') ?? $fallback ?? '');
+    $raw = (string) (
+      $this->get('contact', 'whatsapp')
+      ?? $this->get('contact', 'whatsapp_number')
+      ?? $fallback
+      ?? ''
+    );
     $digits = preg_replace('/\D+/', '', $raw) ?? '';
 
     if ($digits === '') {

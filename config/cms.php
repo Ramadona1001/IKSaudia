@@ -25,6 +25,8 @@ return [
             \App\Filament\Resources\Certifications\CertificationResource::class,
             \App\Filament\Resources\Clients\ClientResource::class,
             \App\Filament\Resources\Partners\PartnerResource::class,
+            \App\Filament\Resources\FaqCategories\FaqCategoryResource::class,
+            \App\Filament\Resources\Faqs\FaqResource::class,
             \App\Filament\Resources\NewsPosts\NewsPostResource::class,
             \App\Filament\Resources\Careers\CareerResource::class,
             \App\Filament\Resources\Pages\PageResource::class,

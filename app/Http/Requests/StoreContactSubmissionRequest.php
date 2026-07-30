@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\TurnstileToken;
+use App\Support\ContactForm;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreContactSubmissionRequest extends FormRequest
@@ -16,12 +17,7 @@ class StoreContactSubmissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:120'],
-            'email' => ['required', 'email:rfc,dns', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:30', 'regex:/^[\d\s\-\+\(\)]+$/'],
-            'company' => ['nullable', 'string', 'max:120'],
-            'subject' => ['nullable', 'string', 'max:200'],
-            'message' => ['required', 'string', 'min:10', 'max:5000'],
+            ...ContactForm::validationRules(),
             'form_started_at' => ['nullable', 'integer'],
             'cf-turnstile-response' => [config('security.turnstile.enabled') ? 'required' : 'nullable', 'string', new TurnstileToken],
             'terms' => ['accepted'],
@@ -49,13 +45,6 @@ class StoreContactSubmissionRequest extends FormRequest
     /** @return array<string, string> */
     public function attributes(): array
     {
-        return [
-            'name' => __('contact.attributes.name'),
-            'email' => __('contact.attributes.email'),
-            'phone' => __('contact.attributes.phone'),
-            'company' => __('contact.attributes.company'),
-            'subject' => __('contact.attributes.subject'),
-            'message' => __('contact.attributes.message'),
-        ];
+        return ContactForm::validationAttributes();
     }
 }

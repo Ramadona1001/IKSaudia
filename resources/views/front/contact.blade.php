@@ -21,7 +21,7 @@
         $address = $siteSettings?->localizedAddress(app()->getLocale())
             ?: setting('contact.address')
             ?: __('footer.address_short');
-        $whatsapp = $siteSettings?->whatsappFormatted('966591154300');
+        $whatsapp = $siteSettings?->whatsappFormatted();
         $socialLinks = $siteSettings?->socialLinks() ?? [];
         $businessHours = $siteSettings?->businessHours(app()->getLocale()) ?? [];
         $mapQuery = urlencode(strip_tags(str_replace(["\r", "\n"], ' ', $address)));
@@ -91,13 +91,17 @@
             {{-- Form + sidebar --}}
             <div class="row g-5 contact-layout-row align-items-start">
                 <div class="col-lg-7" data-aos="fade-up">
+                    @php
+                        $formCopy = \App\Support\ContactForm::copy(app()->getLocale());
+                        $formFields = \App\Support\ContactForm::fields();
+                    @endphp
                     <div class="contact-form-wrap">
-                        <div class="section-eyebrow">{{ __('front.contact.form_eyebrow') }}</div>
+                        <div class="section-eyebrow">{{ $formCopy['eyebrow'] }}</div>
                         <h2 class="contact-form-title">
-                            <span>{{ __('front.contact.form_title1') }}</span>
-                            <span class="accent">{{ __('front.contact.form_title2') }}</span>
+                            <span>{{ $formCopy['title'] }}</span>
+                            <span class="accent">{{ $formCopy['title_accent'] }}</span>
                         </h2>
-                        <p class="contact-form-intro">{{ __('front.contact.form_intro') }}</p>
+                        <p class="contact-form-intro">{{ $formCopy['intro'] }}</p>
 
                         @if (session('contact_success'))
                             <div class="contact-alert contact-alert--success" role="status" aria-live="polite">
@@ -118,48 +122,64 @@
                             <input type="hidden" name="form_started_at" value="{{ $formStartedAt ?? time() }}">
 
                             <div class="row g-4">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="contact-name">{{ __('front.contact.fields.name') }} <span class="text-gold">*</span></label>
-                                        <input id="contact-name" name="name" type="text" class="form-control-custom @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="{{ __('front.contact.fields.name_ph') }}" required>
-                                        @error('name')<small class="form-error">{{ $message }}</small>@enderror
+                                @foreach ($formFields as $field)
+                                    @php
+                                        $fieldKey = $field['key'];
+                                        $fieldId = 'contact-'.$fieldKey;
+                                        $fieldType = $field['type'] ?? 'text';
+                                        $colClass = ($field['width'] ?? 'half') === 'full' ? 'col-12' : 'col-md-6';
+                                        $isRequired = (bool) ($field['is_required'] ?? false);
+                                        $label = \App\Support\ContactForm::label($field);
+                                        $placeholder = \App\Support\ContactForm::placeholder($field);
+                                    @endphp
+                                    <div class="{{ $colClass }}">
+                                        <div class="form-group {{ $loop->last ? 'mb-0' : '' }}">
+                                            <label class="form-label" for="{{ $fieldId }}">
+                                                {{ $label }}
+                                                @if ($isRequired)
+                                                    <span class="text-gold">*</span>
+                                                @endif
+                                            </label>
+
+                                            @if ($fieldType === 'textarea')
+                                                <textarea
+                                                    id="{{ $fieldId }}"
+                                                    name="{{ $fieldKey }}"
+                                                    rows="5"
+                                                    class="form-control-custom @error($fieldKey) is-invalid @enderror"
+                                                    placeholder="{{ $placeholder }}"
+                                                    @if ($isRequired) required @endif
+                                                >{{ old($fieldKey) }}</textarea>
+                                            @elseif ($fieldType === 'select')
+                                                <select
+                                                    id="{{ $fieldId }}"
+                                                    name="{{ $fieldKey }}"
+                                                    class="form-control-custom @error($fieldKey) is-invalid @enderror"
+                                                    @if ($isRequired) required @endif
+                                                >
+                                                    <option value="">{{ $placeholder ?: $label }}</option>
+                                                    @foreach (\App\Support\ContactForm::selectOptions($field) as $option)
+                                                        <option value="{{ $option['value'] }}" @selected(old($fieldKey) === $option['value'])>
+                                                            {{ $option['label'] }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            @else
+                                                <input
+                                                    id="{{ $fieldId }}"
+                                                    name="{{ $fieldKey }}"
+                                                    type="{{ \App\Support\ContactForm::inputType($field) }}"
+                                                    class="form-control-custom @error($fieldKey) is-invalid @enderror"
+                                                    value="{{ old($fieldKey) }}"
+                                                    placeholder="{{ $placeholder }}"
+                                                    @if ($isRequired) required @endif
+                                                >
+                                            @endif
+
+                                            @error($fieldKey)<small class="form-error">{{ $message }}</small>@enderror
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="contact-company">{{ __('front.contact.fields.company') }}</label>
-                                        <input id="contact-company" name="company" type="text" class="form-control-custom @error('company') is-invalid @enderror" value="{{ old('company') }}" placeholder="{{ __('front.contact.fields.company_ph') }}">
-                                        @error('company')<small class="form-error">{{ $message }}</small>@enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="contact-email">{{ __('front.contact.fields.email') }} <span class="text-gold">*</span></label>
-                                        <input id="contact-email" name="email" type="email" class="form-control-custom @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="{{ __('front.contact.fields.email_ph') }}" required>
-                                        @error('email')<small class="form-error">{{ $message }}</small>@enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="contact-phone">{{ __('front.contact.fields.phone') }}</label>
-                                        <input id="contact-phone" name="phone" type="tel" class="form-control-custom @error('phone') is-invalid @enderror" value="{{ old('phone') }}" placeholder="{{ __('front.contact.fields.phone_ph') }}">
-                                        @error('phone')<small class="form-error">{{ $message }}</small>@enderror
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="contact-subject">{{ __('front.contact.fields.subject') }} <span class="text-gold">*</span></label>
-                                        <input id="contact-subject" name="subject" type="text" class="form-control-custom @error('subject') is-invalid @enderror" value="{{ old('subject') }}" placeholder="{{ __('front.contact.fields.subject_ph') }}" required>
-                                        @error('subject')<small class="form-error">{{ $message }}</small>@enderror
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group mb-0">
-                                        <label class="form-label" for="contact-message">{{ __('front.contact.fields.message') }} <span class="text-gold">*</span></label>
-                                        <textarea id="contact-message" name="message" rows="5" class="form-control-custom @error('message') is-invalid @enderror" placeholder="{{ __('front.contact.fields.message_ph') }}" required>{{ old('message') }}</textarea>
-                                        @error('message')<small class="form-error">{{ $message }}</small>@enderror
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
 
                             <input type="text" name="website" value="" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true">

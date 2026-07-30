@@ -58,7 +58,7 @@
             <i class="bi bi-chat-dots-fill" aria-hidden="true"></i>
             <span>{{ __('front.faq.ask_question') }}</span>
         </a>
-        @php $wa = $siteSettings?->whatsappFormatted('966591154300'); @endphp
+        @php $wa = $siteSettings?->whatsappFormatted(); @endphp
         @if ($wa)
             <a href="{{ $wa }}" class="btn-outline-gold" target="_blank" rel="noopener">
                 <i class="bi bi-whatsapp" aria-hidden="true"></i>

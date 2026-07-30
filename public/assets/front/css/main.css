@@ -2037,11 +2037,11 @@
      background: linear-gradient(to left, var(--c-dark), transparent);
    }
    
-   .clients-marquee {
-     display: flex;
-     align-items: center;
-     gap: 56px;
-     animation: marquee 40s linear infinite;
+  .clients-marquee {
+    display: flex;
+    align-items: center;
+    gap: 56px;
+    animation: marquee var(--marquee-duration, 40s) linear infinite;
      width: max-content;
      padding-inline: 28px;
    }

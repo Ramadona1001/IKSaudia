@@ -160,6 +160,32 @@ function initIndustriesSwiper() {
 }
 
 /* ============================================================
+   Logo Marquee Speed Sync
+   ============================================================ */
+function syncMarqueeSpeed(referenceMarquee, targetMarquee) {
+  if (!referenceMarquee || !targetMarquee) return;
+
+  const referenceDistance = referenceMarquee.scrollWidth / 2;
+  const targetDistance = targetMarquee.scrollWidth / 2;
+  if (!referenceDistance || !targetDistance) return;
+
+  const referenceDuration = parseFloat(getComputedStyle(referenceMarquee).animationDuration) || 40;
+  const targetDuration = referenceDuration * (targetDistance / referenceDistance);
+
+  targetMarquee.style.setProperty('--marquee-duration', `${targetDuration}s`);
+}
+
+function initLogoMarqueeSpeed() {
+  document.querySelectorAll('.clients-marquee[data-marquee-sync]').forEach(targetMarquee => {
+    const selector = targetMarquee.getAttribute('data-marquee-sync');
+    if (!selector) return;
+
+    const referenceMarquee = document.querySelector(selector);
+    syncMarqueeSpeed(referenceMarquee, targetMarquee);
+  });
+}
+
+/* ============================================================
    Partners Swiper
    ============================================================ */
 function initPartnersSwiper() {
@@ -623,6 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initServicesSwiper();
   initIndustriesSwiper();
   initPartnersSwiper();
+  initLogoMarqueeSpeed();
   initTestimonialsSwiper();
   initCounters();
   initFaq();
@@ -644,5 +671,8 @@ document.addEventListener('DOMContentLoaded', () => {
    ============================================================ */
 window.addEventListener('load', () => {
   document.body.classList.add('fully-loaded');
+  initLogoMarqueeSpeed();
   if (typeof AOS !== 'undefined') AOS.refresh();
 });
+
+window.addEventListener('resize', throttle(initLogoMarqueeSpeed, 200));

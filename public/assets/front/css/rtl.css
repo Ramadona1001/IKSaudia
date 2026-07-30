@@ -153,7 +153,7 @@
      Clients & Partners RTL
      ============================================================ */
   [dir="rtl"] .clients-marquee {
-    animation: marqueeRTL 30s linear infinite;
+    animation: marqueeRTL var(--marquee-duration, 30s) linear infinite;
   }
 
   [dir="rtl"] .clients-marquee-wrap--reverse .clients-marquee {

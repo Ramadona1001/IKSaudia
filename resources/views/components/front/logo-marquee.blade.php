@@ -3,6 +3,7 @@
     'ariaLabel' => '',
     'imageOnly' => false,
     'reverse' => false,
+    'speedReference' => null,
 ])
 
 @php
@@ -23,7 +24,10 @@
         role="region"
         @if ($ariaLabel) aria-label="{{ $ariaLabel }}" @endif
     >
-        <div class="clients-marquee">
+        <div
+            class="clients-marquee"
+            @if ($speedReference) data-marquee-sync="{{ $speedReference }}" @endif
+        >
             @foreach ($marqueeItems as $item)
                 <x-front.client-marquee-item
                     :name="$item['name']"

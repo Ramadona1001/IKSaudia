@@ -477,6 +477,7 @@
         <x-front.logo-marquee
             :items="$partnerMarqueeItems"
             :aria-label="__('front.home.partners.eyebrow')"
+            speed-reference="#clients .clients-marquee"
             data-aos="fade-up"
         />
     </section>

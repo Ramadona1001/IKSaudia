@@ -15,7 +15,7 @@ class IndustryForm
         return $schema->components([
             Section::make('Settings')->columns(2)->schema([
                 FormSchemas::featuredImageUpload('industries'),
-                TextInput::make('icon')->placeholder('Icon identifier'),
+                FormSchemas::bootstrapIconSelect('icon', 'bi-grid-3x3-gap-fill'),
                 Toggle::make('is_featured')->label('Featured'),
             ]),
             FormSchemas::publishSection(),

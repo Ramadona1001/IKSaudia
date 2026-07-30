@@ -48,22 +48,17 @@
             <div class="row g-4">
                 @php
                     $edges = [
-                        ['key' => 'aramco',   'icon' => 'bi-patch-check-fill',     'variant' => 'gold'],
-                        ['key' => 'workforce','icon' => 'bi-people-fill',          'variant' => 'blue'],
-                        ['key' => 'safety',   'icon' => 'bi-shield-fill-check',    'variant' => 'gold'],
-                        ['key' => 'delivery', 'icon' => 'bi-graph-up-arrow',       'variant' => 'blue'],
+                        ['key' => 'aramco',   'icon' => 'bi-patch-check-fill'],
+                        ['key' => 'workforce','icon' => 'bi-people-fill'],
+                        ['key' => 'safety',   'icon' => 'bi-shield-fill-check'],
+                        ['key' => 'delivery', 'icon' => 'bi-graph-up-arrow'],
                     ];
                 @endphp
 
                 @foreach ($edges as $i => $edge)
-                    @php
-                        $bg = $edge['variant'] === 'gold' ? 'rgba(201,162,39,0.12)' : 'rgba(0,117,190,0.1)';
-                        $border = $edge['variant'] === 'gold' ? 'rgba(201,162,39,0.2)' : 'rgba(0,117,190,0.2)';
-                        $color = $edge['variant'] === 'gold' ? 'var(--c-gold)' : '#0075be';
-                    @endphp
                     <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
                         <div class="about-stat-item services-edge-card">
-                            <div class="services-edge-icon" style="background:{{ $bg }};border-color:{{ $border }};color:{{ $color }};">
+                            <div class="services-edge-icon">
                                 <i class="bi {{ $edge['icon'] }}" aria-hidden="true"></i>
                             </div>
                             <h4 class="services-edge-title">{{ __('front.services.edge.'.$edge['key'].'.title') }}</h4>

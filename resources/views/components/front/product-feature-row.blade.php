@@ -25,7 +25,7 @@
             <img src="{{ $img }}" alt="{{ $pt->title }}" class="product-feature-row__image" loading="lazy" decoding="async">
         @else
             <div class="product-feature-row__placeholder">
-                <i class="bi {{ $product->icon ?: 'bi-box-seam' }}" aria-hidden="true"></i>
+                <i class="{{ \App\Support\BootstrapIcon::classes($product->icon, 'bi-box-seam') }}" aria-hidden="true"></i>
             </div>
         @endif
     </div>

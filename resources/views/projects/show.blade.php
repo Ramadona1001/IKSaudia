@@ -97,7 +97,7 @@
                                         @if ($st)
                                             <li>
                                                 <a href="{{ route('services.show', [$locale, $st->slug]) }}">
-                                                    <i class="bi {{ $service->icon ?: 'bi-gear-fill' }}" aria-hidden="true"></i>{{ $st->title }}
+                                                    <i class="{{ \App\Support\BootstrapIcon::classes($service->icon, 'bi-gear-fill') }}" aria-hidden="true"></i>{{ $st->title }}
                                                 </a>
                                             </li>
                                         @endif

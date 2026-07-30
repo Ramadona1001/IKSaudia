@@ -40,7 +40,7 @@
                         <div class="service-show-media" style="background-image:url('{{ $service->featured_image_url }}');"></div>
                     @else
                         <div class="service-show-media service-show-media--placeholder">
-                            <i class="bi {{ $service->icon ?: 'bi-gear-wide-connected' }}" aria-hidden="true"></i>
+                            <i class="{{ \App\Support\BootstrapIcon::classes($service->icon, 'bi-gear-wide-connected') }}" aria-hidden="true"></i>
                             <div class="service-show-featured-badge">{{ __('common.featured') }}</div>
                         </div>
                     @endif
@@ -74,7 +74,7 @@
                                     @if ($rt)
                                         <li>
                                             <a href="{{ route('services.show', [$locale, $rt->slug]) }}">
-                                                <i class="bi {{ $r->icon ?: 'bi-gear-fill' }}" aria-hidden="true"></i>
+                                                <i class="{{ \App\Support\BootstrapIcon::classes($r->icon, 'bi-gear-fill') }}" aria-hidden="true"></i>
                                                 <span>{{ $rt->title }}</span>
                                             </a>
                                         </li>

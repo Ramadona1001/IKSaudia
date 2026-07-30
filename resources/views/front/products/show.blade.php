@@ -60,7 +60,7 @@
                                 >
                             @else
                                 <div class="product-detail-image-card__placeholder">
-                                    <i class="bi {{ $product->icon ?: 'bi-box-seam' }}" aria-hidden="true"></i>
+                                    <i class="{{ \App\Support\BootstrapIcon::classes($product->icon, 'bi-box-seam') }}" aria-hidden="true"></i>
                                 </div>
                             @endif
                         </div>

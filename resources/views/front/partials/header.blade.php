@@ -109,7 +109,7 @@
                                     @if ($st)
                                         <li>
                                             <a href="{{ route('services.show', [$locale, $st->slug]) }}">
-                                                <i class="bi {{ $service->icon ?? 'bi-gear-fill' }}"></i>
+                                                <i class="{{ \App\Support\BootstrapIcon::classes($service->icon, 'bi-gear-fill') }}" aria-hidden="true"></i>
                                                 <span>{{ $st->title }}</span>
                                             </a>
                                         </li>
@@ -127,7 +127,7 @@
                                     @if ($it)
                                         <li>
                                             <a href="{{ route('industries.show', [$locale, $it->slug]) }}">
-                                                <i class="bi {{ $industry->icon ?? 'bi-grid-3x3-gap-fill' }}"></i>
+                                                <i class="{{ \App\Support\BootstrapIcon::classes($industry->icon, 'bi-grid-3x3-gap-fill') }}" aria-hidden="true"></i>
                                                 <span>{{ $it->title }}</span>
                                             </a>
                                         </li>

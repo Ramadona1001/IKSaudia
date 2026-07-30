@@ -29,11 +29,7 @@ class FaqCategoryForm
                     ])
                     ->default('gold')
                     ->native(false),
-                TextInput::make('icon')
-                    ->label('Bootstrap icon class')
-                    ->default('bi-question-circle-fill')
-                    ->maxLength(80)
-                    ->columnSpanFull(),
+                FormSchemas::bootstrapIconSelect('icon', 'bi-question-circle-fill'),
             ]),
             Section::make('Publishing')->columns(2)->schema([
                 Toggle::make('is_published')->label('Published')->default(true),

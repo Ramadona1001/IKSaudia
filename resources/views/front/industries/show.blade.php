@@ -39,7 +39,7 @@
                         <div style="height:360px;border-radius:var(--radius-xl);overflow:hidden;margin-bottom:40px;background-image:url('{{ $industry->featured_image_url }}');background-size:cover;background-position:center;"></div>
                     @else
                         <div style="height:360px;border-radius:var(--radius-xl);overflow:hidden;margin-bottom:40px;background:linear-gradient(135deg,#0d2137 0%,#1a3a5c 40%,#0a1020 100%);display:flex;align-items:center;justify-content:center;position:relative;">
-                            <i class="bi {{ $industry->icon ?: 'bi-grid-3x3-gap-fill' }}" style="font-size:10rem;color:rgba(0,168,232,0.15);" aria-hidden="true"></i>
+                            <i class="{{ \App\Support\BootstrapIcon::classes($industry->icon, 'bi-grid-3x3-gap-fill') }}" style="font-size:10rem;color:rgba(0,168,232,0.15);" aria-hidden="true"></i>
                         </div>
                     @endif
 
@@ -60,7 +60,7 @@
                                     <div class="col-md-6">
                                         <a href="{{ route('services.show', [$locale, $st->slug]) }}"
                                            style="display:flex;gap:10px;align-items:flex-start;padding:14px;border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);font-size:0.9rem;color:var(--c-muted);text-decoration:none;transition:all 0.2s;">
-                                            <i class="bi {{ $svc->icon ?: 'bi-check-circle-fill' }}" style="color:var(--c-gold);margin-top:2px;flex-shrink:0;" aria-hidden="true"></i>
+                                            <i class="{{ \App\Support\BootstrapIcon::classes($svc->icon, 'bi-check-circle-fill') }}" style="color:var(--c-gold);margin-top:2px;flex-shrink:0;" aria-hidden="true"></i>
                                             <span>{{ $st->title }}</span>
                                         </a>
                                     </div>
@@ -78,7 +78,7 @@
                                 @if ($rt)
                                     <a href="{{ route('industries.show', [$locale, $rt->slug]) }}"
                                        style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-pill);padding:10px 18px;font-size:0.82rem;color:var(--c-muted);text-decoration:none;transition:all 0.2s;">
-                                        <i class="bi {{ $r->icon ?: 'bi-grid' }}" style="color:var(--c-gold);" aria-hidden="true"></i>
+                                        <i class="{{ \App\Support\BootstrapIcon::classes($r->icon, 'bi-grid') }}" style="color:var(--c-gold);" aria-hidden="true"></i>
                                         {{ $rt->title }}
                                     </a>
                                 @endif

@@ -10,7 +10,7 @@
     $pt = $product->translate($locale);
     if (! $pt) { return; }
 
-    $icon = $product->icon ?: 'bi-box-seam';
+    $icon = \App\Support\BootstrapIcon::normalize($product->icon, 'bi-box-seam');
     $iconClasses = ['ind-icon-blue', 'ind-icon-gold', 'ind-icon-green', 'ind-icon-red', 'ind-icon-purple', 'ind-icon-teal'];
     $iconClass = $iconClasses[($index - 1) % count($iconClasses)];
     $bgClass = 'ind-bg-'.((($index - 1) % 6) + 1);

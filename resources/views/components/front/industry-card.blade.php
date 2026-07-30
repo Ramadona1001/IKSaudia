@@ -10,7 +10,7 @@
     $it = $industry->translate($locale);
     if (! $it) { return; }
 
-    $icon = $industry->icon ?: 'bi-grid-3x3-gap-fill';
+    $icon = \App\Support\BootstrapIcon::normalize($industry->icon, 'bi-grid-3x3-gap-fill');
     $iconClasses = ['ind-icon-blue', 'ind-icon-gold', 'ind-icon-green', 'ind-icon-red', 'ind-icon-purple', 'ind-icon-teal'];
     $iconClass = $iconClasses[($index - 1) % count($iconClasses)];
     $bgClass = 'ind-bg-'.((($index - 1) % 6) + 1);

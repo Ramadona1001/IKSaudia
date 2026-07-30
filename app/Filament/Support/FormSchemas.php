@@ -2,9 +2,11 @@
 
 namespace App\Filament\Support;
 
+use App\Support\BootstrapIcon;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -141,5 +143,33 @@ final class FormSchemas
             TextInput::make("translations.{$locale}.slug")->required($requireArabic && $locale === 'ar')->maxLength(255),
             Textarea::make("translations.{$locale}.description")->rows(4)->columnSpanFull(),
         ];
+    }
+
+    public static function bootstrapIconSelect(string $name = 'icon', ?string $default = null, ?string $label = null): Select
+    {
+        $field = Select::make($name)
+            ->label($label ?? 'Icon')
+            ->options(BootstrapIcon::groupedOptions())
+            ->searchable()
+            ->native(false)
+            ->dehydrateStateUsing(fn (?string $state): ?string => BootstrapIcon::normalize($state))
+            ->afterStateHydrated(function (Select $component, $state): void {
+                if (! is_string($state) || $state === '') {
+                    return;
+                }
+
+                $normalized = BootstrapIcon::normalize($state);
+
+                if ($normalized !== null && $normalized !== $state) {
+                    $component->state($normalized);
+                }
+            })
+            ->helperText('Bootstrap icon shown on the website (menus, cards, etc.).');
+
+        if ($default !== null) {
+            $field->default($default);
+        }
+
+        return $field;
     }
 }

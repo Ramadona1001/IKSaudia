@@ -56,7 +56,7 @@ class ServiceSeeder extends Seeder
             [
                 'uuid' => 'seed-industrial-manufacturing',
                 'sort_order' => 1,
-                'icon' => 'bi-factory',
+                'icon' => 'bi-building-fill',
                 'translations' => [
                     'ar' => [
                         'title' => 'التصنيع الصناعي',

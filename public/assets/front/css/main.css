@@ -619,6 +619,9 @@
    }
    
    .nav-dropdown-menu li a i {
+     flex-shrink: 0;
+     width: 1.1rem;
+     text-align: center;
      font-size: 0.9rem;
      color: var(--c-gold);
    }
@@ -4920,6 +4923,18 @@
     padding: 30px;
   }
 
+  .services-index-why .services-edge-card:hover {
+    border-color: rgba(255, 255, 255, 0.06);
+    background: var(--brand-primary);
+    transform: none;
+  }
+
+  .services-index-why .services-edge-icon {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
+
   .services-edge-icon {
     width: 60px;
     height: 60px;
@@ -4930,6 +4945,11 @@
     justify-content: center;
     font-size: 1.6rem;
     margin: 0 auto 16px;
+  }
+
+  .services-index-why .services-edge-title,
+  .services-index-why .services-edge-desc {
+    color: #fff;
   }
 
   .services-edge-title {

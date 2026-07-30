@@ -24,8 +24,7 @@ class ServiceForm
                     ->columns(2)
                     ->schema([
                         FormSchemas::featuredImageUpload('services'),
-                        TextInput::make('icon')
-                            ->placeholder('heroicon name or CSS class'),
+                        FormSchemas::bootstrapIconSelect('icon', 'bi-gear-fill'),
                         Toggle::make('is_published')
                             ->label(__('cms.fields.published'))
                             ->default(false)

@@ -39,7 +39,7 @@ class ProductForm
                         ->disabled()
                         ->dehydrated(),
                     FormSchemas::featuredImageUpload('products'),
-                    TextInput::make('icon')->placeholder('bi-box-seam'),
+                    FormSchemas::bootstrapIconSelect('icon', 'bi-box-seam'),
                     Toggle::make('is_featured')->label(__('cms.fields.featured')),
                 ]),
             Section::make(__('cms.sections.product_spec_pdf'))

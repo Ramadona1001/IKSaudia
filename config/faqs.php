@@ -6,10 +6,8 @@
 |--------------------------------------------------------------------------
 |
 | FAQ items are grouped by category. Each item provides per-locale
-| question/answer text. The FaqService reads from this file (cached) so
-| that updates do not require a database migration. To make FAQs admin
-| editable later, swap the data source inside FaqService without
-| touching any Blade view.
+| question/answer text. Run `php artisan db:seed --class=FaqSeeder` to
+| import this file into the database for admin CRUD at /ik-admin/faqs.
 |
 */
 

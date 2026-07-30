@@ -27,7 +27,16 @@ final class FooterLink
         }
 
         if (str_starts_with($url, 'route:')) {
-            return self::routeUrl(substr($url, 6), $locale);
+            $routePart = substr($url, 6);
+            $fragment = null;
+
+            if (str_contains($routePart, '#')) {
+                [$routePart, $fragment] = explode('#', $routePart, 2);
+            }
+
+            $resolved = self::routeUrl($routePart, $locale);
+
+            return filled($fragment) ? $resolved.'#'.ltrim($fragment, '#') : $resolved;
         }
 
         if (Route::has($url)) {
@@ -258,6 +267,12 @@ final class FooterLink
             $slug = substr($route, strlen('industries.show/'));
 
             return route('industries.show', [$locale, $slug]);
+        }
+
+        if (str_starts_with($route, 'products.show/')) {
+            $slug = substr($route, strlen('products.show/'));
+
+            return route('products.show', $slug);
         }
 
         if (in_array($route, ['products.index', 'products.show'], true)) {

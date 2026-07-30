@@ -5,6 +5,7 @@ namespace App\Filament\Pages\WebsiteSettings;
 use App\Models\PageTranslation;
 use App\Services\NavigationService;
 use App\Support\HomeSectionHeading;
+use App\Support\SiteLinkCatalog;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
@@ -17,6 +18,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 
@@ -296,7 +298,7 @@ final class WebsiteSettingsForm
                 self::imageUpload('footer.background_image', 'Footer background', 'site-settings/footer'),
             ]),
             Section::make('Link groups')
-                ->description('Manage footer columns: Company (quick links), Our services, Industries, and legal links in the bottom bar.')
+                ->description('Manage footer columns. Pick a destination from the dropdown (pages, services, sections, CMS pages) or choose Custom URL for external links.')
                 ->schema([
                 self::linkRepeater('footer.quick_links', 'Quick links (Company column)'),
                 self::linkRepeater('footer.service_links', 'Service links (Our services column)'),
@@ -568,18 +570,44 @@ final class WebsiteSettingsForm
             ->schema([
                 TextInput::make('label_ar')->label('Label (AR)'),
                 TextInput::make('label_en')->label('Label (EN)'),
-                TextInput::make('url')
-                    ->label('URL')
+                Select::make('url_destination')
+                    ->label('Link to')
+                    ->options(fn (): array => SiteLinkCatalog::groupedOptions())
+                    ->searchable()
+                    ->live()
+                    ->native(false)
                     ->required()
-                    ->helperText('Examples: https://…, /en/contact, about-us (CMS page), route:services.index, route:services.show/my-service'),
+                    ->columnSpanFull(),
+                TextInput::make('url_custom')
+                    ->label('Custom URL')
+                    ->helperText('External link (https://…) or a path (/en/contact).')
+                    ->visible(fn (Get $get): bool => $get('url_destination') === SiteLinkCatalog::CUSTOM)
+                    ->required(fn (Get $get): bool => $get('url_destination') === SiteLinkCatalog::CUSTOM)
+                    ->columnSpanFull(),
                 Toggle::make('is_visible')->label('Visible')->default(true),
-                TextInput::make('sort_order')->label('Sort')->numeric()->default(0),
+                Hidden::make('sort_order')->default(0),
             ])
             ->columns(2)
             ->collapsible()
             ->reorderable()
             ->itemLabel(fn (array $state): ?string => self::navigationItemLabel($state))
-            ->defaultItems(0);
+            ->defaultItems(0)
+            ->dehydrateStateUsing(function (?array $state): array {
+                if (! is_array($state)) {
+                    return [];
+                }
+
+                return collect($state)
+                    ->filter(fn ($row) => is_array($row))
+                    ->values()
+                    ->map(function (array $row, int $index): array {
+                        $row['url'] = SiteLinkCatalog::resolveStoredUrl($row);
+                        unset($row['url_destination'], $row['url_custom']);
+
+                        return array_merge($row, ['sort_order' => $index]);
+                    })
+                    ->all();
+            });
     }
 
     /** @return array<int, mixed> */

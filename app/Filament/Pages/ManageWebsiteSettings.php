@@ -6,6 +6,7 @@ use App\Filament\Navigation\NavigationGroup;
 use App\Filament\Pages\WebsiteSettings\WebsiteSettingsForm;
 use App\Services\NavigationService;
 use App\Services\SettingsService;
+use App\Support\SiteLinkCatalog;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -52,6 +53,11 @@ class ManageWebsiteSettings extends Page
         $state['navigation']['header_items'] = app(NavigationService::class)->reindexFormItems(
             app(NavigationService::class)->toFormState(),
         );
+
+        if (isset($state['footer']) && is_array($state['footer'])) {
+            $state['footer'] = SiteLinkCatalog::hydrateFooterLinkGroups($state['footer']);
+        }
+
         $this->form->fill($state);
     }
 

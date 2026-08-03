@@ -29,7 +29,7 @@
     />
 
     <x-front.breadcrumb :items="array_filter([
-        ['label' => __('navigation.products'), 'url' => route('products.index')],
+        ['section' => 'products', 'url' => route('products.index')],
         $parentT ? ['label' => $parentT->title, 'url' => route('products.show', $parentT->slug)] : null,
         ['label' => $title],
     ])" />

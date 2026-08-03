@@ -13,7 +13,7 @@
         :subtitle="__('front.clients.subtitle')"
     />
 
-    <x-front.breadcrumb :items="[['label' => __('front.clients.breadcrumb')]]" />
+    <x-front.breadcrumb :items="[['section' => 'clients']]" />
 
     {{-- Stats --}}
     <section style="padding:50px 0;background:var(--c-dark2);border-bottom:1px solid rgba(255,255,255,0.04);">

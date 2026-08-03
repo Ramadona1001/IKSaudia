@@ -13,7 +13,7 @@
         :subtitle="__('front.services.subtitle')"
     />
 
-    <x-front.breadcrumb :items="[['label' => __('front.services.breadcrumb')]]" />
+    <x-front.breadcrumb :items="[['section' => 'services']]" />
 
     {{-- Services Grid --}}
     <section class="section-pad services-index-section">

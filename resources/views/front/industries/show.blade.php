@@ -26,7 +26,7 @@
     />
 
     <x-front.breadcrumb :items="[
-        ['label' => __('navigation.industries'), 'url' => route('industries.index', $locale)],
+        ['section' => 'industries', 'url' => route('industries.index', $locale)],
         ['label' => $title],
     ]" />
 

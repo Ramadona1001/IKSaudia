@@ -15,13 +15,28 @@ final class HomeSectionHeading
             'about' => 'About section',
             'foundation' => 'Mission, vision & values',
             'services' => 'Services section',
+            'products' => 'Products section',
             'industries' => 'Industries section',
             'clients' => 'Clients section',
             'partners' => 'Partners section',
             'projects' => 'Projects section',
             'certifications' => 'Certifications section',
             'faq' => 'FAQ section',
+            'contact' => 'Contact section',
         ];
+    }
+
+    public static function breadcrumbLabel(string $key, ?string $locale = null): string
+    {
+        $locale ??= app()->getLocale();
+        $heading = self::resolve($key, $locale);
+        $label = trim($heading['title'].$heading['highlight']);
+
+        if ($label !== '') {
+            return $label;
+        }
+
+        return self::fallbackBreadcrumbLabel($key, $locale);
     }
 
     /**
@@ -92,6 +107,12 @@ final class HomeSectionHeading
                 'highlight' => __('front.services.highlight', [], $locale),
                 'description' => __('front.services.subtitle', [], $locale),
             ],
+            'products' => [
+                'eyebrow' => __('front.products.tag', [], $locale),
+                'title' => __('front.products.title', [], $locale),
+                'highlight' => __('front.products.highlight', [], $locale),
+                'description' => __('front.products.subtitle', [], $locale),
+            ],
             'industries' => [
                 'eyebrow' => __('front.home.industries.eyebrow', [], $locale),
                 'title' => __('front.home.industries.title', [], $locale),
@@ -127,6 +148,12 @@ final class HomeSectionHeading
                 'title' => __('front.home.faq.title', [], $locale),
                 'highlight' => __('front.home.faq.highlight', [], $locale),
                 'description' => __('front.home.faq.desc', [], $locale),
+            ],
+            'contact' => [
+                'eyebrow' => __('front.contact.tag', [], $locale),
+                'title' => __('front.contact.title', [], $locale),
+                'highlight' => __('front.contact.highlight', [], $locale),
+                'description' => __('front.contact.subtitle', [], $locale),
             ],
             default => [
                 'eyebrow' => '',
@@ -225,5 +252,23 @@ final class HomeSectionHeading
         }
 
         return $base;
+    }
+
+    private static function fallbackBreadcrumbLabel(string $key, string $locale): string
+    {
+        return match ($key) {
+            'about' => __('front.about.breadcrumb', [], $locale),
+            'foundation' => trim(__('front.about.foundation_title', [], $locale).__('front.about.foundation_highlight', [], $locale)),
+            'services' => __('front.services.breadcrumb', [], $locale),
+            'products' => __('front.products.breadcrumb', [], $locale),
+            'industries' => __('front.industries.breadcrumb', [], $locale),
+            'clients' => __('front.clients.breadcrumb', [], $locale),
+            'partners' => __('front.partners.breadcrumb', [], $locale),
+            'projects' => __('navigation.projects', [], $locale),
+            'certifications' => trim(__('front.home.certs.title', [], $locale).__('front.home.certs.highlight', [], $locale)),
+            'faq' => __('front.faq.breadcrumb', [], $locale),
+            'contact' => __('front.contact.breadcrumb', [], $locale),
+            default => '',
+        };
     }
 }

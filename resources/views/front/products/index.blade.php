@@ -13,7 +13,7 @@
         :subtitle="__('front.products.subtitle')"
     />
 
-    <x-front.breadcrumb :items="[['label' => __('front.products.breadcrumb')]]" />
+    <x-front.breadcrumb :items="[['section' => 'products']]" />
 
     <section class="section-pad projects-index-section">
         <div class="container">

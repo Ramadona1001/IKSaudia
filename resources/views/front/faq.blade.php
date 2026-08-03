@@ -13,7 +13,7 @@
         :subtitle="__('front.faq.subtitle')"
     />
 
-    <x-front.breadcrumb :items="[['label' => __('front.faq.breadcrumb')]]" />
+    <x-front.breadcrumb :items="[['section' => 'faq']]" />
 
     {{-- FAQ Accordions --}}
     <section class="section-pad bg-dark1">

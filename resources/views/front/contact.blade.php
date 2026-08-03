@@ -13,7 +13,7 @@
         :subtitle="__('front.contact.subtitle')"
     />
 
-    <x-front.breadcrumb :items="[['label' => __('front.contact.breadcrumb')]]" />
+    <x-front.breadcrumb :items="[['section' => 'contact']]" />
 
     @php
         $phones = $siteSettings?->phones() ?? [];

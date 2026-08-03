@@ -14,7 +14,7 @@
         :subtitle="__('projects.index.subtitle')"
     />
 
-    <x-front.breadcrumb :items="[['label' => __('navigation.projects')]]" />
+    <x-front.breadcrumb :items="[['section' => 'projects']]" />
 
     <section class="section-pad projects-index-section">
         <div class="container">

@@ -13,7 +13,7 @@
         :subtitle="__('front.about.subtitle')"
     />
 
-    <x-front.breadcrumb :items="[['label' => __('front.about.breadcrumb')]]" />
+    <x-front.breadcrumb :items="[['section' => 'about']]" />
 
     {{-- Company Overview --}}
     <section class="section-pad bg-dark1">

@@ -26,7 +26,7 @@
     />
 
     <x-front.breadcrumb :items="[
-        ['label' => __('navigation.services'), 'url' => route('services.index', $locale)],
+        ['section' => 'services', 'url' => route('services.index', $locale)],
         ['label' => $title],
     ]" />
 

@@ -3,16 +3,11 @@
 @php $locale = app()->getLocale(); @endphp
 
 @section('title', __('navigation.projects'))
-@section('meta_description', __('projects.index.subtitle'))
+@section('meta_description', \App\Support\HomeSectionHeading::resolve('projects')['description'])
 
 @section('content')
 
-    <x-front.page-hero
-        :tag="__('projects.index.overline')"
-        icon="bi-kanban-fill"
-        :title="__('projects.index.title')"
-        :subtitle="__('projects.index.subtitle')"
-    />
+    <x-front.page-hero section="projects" icon="bi-kanban-fill" />
 
     <x-front.breadcrumb :items="[['section' => 'projects']]" />
 

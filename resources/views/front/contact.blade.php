@@ -1,17 +1,11 @@
 @extends('front.layouts.app')
 
 @section('title', __('navigation.contact'))
-@section('meta_description', __('front.contact.subtitle'))
+@section('meta_description', \App\Support\HomeSectionHeading::resolve('contact')['description'])
 
 @section('content')
 
-    <x-front.page-hero
-        :tag="__('front.contact.tag')"
-        icon="bi-envelope-fill"
-        :title="__('front.contact.title')"
-        :highlight="__('front.contact.highlight')"
-        :subtitle="__('front.contact.subtitle')"
-    />
+    <x-front.page-hero section="contact" icon="bi-envelope-fill" />
 
     <x-front.breadcrumb :items="[['section' => 'contact']]" />
 

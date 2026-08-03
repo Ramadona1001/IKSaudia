@@ -1,17 +1,11 @@
 @extends('front.layouts.app')
 
 @section('title', __('navigation.industries'))
-@section('meta_description', __('front.industries.subtitle'))
+@section('meta_description', \App\Support\HomeSectionHeading::resolve('industries')['description'])
 
 @section('content')
 
-    <x-front.page-hero
-        :tag="__('front.industries.tag')"
-        icon="bi-grid-3x3-gap-fill"
-        :title="__('front.industries.title')"
-        :highlight="__('front.industries.highlight')"
-        :subtitle="__('front.industries.subtitle')"
-    />
+    <x-front.page-hero section="industries" icon="bi-grid-3x3-gap-fill" />
 
     <x-front.breadcrumb :items="[['section' => 'industries']]" />
 

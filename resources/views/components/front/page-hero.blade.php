@@ -4,7 +4,19 @@
     'title' => null,
     'subtitle' => null,
     'highlight' => null,
+    'section' => null,
 ])
+
+@php
+    if ($section) {
+        $heading = \App\Support\HomeSectionHeading::resolve($section);
+
+        $tag ??= filled($heading['eyebrow']) ? $heading['eyebrow'] : null;
+        $title ??= $heading['title'];
+        $highlight ??= $heading['highlight'];
+        $subtitle ??= filled($heading['description']) ? $heading['description'] : null;
+    }
+@endphp
 
 <section {{ $attributes->merge(['class' => 'page-hero']) }}>
     <div class="page-hero-glow" aria-hidden="true"></div>

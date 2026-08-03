@@ -1,17 +1,11 @@
 @extends('front.layouts.app')
 
 @section('title', __('navigation.about'))
-@section('meta_description', __('front.about.subtitle'))
+@section('meta_description', \App\Support\HomeSectionHeading::resolve('about')['description'])
 
 @section('content')
 
-    <x-front.page-hero
-        :tag="__('front.about.tag')"
-        icon="bi-building"
-        :title="__('front.about.title')"
-        :highlight="__('front.about.highlight')"
-        :subtitle="__('front.about.subtitle')"
-    />
+    <x-front.page-hero section="about" icon="bi-building" />
 
     <x-front.breadcrumb :items="[['section' => 'about']]" />
 

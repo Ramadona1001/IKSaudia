@@ -1,17 +1,11 @@
 @extends('front.layouts.app')
 
 @section('title', __('navigation.faq'))
-@section('meta_description', __('front.faq.subtitle'))
+@section('meta_description', \App\Support\HomeSectionHeading::resolve('faq')['description'])
 
 @section('content')
 
-    <x-front.page-hero
-        :tag="__('front.faq.tag')"
-        icon="bi-patch-question-fill"
-        :title="__('front.faq.title')"
-        :highlight="__('front.faq.highlight')"
-        :subtitle="__('front.faq.subtitle')"
-    />
+    <x-front.page-hero section="faq" icon="bi-patch-question-fill" />
 
     <x-front.breadcrumb :items="[['section' => 'faq']]" />
 

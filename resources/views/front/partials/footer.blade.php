@@ -21,6 +21,10 @@
     $featuredServices = $featuredServices ?? collect();
     $certBadges = $siteSettings->certificationBadges();
     $legalLinks = \App\Support\LegalLink::visibleLinks($locale);
+    $footerCtaEnabled = setting('footer.cta_enabled', true);
+    $footerCtaOverline = setting('footer.cta_overline') ?: __('footer.cta.overline');
+    $footerCtaTitle = setting('footer.cta_title') ?: __('footer.cta.title');
+    $footerCtaSubtitle = setting('footer.cta_subtitle') ?: __('footer.cta.subtitle');
 @endphp
 
 <footer class="site-footer" role="contentinfo">
@@ -29,21 +33,23 @@
         <span class="footer-bg-orb footer-bg-orb--2"></span>
     </div>
 
-    <div class="footer-cta">
-        <div class="container">
-            <div class="footer-cta-box" data-aos="fade-up">
-                <div class="footer-cta-content">
-                    <span class="footer-cta-eyebrow">{{ __('footer.cta.overline') }}</span>
-                    <h2 class="footer-cta-title">{{ __('footer.cta.title') }}</h2>
-                    <p class="footer-cta-desc">{{ __('footer.cta.subtitle') }}</p>
+    @if ($footerCtaEnabled)
+        <div class="footer-cta">
+            <div class="container">
+                <div class="footer-cta-box" data-aos="fade-up">
+                    <div class="footer-cta-content">
+                        <span class="footer-cta-eyebrow">{{ $footerCtaOverline }}</span>
+                        <h2 class="footer-cta-title">{{ $footerCtaTitle }}</h2>
+                        <p class="footer-cta-desc">{{ $footerCtaSubtitle }}</p>
+                    </div>
+                    <a href="{{ route('contact', $locale) }}" class="btn-gold footer-cta-btn">
+                        <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+                        <span>{{ __('buttons.contact_us') }}</span>
+                    </a>
                 </div>
-                <a href="{{ route('contact', $locale) }}" class="btn-gold footer-cta-btn">
-                    <i class="bi bi-envelope-fill" aria-hidden="true"></i>
-                    <span>{{ __('buttons.contact_us') }}</span>
-                </a>
             </div>
         </div>
-    </div>
+    @endif
 
     <div class="footer-main">
         <div class="container">

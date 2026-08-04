@@ -6,6 +6,7 @@ return [
     'services' => 'Services',
     'products' => 'Products',
     'projects' => 'Projects',
+    'news' => 'News & Blog',
     'industries' => 'Industries',
     'partners' => 'Partners',
     'clients' => 'Clients',

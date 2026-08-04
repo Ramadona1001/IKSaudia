@@ -8,10 +8,12 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\IndustryController;
 use App\Http\Controllers\Web\LegacyRedirectController;
 use App\Http\Controllers\Web\LocaleRedirectController;
+use App\Http\Controllers\Web\NewsController;
 use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Web\PartnerController;
 use App\Http\Controllers\Web\ProductController;
 use App\Http\Controllers\Web\ProjectController;
+use App\Http\Controllers\Web\SearchController;
 use App\Http\Controllers\Web\ServiceController;
 use App\Http\Middleware\ResolveWebLocale;
 use App\Http\Middleware\SetLocale;
@@ -49,6 +51,13 @@ Route::prefix('{locale}')
 
         Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
         Route::get('/projects/{slug}', [ProjectController::class, 'show'])->name('projects.show');
+
+        Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+        Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+
+        Route::get('/search', SearchController::class)
+            ->middleware('throttle:60,1')
+            ->name('search');
 
         Route::get('/partners', PartnerController::class)->name('partners');
         Route::get('/clients', ClientController::class)->name('clients');

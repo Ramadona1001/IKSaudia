@@ -6,6 +6,7 @@ return [
     'services' => 'خدماتنا',
     'products' => 'المنتجات',
     'projects' => 'المشاريع',
+    'news' => 'الأخبار والمدونة',
     'industries' => 'القطاعات',
     'partners' => 'الشركاء',
     'clients' => 'العملاء',

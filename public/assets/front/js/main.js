@@ -362,31 +362,171 @@ function initSearch() {
   const openBtns  = document.querySelectorAll('.search-open-btn');
   const closeBtn  = document.querySelector('.search-close');
   const input     = document.querySelector('.search-input');
+  const resultsEl = document.getElementById('search-results');
+  const statusEl  = document.getElementById('search-status');
   if (!modal) return;
 
-  openBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      modal.classList.add('open');
-      setTimeout(() => input && input.focus(), 200);
-    });
-  });
+  const searchUrl = modal.dataset.searchUrl;
+  const minLength = parseInt(modal.dataset.minLength || '2', 10);
+  const i18n = (() => {
+    try {
+      return JSON.parse(modal.dataset.i18n || '{}');
+    } catch {
+      return {};
+    }
+  })();
+  const typeLabels = i18n.types || {};
+
+  let activeRequest = null;
+  let debounceTimer = null;
+
+  function openSearch() {
+    modal.classList.add('open');
+    setTimeout(() => input && input.focus(), 200);
+  }
 
   function closeSearch() {
     modal.classList.remove('open');
+    clearResults();
+    if (input) input.value = '';
   }
 
+  function clearResults() {
+    if (resultsEl) {
+      resultsEl.innerHTML = '';
+      resultsEl.hidden = true;
+    }
+    if (statusEl) {
+      statusEl.textContent = '';
+      statusEl.hidden = true;
+    }
+    if (input) input.setAttribute('aria-expanded', 'false');
+  }
+
+  function setStatus(text, show = true) {
+    if (!statusEl) return;
+    statusEl.textContent = text;
+    statusEl.hidden = !show || !text;
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function renderResults(results) {
+    if (!resultsEl) return;
+
+    resultsEl.innerHTML = '';
+
+    if (!results.length) {
+      resultsEl.hidden = true;
+      setStatus(i18n.noResults || 'No results found.', true);
+      if (input) input.setAttribute('aria-expanded', 'false');
+      return;
+    }
+
+    setStatus('', false);
+    resultsEl.hidden = false;
+    if (input) input.setAttribute('aria-expanded', 'true');
+
+    results.forEach((item, index) => {
+      const li = document.createElement('li');
+      li.className = 'search-result-item';
+      li.id = `search-result-${index}`;
+      li.setAttribute('role', 'option');
+
+      const link = document.createElement('a');
+      link.className = 'search-result-link';
+      link.href = item.url;
+
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'search-result-icon';
+      iconSpan.innerHTML = `<i class="${item.icon}" aria-hidden="true"></i>`;
+
+      const bodySpan = document.createElement('span');
+      bodySpan.className = 'search-result-body';
+
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'search-result-title';
+      titleSpan.textContent = item.title;
+
+      bodySpan.appendChild(titleSpan);
+
+      if (item.subtitle) {
+        const subtitleSpan = document.createElement('span');
+        subtitleSpan.className = 'search-result-subtitle';
+        subtitleSpan.textContent = item.subtitle;
+        bodySpan.appendChild(subtitleSpan);
+      }
+
+      const typeSpan = document.createElement('span');
+      typeSpan.className = 'search-result-type';
+      typeSpan.textContent = typeLabels[item.type] || item.type;
+
+      link.append(iconSpan, bodySpan, typeSpan);
+      link.addEventListener('click', () => closeSearch());
+
+      li.appendChild(link);
+      resultsEl.appendChild(li);
+    });
+  }
+
+  async function fetchResults(query) {
+    if (!searchUrl) return;
+
+    if (activeRequest) activeRequest.abort();
+    activeRequest = new AbortController();
+
+    try {
+      const response = await fetch(`${searchUrl}?q=${encodeURIComponent(query)}`, {
+        headers: {
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        signal: activeRequest.signal,
+      });
+
+      if (!response.ok) throw new Error('Search failed');
+
+      const data = await response.json();
+      renderResults(data.results || []);
+    } catch (err) {
+      if (err.name !== 'AbortError') renderResults([]);
+    } finally {
+      activeRequest = null;
+    }
+  }
+
+  function onInput() {
+    const query = (input?.value || '').trim();
+
+    if (query.length < minLength) {
+      clearResults();
+      return;
+    }
+
+    setStatus(i18n.loading || 'Searching…', true);
+    if (resultsEl) resultsEl.hidden = true;
+
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => fetchResults(query), 300);
+  }
+
+  openBtns.forEach(btn => btn.addEventListener('click', openSearch));
   if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+  if (input) input.addEventListener('input', onInput);
 
   modal.addEventListener('click', e => {
     if (e.target === modal) closeSearch();
   });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeSearch();
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeSearch();
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
-      modal.classList.add('open');
-      setTimeout(() => input && input.focus(), 200);
+      openSearch();
     }
   });
 }

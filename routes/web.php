@@ -15,13 +15,14 @@ use App\Http\Controllers\Web\ProductController;
 use App\Http\Controllers\Web\ProjectController;
 use App\Http\Controllers\Web\SearchController;
 use App\Http\Controllers\Web\ServiceController;
+use App\Http\Middleware\EnsureNavigationRouteVisible;
 use App\Http\Middleware\ResolveWebLocale;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', LocaleRedirectController::class)->name('root');
 
-Route::middleware([ResolveWebLocale::class])->group(function (): void {
+Route::middleware([ResolveWebLocale::class, EnsureNavigationRouteVisible::class])->group(function (): void {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/{slug}', [ProductController::class, 'show'])
         ->where('slug', '[A-Za-z0-9-_]+')
@@ -33,7 +34,7 @@ Route::get('{legacyPath}', LegacyRedirectController::class)
 
 Route::prefix('{locale}')
     ->where(['locale' => 'ar|en'])
-    ->middleware([SetLocale::class])
+    ->middleware([SetLocale::class, EnsureNavigationRouteVisible::class])
     ->group(function (): void {
         Route::get('/', HomeController::class)->name('home');
 

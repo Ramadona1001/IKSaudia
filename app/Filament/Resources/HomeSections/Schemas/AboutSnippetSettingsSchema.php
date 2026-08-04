@@ -16,6 +16,7 @@ final class AboutSnippetSettingsSchema
             ->description(__('cms.sections.about_stats_help'))
             ->icon('heroicon-o-chart-bar')
             ->columnSpanFull()
+            ->statePath('settings')
             ->visible(fn (Get $get): bool => $get('type') === 'about_snippet')
             ->schema([
                 self::localeSection('ar', __('cms.tabs.arabic')),
@@ -31,24 +32,27 @@ final class AboutSnippetSettingsSchema
                 Section::make(__('cms.sections.years_badge'))
                     ->columns(3)
                     ->schema([
-                        TextInput::make("settings.years_badge.{$locale}.count")
+                        TextInput::make("years_badge.{$locale}.count")
                             ->label(__('cms.fields.years_badge_count'))
                             ->numeric()
-                            ->minValue(0),
-                        TextInput::make("settings.years_badge.{$locale}.suffix")
+                            ->minValue(0)
+                            ->required(),
+                        TextInput::make("years_badge.{$locale}.suffix")
                             ->label(__('cms.fields.stat_suffix'))
                             ->maxLength(5),
-                        TextInput::make("settings.years_badge.{$locale}.label")
+                        TextInput::make("years_badge.{$locale}.label")
                             ->label(__('cms.fields.stat_label'))
-                            ->maxLength(120),
+                            ->maxLength(120)
+                            ->required(),
                     ]),
-                Repeater::make("settings.stats.{$locale}")
+                Repeater::make("stats.{$locale}")
                     ->label(__('cms.fields.about_stat_items'))
                     ->schema([
                         TextInput::make('count')
                             ->label(__('cms.fields.stat_count'))
                             ->numeric()
-                            ->minValue(0),
+                            ->minValue(0)
+                            ->required(),
                         TextInput::make('suffix')
                             ->label(__('cms.fields.stat_suffix'))
                             ->maxLength(5)
@@ -59,10 +63,12 @@ final class AboutSnippetSettingsSchema
                                 'gold' => __('cms.fields.stat_variant_gold'),
                                 'blue' => __('cms.fields.stat_variant_blue'),
                             ])
-                            ->default('gold'),
+                            ->default('gold')
+                            ->required(),
                         TextInput::make('label')
                             ->label(__('cms.fields.stat_label'))
                             ->maxLength(120)
+                            ->required()
                             ->columnSpanFull(),
                     ])
                     ->columns(2)

@@ -7,8 +7,10 @@ use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
 use App\Models\HomeSectionTranslation;
+use App\Services\HomePageService;
 use App\Support\AboutSectionStats;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Schemas\Schema;
 
 class CreateHomeSection extends CreateRecord
 {
@@ -18,6 +20,12 @@ class CreateHomeSection extends CreateRecord
 
     protected static string $resource = HomeSectionResource::class;
 
+    public function form(Schema $schema): Schema
+    {
+        return static::getResource()::form($schema)
+            ->statePath('data');
+    }
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         [$this->cachedSlides, $data] = $this->extractSlides($data);
@@ -25,7 +33,7 @@ class CreateHomeSection extends CreateRecord
         $this->cachedTranslations = $translations;
 
         if (($data['type'] ?? null) === 'about_snippet') {
-            $data['settings'] = $this->aboutSnippetSettingsFromForm();
+            unset($data['settings']);
         }
 
         return $this->prepareAboutSnippetSettings($data);
@@ -39,10 +47,10 @@ class CreateHomeSection extends CreateRecord
 
         if ($this->record->type === 'about_snippet') {
             $settings = AboutSectionStats::sanitizeSettings(
-                is_array($this->record->settings) ? $this->record->settings : $this->aboutSnippetSettingsFromForm(),
+                $this->resolveAboutSnippetSettingsPayload(['settings' => $this->aboutSnippetSettingsFromForm()]),
             );
             $this->record->update(['settings' => $settings]);
-            app(\App\Services\HomePageService::class)->clearCache();
+            app(HomePageService::class)->clearCache();
         }
 
         $this->syncTranslations(

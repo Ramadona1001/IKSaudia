@@ -13,6 +13,7 @@ use App\Services\HomePageService;
 use App\Support\AboutSectionStats;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Schemas\Schema;
 
 class EditHomeSection extends EditRecord
 {
@@ -21,9 +22,6 @@ class EditHomeSection extends EditRecord
     use SyncsModelTranslations;
 
     protected static string $resource = HomeSectionResource::class;
-
-    /** @var array<string, mixed>|null */
-    protected ?array $cachedStructuredSettings = null;
 
     public function mount(int|string $record): void
     {
@@ -36,6 +34,12 @@ class EditHomeSection extends EditRecord
         }
 
         parent::mount($record);
+    }
+
+    public function form(Schema $schema): Schema
+    {
+        return static::getResource()::form($schema)
+            ->statePath('data');
     }
 
     protected function getHeaderActions(): array
@@ -85,9 +89,8 @@ class EditHomeSection extends EditRecord
         $type = $data['type'] ?? $this->record?->type;
 
         if ($type === 'about_snippet') {
-            $data['settings'] = $this->aboutSnippetSettingsFromForm();
-            $this->cachedStructuredSettings = AboutSectionStats::sanitizeSettings($data['settings']);
-            $data['settings'] = $this->cachedStructuredSettings;
+            // Stats are persisted in afterSave() from the live form state.
+            unset($data['settings']);
         } else {
             $data = $this->prepareAboutSnippetSettings($data);
         }
@@ -117,10 +120,7 @@ class EditHomeSection extends EditRecord
     protected function persistAboutSnippetSettings(): void
     {
         $settings = AboutSectionStats::sanitizeSettings(
-            $this->cachedStructuredSettings
-            ?? $this->aboutSnippetSettingsFromForm()
-            ?? $this->record->settings
-            ?? [],
+            $this->resolveAboutSnippetSettingsPayload(['settings' => $this->aboutSnippetSettingsFromForm()]),
         );
 
         $this->record->update(['settings' => $settings]);

@@ -13,9 +13,17 @@ trait PreparesAboutSnippetSettings
      */
     protected function aboutSnippetSettingsFromForm(): array
     {
-        $settings = data_get($this->form->getState(), 'settings');
+        $state = $this->form->getState();
 
-        return is_array($settings) ? $settings : [];
+        if (is_array($state['settings'] ?? null)) {
+            return $state['settings'];
+        }
+
+        if (property_exists($this, 'data') && is_array($this->data['settings'] ?? null)) {
+            return $this->data['settings'];
+        }
+
+        return [];
     }
 
     /**
@@ -31,9 +39,53 @@ trait PreparesAboutSnippetSettings
         }
 
         $data['settings'] = AboutSectionStats::sanitizeSettings(
-            is_array($data['settings'] ?? null) ? $data['settings'] : [],
+            $this->resolveAboutSnippetSettingsPayload($data),
         );
 
         return $data;
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    protected function resolveAboutSnippetSettingsPayload(array $data): array
+    {
+        $candidates = [
+            $this->aboutSnippetSettingsFromForm(),
+            is_array($data['settings'] ?? null) ? $data['settings'] : [],
+        ];
+
+        if (property_exists($this, 'data') && is_array($this->data['settings'] ?? null)) {
+            $candidates[] = $this->data['settings'];
+        }
+
+        if (is_array($this->record?->settings)) {
+            $candidates[] = $this->record->settings;
+        }
+
+        foreach ($candidates as $candidate) {
+            if ($this->aboutSnippetSettingsLookFilled($candidate)) {
+                return $candidate;
+            }
+        }
+
+        return $candidates[0] ?: [];
+    }
+
+    /**
+     * @param  array<string, mixed>  $settings
+     */
+    protected function aboutSnippetSettingsLookFilled(array $settings): bool
+    {
+        $normalized = AboutSectionStats::normalizeSettings($settings);
+
+        foreach (['ar', 'en'] as $locale) {
+            if (count($normalized['stats'][$locale] ?? []) >= 4) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

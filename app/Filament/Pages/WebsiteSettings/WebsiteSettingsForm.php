@@ -399,13 +399,22 @@ final class WebsiteSettingsForm
                                 ->all();
                         }),
                 ]),
-            Section::make('Address & map')->schema([
-                ...self::translatableTextarea('contact.address', 'Company address'),
-                Textarea::make('contact.maps_embed')
-                    ->label('Google Maps embed HTML')
-                    ->rows(4)
-                    ->helperText('Paste the iframe embed code from Google Maps.'),
-            ]),
+            Section::make('Address & map')
+                ->description('Headquarters card and “View on Google Maps” block on the contact page.')
+                ->schema([
+                    ...self::translatableText('contact.location_title', 'Location title'),
+                    ...self::translatableTextarea('contact.address', 'Address'),
+                    TextInput::make('contact.maps_url')
+                        ->label('Google Maps URL')
+                        ->url()
+                        ->maxLength(500)
+                        ->placeholder('https://maps.google.com/...')
+                        ->helperText('Direct link for “View on Google Maps”. If empty, a search link is built from the address.'),
+                    Textarea::make('contact.maps_embed')
+                        ->label('Google Maps embed HTML (optional)')
+                        ->rows(4)
+                        ->helperText('Paste an iframe embed code if you need an embedded map elsewhere.'),
+                ]),
             Section::make('Channels')->columns(2)->schema([
                 Repeater::make('contact.phones')
                     ->label('Phone numbers')

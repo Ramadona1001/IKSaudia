@@ -10,16 +10,18 @@
     <x-front.breadcrumb :items="[['section' => 'contact']]" />
 
     @php
+        $locale = app()->getLocale();
         $phones = $siteSettings?->phones() ?? [];
         $emails = $siteSettings?->emails() ?? [];
-        $address = $siteSettings?->localizedAddress(app()->getLocale())
+        $address = $siteSettings?->localizedAddress($locale)
             ?: setting('contact.address')
             ?: __('footer.address_short');
+        $locationTitle = $siteSettings?->locationTitle($locale)
+            ?: __('front.contact.map_title');
         $whatsapp = $siteSettings?->whatsappFormatted();
         $socialLinks = $siteSettings?->socialLinks() ?? [];
-        $businessHours = $siteSettings?->businessHours(app()->getLocale()) ?? [];
-        $mapQuery = urlencode(strip_tags(str_replace(["\r", "\n"], ' ', $address)));
-        $mapsUrl = $mapQuery !== '' ? 'https://www.google.com/maps/search/?api=1&query='.$mapQuery : null;
+        $businessHours = $siteSettings?->businessHours($locale) ?? [];
+        $mapsUrl = $siteSettings?->mapsUrl($locale);
     @endphp
 
     <section class="section-pad contact-page">
@@ -30,7 +32,7 @@
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="0">
                     <div class="contact-card h-100">
                         <div class="contact-card-icon gold"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></div>
-                        <h3 class="contact-card-title">{{ __('front.contact.cards.hq_title') }}</h3>
+                        <h3 class="contact-card-title">{{ $locationTitle }}</h3>
                         <p class="contact-card-info">{!! nl2br(e($address)) !!}</p>
                     </div>
                 </div>
@@ -205,7 +207,7 @@
                     @if ($mapsUrl)
                         <a href="{{ $mapsUrl }}" class="map-section contact-map-link" target="_blank" rel="noopener noreferrer">
                             <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
-                            <p>{{ __('front.contact.map_title') }}</p>
+                            <p>{{ $locationTitle }}</p>
                             <small>{{ $address }}</small>
                             <span class="contact-map-cta">
                                 <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
@@ -215,7 +217,7 @@
                     @else
                         <div class="map-section">
                             <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
-                            <p>{{ __('front.contact.map_title') }}</p>
+                            <p>{{ $locationTitle }}</p>
                             <small>{{ $address }}</small>
                         </div>
                     @endif

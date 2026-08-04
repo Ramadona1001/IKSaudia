@@ -85,6 +85,8 @@ return [
 
         // ── Contact ──────────────────────────────────────────────────────
         'contact.address' => ['group' => 'contact', 'type' => 'textarea', 'translatable' => true, 'label' => 'Address'],
+        'contact.location_title' => ['group' => 'contact', 'type' => 'text', 'translatable' => true, 'label' => 'Location title (map card)'],
+        'contact.maps_url' => ['group' => 'contact', 'type' => 'text', 'translatable' => false, 'label' => 'Google Maps URL'],
         'contact.maps_embed' => ['group' => 'contact', 'type' => 'textarea', 'translatable' => false, 'label' => 'Google Maps embed HTML'],
         'contact.phones' => ['group' => 'contact', 'type' => 'json', 'translatable' => false, 'label' => 'Phone numbers'],
         'contact.whatsapp' => ['group' => 'contact', 'type' => 'text', 'translatable' => false, 'label' => 'WhatsApp number'],

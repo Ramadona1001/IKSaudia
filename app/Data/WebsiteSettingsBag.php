@@ -120,16 +120,48 @@ final readonly class WebsiteSettingsBag
   public function localizedAddress(?string $locale = null): ?string
   {
     $locale ??= $this->locale;
-    $explicit = $this->get('contact', 'address_'.$locale);
+    $address = $this->get('contact', 'address');
 
-    if (filled($explicit)) {
-      return (string) $explicit;
+    if (filled($address)) {
+      return (string) $address;
     }
 
     $offices = $this->get('contact', 'offices', []) ?: [];
     $first = is_array($offices) ? ($offices[0] ?? null) : null;
 
     return is_array($first) ? ($first['address'] ?? null) : null;
+  }
+
+  public function locationTitle(?string $locale = null): string
+  {
+    $locale ??= $this->locale;
+    $title = $this->get('contact', 'location_title');
+
+    if (filled($title)) {
+      return (string) $title;
+    }
+
+    return __('front.contact.map_title', [], $locale);
+  }
+
+  public function mapsUrl(?string $locale = null): ?string
+  {
+    $locale ??= $this->locale;
+    $url = $this->get('contact', 'maps_url');
+
+    if (filled($url)) {
+      return (string) $url;
+    }
+
+    $address = $this->localizedAddress($locale);
+
+    if (! filled($address)) {
+      return null;
+    }
+
+    $query = urlencode(strip_tags(str_replace(["\r", "\n"], ' ', $address)));
+
+    return $query !== '' ? 'https://www.google.com/maps/search/?api=1&query='.$query : null;
   }
 
   /**

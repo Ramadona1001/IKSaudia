@@ -85,10 +85,14 @@ class SiteSettingsSeeder extends Seeder
             ],
             'contact' => [
                 'address' => [
-                    'ar' => "الطريق 122 × 23\nالمدينة الصناعية الثانية\nمبنى 3744، الدمام 34325",
-                    'en' => "Road 122 by 23\n2nd Industrial City, Bldg. 3744\nDammam 34325\nKingdom of Saudi Arabia",
+                    'ar' => "الطريق 122 × 23\nالمدينة الصناعية الثانية\nمبنى 3744، الدمام 34325\nالمملكة العربية السعودية",
+                    'en' => "Dammam 2nd Industrial City Road 122 by 23,\nBldg. No.3744, 34325 Dammam, Saudi Arabia",
                 ],
-                'maps_embed' => null,
+                'location_title' => [
+                    'ar' => 'مقر إيك السعودية للتصنيع',
+                    'en' => 'IK Saudi Manufacturing HQ',
+                ],
+                'maps_url' => null,
                 'phones' => [
                     ['label' => 'Office', 'number' => '+966138095254', 'is_primary' => true],
                     ['label' => 'Mobile', 'number' => '+966559353880', 'is_primary' => false],

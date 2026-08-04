@@ -137,6 +137,67 @@ class NavigationService
         foreach (config('locales.supported', ['ar', 'en']) as $locale) {
             Cache::forget("navigation.header.{$locale}");
         }
+
+        Cache::forget('navigation.searchable_types');
+    }
+
+    /**
+     * Content types enabled for site search based on visible header menu links.
+     *
+     * @return list<string> service|industry|project|news
+     */
+    public function searchableContentTypes(): array
+    {
+        return Cache::remember('navigation.searchable_types', 3600, function (): array {
+            $routeToType = [
+                'services.index' => 'service',
+                'industries.index' => 'industry',
+                'projects.index' => 'project',
+                'news.index' => 'news',
+            ];
+
+            $types = [];
+
+            foreach ($this->enabledHeaderRouteNames() as $routeName) {
+                if (isset($routeToType[$routeName])) {
+                    $types[] = $routeToType[$routeName];
+                }
+            }
+
+            return array_values(array_unique($types));
+        });
+    }
+
+    /**
+     * @return list<string>
+     */
+    protected function enabledHeaderRouteNames(): array
+    {
+        $menu = Menu::query()
+            ->where('location', self::HEADER_LOCATION)
+            ->where('is_active', true)
+            ->first();
+
+        if ($menu) {
+            $items = $menu->rootItems()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+
+            if ($items->isNotEmpty()) {
+                return $items
+                    ->pluck('route_name')
+                    ->filter()
+                    ->values()
+                    ->all();
+            }
+        }
+
+        return collect($this->defaultHeaderItems(app()->getLocale()))
+            ->pluck('route')
+            ->filter()
+            ->values()
+            ->all();
     }
 
     public function resolveUrl(array $item, ?string $locale = null): string

@@ -58,6 +58,7 @@ final class WebsiteSettingsForm
             'products.index' => 'Products',
             'industries.index' => 'Industries',
             'projects.index' => 'Projects',
+            'news.index' => 'News & Blog',
             'clients' => 'Clients',
             'partners' => 'Partners',
             'faq' => 'FAQ',

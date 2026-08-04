@@ -15,6 +15,10 @@ class SiteSearchService
 
     private const PER_TYPE = 5;
 
+    public function __construct(
+        protected NavigationService $navigation,
+    ) {}
+
     /**
      * @return list<array{type: string, title: string, subtitle: string, url: string, icon: string}>
      */
@@ -27,13 +31,26 @@ class SiteSearchService
         }
 
         $term = '%'.$this->escapeLike($query).'%';
+        $enabledTypes = $this->navigation->searchableContentTypes();
+        $results = [];
 
-        return array_merge(
-            $this->searchServices($locale, $term),
-            $this->searchIndustries($locale, $term),
-            $this->searchProjects($locale, $term),
-            $this->searchNews($locale, $term),
-        );
+        if (in_array('service', $enabledTypes, true)) {
+            $results = array_merge($results, $this->searchServices($locale, $term));
+        }
+
+        if (in_array('industry', $enabledTypes, true)) {
+            $results = array_merge($results, $this->searchIndustries($locale, $term));
+        }
+
+        if (in_array('project', $enabledTypes, true)) {
+            $results = array_merge($results, $this->searchProjects($locale, $term));
+        }
+
+        if (in_array('news', $enabledTypes, true)) {
+            $results = array_merge($results, $this->searchNews($locale, $term));
+        }
+
+        return $results;
     }
 
     /**

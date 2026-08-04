@@ -13,19 +13,6 @@ class NavigationService
     public const HEADER_LOCATION = 'header';
 
     /**
-     * Detail routes allowed only when their listing route is visible in the menu.
-     *
-     * @var array<string, string>
-     */
-    private const SHOW_ROUTE_PARENTS = [
-        'services.show' => 'services.index',
-        'industries.show' => 'industries.index',
-        'projects.show' => 'projects.index',
-        'news.show' => 'news.index',
-        'products.show' => 'products.index',
-    ];
-
-    /**
      * @return list<array<string, mixed>>
      */
     public function headerItems(?string $locale = null): array
@@ -152,64 +139,6 @@ class NavigationService
         }
 
         Cache::forget('navigation.searchable_types');
-        Cache::forget('navigation.accessible_targets');
-    }
-
-    public function isRouteAccessible(string $routeName, array $parameters = []): bool
-    {
-        if ($routeName === 'page.show') {
-            $slug = $parameters['slug'] ?? null;
-
-            return is_string($slug)
-                && $slug !== ''
-                && in_array($slug, $this->accessiblePageSlugs(), true);
-        }
-
-        $requiredRoute = self::SHOW_ROUTE_PARENTS[$routeName] ?? $routeName;
-
-        return in_array($requiredRoute, $this->accessibleRouteNames(), true);
-    }
-
-    /**
-     * @return list<string>
-     */
-    public function accessibleRouteNames(): array
-    {
-        return $this->accessibleNavigationTargets()['routes'];
-    }
-
-    /**
-     * @return list<string>
-     */
-    public function accessiblePageSlugs(): array
-    {
-        return $this->accessibleNavigationTargets()['page_slugs'];
-    }
-
-    /**
-     * @return array{routes: list<string>, page_slugs: list<string>}
-     */
-    protected function accessibleNavigationTargets(): array
-    {
-        return Cache::remember('navigation.accessible_targets', 3600, function (): array {
-            $menu = Menu::query()
-                ->where('location', self::HEADER_LOCATION)
-                ->where('is_active', true)
-                ->first();
-
-            if ($menu) {
-                $items = $menu->rootItems()
-                    ->where('is_active', true)
-                    ->orderBy('sort_order')
-                    ->get();
-
-                if ($items->isNotEmpty()) {
-                    return $this->targetsFromMenuItems($items);
-                }
-            }
-
-            return $this->defaultAccessibleTargets();
-        });
     }
 
     /**
@@ -229,7 +158,7 @@ class NavigationService
 
             $types = [];
 
-            foreach ($this->accessibleRouteNames() as $routeName) {
+            foreach ($this->enabledHeaderRouteNames() as $routeName) {
                 if (isset($routeToType[$routeName])) {
                     $types[] = $routeToType[$routeName];
                 }
@@ -240,70 +169,35 @@ class NavigationService
     }
 
     /**
-     * @param  \Illuminate\Support\Collection<int, MenuItem>|\Illuminate\Database\Eloquent\Collection<int, MenuItem>  $items
-     * @return array{routes: list<string>, page_slugs: list<string>}
+     * @return list<string>
      */
-    protected function targetsFromMenuItems($items): array
+    protected function enabledHeaderRouteNames(): array
     {
-        $routes = [];
-        $pageSlugs = [];
+        $menu = Menu::query()
+            ->where('location', self::HEADER_LOCATION)
+            ->where('is_active', true)
+            ->first();
 
-        foreach ($items as $item) {
-            if (! $item->route_name) {
-                continue;
+        if ($menu) {
+            $items = $menu->rootItems()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+
+            if ($items->isNotEmpty()) {
+                return $items
+                    ->pluck('route_name')
+                    ->filter()
+                    ->values()
+                    ->all();
             }
-
-            if ($item->route_name === 'page.show') {
-                $slug = is_array($item->route_params) ? ($item->route_params['slug'] ?? null) : null;
-
-                if (is_string($slug) && $slug !== '') {
-                    $pageSlugs[] = $slug;
-                }
-
-                continue;
-            }
-
-            $routes[] = $item->route_name;
         }
 
-        return [
-            'routes' => array_values(array_unique($routes)),
-            'page_slugs' => array_values(array_unique($pageSlugs)),
-        ];
-    }
-
-    /**
-     * @return array{routes: list<string>, page_slugs: list<string>}
-     */
-    protected function defaultAccessibleTargets(): array
-    {
-        $routes = [];
-        $pageSlugs = [];
-
-        foreach ($this->defaultHeaderItems(app()->getLocale()) as $item) {
-            $route = $item['route'] ?? null;
-
-            if (! $route) {
-                continue;
-            }
-
-            if ($route === 'page.show') {
-                $slug = $item['page_slug'] ?? ($item['params'][1] ?? null);
-
-                if (is_string($slug) && $slug !== '') {
-                    $pageSlugs[] = $slug;
-                }
-
-                continue;
-            }
-
-            $routes[] = $route;
-        }
-
-        return [
-            'routes' => array_values(array_unique($routes)),
-            'page_slugs' => array_values(array_unique($pageSlugs)),
-        ];
+        return collect($this->defaultHeaderItems(app()->getLocale()))
+            ->pluck('route')
+            ->filter()
+            ->values()
+            ->all();
     }
 
     public function resolveUrl(array $item, ?string $locale = null): string

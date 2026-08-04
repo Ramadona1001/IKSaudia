@@ -2,21 +2,17 @@
 
 namespace App\Filament\Resources\HomeSections\Pages;
 
-use App\Filament\Concerns\PreparesAboutSnippetSettings;
 use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Pages\ManageFoundation;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
 use App\Models\HomeSection;
 use App\Models\HomeSectionTranslation;
-use App\Services\HomePageService;
-use App\Support\AboutSectionStats;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditHomeSection extends EditRecord
 {
-    use PreparesAboutSnippetSettings;
     use SyncsHomeSectionSlides;
     use SyncsModelTranslations;
 
@@ -61,13 +57,6 @@ class EditHomeSection extends EditRecord
             $data['slides'] = $this->mapSlidesForForm($this->getRecord());
         }
 
-        if ($this->getRecord()->type === 'about_snippet') {
-            $data['settings'] = is_array($this->getRecord()->settings)
-                ? $this->getRecord()->settings
-                : [];
-            $data = $this->prepareAboutSnippetSettings($data);
-        }
-
         return $data;
     }
 
@@ -79,13 +68,8 @@ class EditHomeSection extends EditRecord
 
         $this->cachedTranslations = $translations;
 
-        $type = $data['type'] ?? $this->record?->type;
-
-        if ($type === 'about_snippet') {
-            // Stats are persisted in afterSave() from the live form state.
+        if (($data['type'] ?? $this->record?->type) === 'about_snippet') {
             unset($data['settings']);
-        } else {
-            $data = $this->prepareAboutSnippetSettings($data);
         }
 
         return $data;
@@ -97,10 +81,6 @@ class EditHomeSection extends EditRecord
             $this->syncSlides($this->record, $this->cachedSlides);
         }
 
-        if ($this->record->type === 'about_snippet') {
-            $this->persistAboutSnippetSettings();
-        }
-
         $this->syncTranslations(
             $this->record,
             HomeSectionTranslation::class,
@@ -108,16 +88,6 @@ class EditHomeSection extends EditRecord
             $this->cachedTranslations ?? [],
             ['title', 'subtitle', 'content', 'cta_label', 'cta_url'],
         );
-    }
-
-    protected function persistAboutSnippetSettings(): void
-    {
-        $settings = AboutSectionStats::sanitizeSettings(
-            $this->resolveAboutSnippetSettingsPayload(['settings' => $this->aboutSnippetSettingsFromForm()]),
-        );
-
-        $this->record->update(['settings' => $settings]);
-        app(HomePageService::class)->clearCache();
     }
 
     /** @var array<string, array<string, mixed>> */

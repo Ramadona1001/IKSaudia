@@ -58,7 +58,6 @@ class HomeSectionForm
                             ->columnSpanFull(),
                     ]),
                 HeroSlidesSchema::section(),
-                AboutSnippetSettingsSchema::section(),
                 AboutSnippetContentSchema::section(),
                 Tabs::make('Translations')
                     ->columnSpanFull()

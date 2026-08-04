@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Filament\Resources\HomeSections\Schemas;
+namespace App\Filament\Pages\AboutStatistics;
 
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 
-final class AboutSnippetSettingsSchema
+final class AboutStatisticsForm
 {
-    public static function section(): Section
+    public static function configure(Schema $schema): Schema
     {
-        return Section::make(__('cms.sections.about_stats'))
-            ->description(__('cms.sections.about_stats_help'))
-            ->icon('heroicon-o-chart-bar')
-            ->columnSpanFull()
-            ->statePath('settings')
-            ->visible(fn (Get $get): bool => $get('type') === 'about_snippet')
-            ->schema([
-                self::localeSection('ar', __('cms.tabs.arabic')),
-                self::localeSection('en', __('cms.tabs.english')),
+        return $schema
+            ->components([
+                Section::make(__('cms.sections.about_stats'))
+                    ->description(__('cms.sections.about_stats_help'))
+                    ->icon('heroicon-o-chart-bar')
+                    ->statePath('settings')
+                    ->schema([
+                        self::localeSection('ar', __('cms.tabs.arabic')),
+                        self::localeSection('en', __('cms.tabs.english')),
+                    ]),
             ]);
     }
 

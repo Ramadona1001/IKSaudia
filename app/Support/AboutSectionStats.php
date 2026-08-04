@@ -84,6 +84,59 @@ final class AboutSectionStats
     }
 
     /**
+     * Normalize, fill missing rows, and coerce stat values for storage.
+     *
+     * @param  array<string, mixed>  $settings
+     * @return array{stats: array<string, list<array<string, mixed>>>, years_badge: array<string, array<string, mixed>>}
+     */
+    public static function sanitizeSettings(array $settings): array
+    {
+        $settings = self::normalizeSettings($settings);
+        $sanitizedStats = [];
+        $sanitizedBadges = [];
+
+        foreach (['ar', 'en'] as $locale) {
+            $configured = is_array($settings['stats'][$locale] ?? null)
+                ? $settings['stats'][$locale]
+                : [];
+            $defaults = self::defaultStatsForLocale($locale);
+            $stats = [];
+
+            for ($i = 0; $i < 4; $i++) {
+                $row = is_array($configured[$i] ?? null) ? $configured[$i] : [];
+                $fallback = $defaults[$i];
+
+                $stats[] = [
+                    'count' => max(0, (int) ($row['count'] ?? $fallback['count'])),
+                    'suffix' => (string) ($row['suffix'] ?? $fallback['suffix'] ?? ''),
+                    'variant' => in_array($row['variant'] ?? '', ['gold', 'blue'], true)
+                        ? $row['variant']
+                        : $fallback['variant'],
+                    'label' => self::nonEmptyString($row['label'] ?? null, $fallback['label']),
+                ];
+            }
+
+            $sanitizedStats[$locale] = $stats;
+
+            $badge = is_array($settings['years_badge'][$locale] ?? null)
+                ? $settings['years_badge'][$locale]
+                : [];
+            $badgeDefault = self::defaultYearsBadgeForLocale($locale);
+
+            $sanitizedBadges[$locale] = [
+                'count' => max(0, (int) ($badge['count'] ?? $badgeDefault['count'])),
+                'suffix' => (string) ($badge['suffix'] ?? $badgeDefault['suffix']),
+                'label' => self::nonEmptyString($badge['label'] ?? null, $badgeDefault['label']),
+            ];
+        }
+
+        return [
+            'stats' => $sanitizedStats,
+            'years_badge' => $sanitizedBadges,
+        ];
+    }
+
+    /**
      * Convert legacy single-locale / merged label shapes to ar + en buckets.
      *
      * @return array<string, mixed>

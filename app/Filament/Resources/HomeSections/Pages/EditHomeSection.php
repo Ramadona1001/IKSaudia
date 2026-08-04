@@ -65,6 +65,9 @@ class EditHomeSection extends EditRecord
         }
 
         if ($this->getRecord()->type === 'about_snippet') {
+            $data['settings'] = is_array($this->getRecord()->settings)
+                ? $this->getRecord()->settings
+                : [];
             $data = $this->prepareAboutSnippetSettings($data);
         }
 
@@ -79,13 +82,14 @@ class EditHomeSection extends EditRecord
 
         $this->cachedTranslations = $translations;
 
-        $data = $this->prepareAboutSnippetSettings($data);
-
         $type = $data['type'] ?? $this->record?->type;
+
         if ($type === 'about_snippet') {
-            $this->cachedStructuredSettings = is_array($data['settings'] ?? null)
-                ? $data['settings']
-                : null;
+            $data['settings'] = $this->aboutSnippetSettingsFromForm();
+            $this->cachedStructuredSettings = AboutSectionStats::sanitizeSettings($data['settings']);
+            $data['settings'] = $this->cachedStructuredSettings;
+        } else {
+            $data = $this->prepareAboutSnippetSettings($data);
         }
 
         return $data;
@@ -112,39 +116,15 @@ class EditHomeSection extends EditRecord
 
     protected function persistAboutSnippetSettings(): void
     {
-        $settings = $this->normalizeAboutSettings(
+        $settings = AboutSectionStats::sanitizeSettings(
             $this->cachedStructuredSettings
-            ?? data_get($this->form->getState(), 'settings')
+            ?? $this->aboutSnippetSettingsFromForm()
             ?? $this->record->settings
             ?? [],
         );
 
         $this->record->update(['settings' => $settings]);
         app(HomePageService::class)->clearCache();
-    }
-
-    /**
-     * @param  array<string, mixed>  $settings
-     * @return array<string, mixed>
-     */
-    protected function normalizeAboutSettings(array $settings): array
-    {
-        $settings = AboutSectionStats::normalizeSettings($settings);
-
-        foreach (['ar', 'en'] as $locale) {
-            if (count($settings['stats'][$locale] ?? []) < 4) {
-                $settings['stats'][$locale] = AboutSectionStats::defaultStatsForLocale($locale);
-            }
-
-            if (empty($settings['years_badge'][$locale])) {
-                $settings['years_badge'][$locale] = AboutSectionStats::defaultYearsBadgeForLocale($locale);
-            }
-        }
-
-        return [
-            'stats' => $settings['stats'],
-            'years_badge' => $settings['years_badge'],
-        ];
     }
 
     /** @var array<string, array<string, mixed>> */

@@ -9,6 +9,16 @@ trait PreparesAboutSnippetSettings
     use ResolvesHomeSectionRecordType;
 
     /**
+     * @return array<string, mixed>
+     */
+    protected function aboutSnippetSettingsFromForm(): array
+    {
+        $settings = data_get($this->form->getState(), 'settings');
+
+        return is_array($settings) ? $settings : [];
+    }
+
+    /**
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      */
@@ -20,24 +30,9 @@ trait PreparesAboutSnippetSettings
             return $data;
         }
 
-        $settings = AboutSectionStats::normalizeSettings(
+        $data['settings'] = AboutSectionStats::sanitizeSettings(
             is_array($data['settings'] ?? null) ? $data['settings'] : [],
         );
-
-        foreach (['ar', 'en'] as $locale) {
-            if (count($settings['stats'][$locale] ?? []) < 4) {
-                $settings['stats'][$locale] = AboutSectionStats::defaultStatsForLocale($locale);
-            }
-
-            if (empty($settings['years_badge'][$locale])) {
-                $settings['years_badge'][$locale] = AboutSectionStats::defaultYearsBadgeForLocale($locale);
-            }
-        }
-
-        $data['settings'] = [
-            'stats' => $settings['stats'],
-            'years_badge' => $settings['years_badge'],
-        ];
 
         return $data;
     }

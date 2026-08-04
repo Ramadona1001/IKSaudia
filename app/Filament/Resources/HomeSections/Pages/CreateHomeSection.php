@@ -7,6 +7,7 @@ use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
 use App\Models\HomeSectionTranslation;
+use App\Support\AboutSectionStats;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateHomeSection extends CreateRecord
@@ -23,6 +24,10 @@ class CreateHomeSection extends CreateRecord
         [$translations, $data] = $this->extractTranslations($data);
         $this->cachedTranslations = $translations;
 
+        if (($data['type'] ?? null) === 'about_snippet') {
+            $data['settings'] = $this->aboutSnippetSettingsFromForm();
+        }
+
         return $this->prepareAboutSnippetSettings($data);
     }
 
@@ -30,6 +35,14 @@ class CreateHomeSection extends CreateRecord
     {
         if ($this->record->type === 'hero') {
             $this->syncSlides($this->record, $this->cachedSlides);
+        }
+
+        if ($this->record->type === 'about_snippet') {
+            $settings = AboutSectionStats::sanitizeSettings(
+                is_array($this->record->settings) ? $this->record->settings : $this->aboutSnippetSettingsFromForm(),
+            );
+            $this->record->update(['settings' => $settings]);
+            app(\App\Services\HomePageService::class)->clearCache();
         }
 
         $this->syncTranslations(

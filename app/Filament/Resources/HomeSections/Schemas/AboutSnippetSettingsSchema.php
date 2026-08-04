@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\HomeSections\Schemas;
 
-use App\Support\AboutSectionStats;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -26,8 +25,6 @@ final class AboutSnippetSettingsSchema
 
     private static function localeSection(string $locale, string $label): Section
     {
-        $yearsDefault = AboutSectionStats::defaultYearsBadgeForLocale($locale);
-
         return Section::make($label)
             ->collapsible()
             ->schema([
@@ -37,16 +34,13 @@ final class AboutSnippetSettingsSchema
                         TextInput::make("settings.years_badge.{$locale}.count")
                             ->label(__('cms.fields.years_badge_count'))
                             ->numeric()
-                            ->minValue(0)
-                            ->default($yearsDefault['count']),
+                            ->minValue(0),
                         TextInput::make("settings.years_badge.{$locale}.suffix")
                             ->label(__('cms.fields.stat_suffix'))
-                            ->maxLength(5)
-                            ->default($yearsDefault['suffix']),
+                            ->maxLength(5),
                         TextInput::make("settings.years_badge.{$locale}.label")
                             ->label(__('cms.fields.stat_label'))
-                            ->maxLength(120)
-                            ->default($yearsDefault['label']),
+                            ->maxLength(120),
                     ]),
                 Repeater::make("settings.stats.{$locale}")
                     ->label(__('cms.fields.about_stat_items'))
@@ -72,7 +66,6 @@ final class AboutSnippetSettingsSchema
                             ->columnSpanFull(),
                     ])
                     ->columns(2)
-                    ->default(AboutSectionStats::defaultStatsForLocale($locale))
                     ->minItems(4)
                     ->maxItems(4)
                     ->reorderable(false)

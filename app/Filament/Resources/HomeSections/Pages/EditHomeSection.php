@@ -13,7 +13,6 @@ use App\Services\HomePageService;
 use App\Support\AboutSectionStats;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
-use Filament\Schemas\Schema;
 
 class EditHomeSection extends EditRecord
 {
@@ -34,12 +33,6 @@ class EditHomeSection extends EditRecord
         }
 
         parent::mount($record);
-    }
-
-    public function form(Schema $schema): Schema
-    {
-        return static::getResource()::form($schema)
-            ->statePath('data');
     }
 
     protected function getHeaderActions(): array

@@ -10,7 +10,6 @@ use App\Models\HomeSectionTranslation;
 use App\Services\HomePageService;
 use App\Support\AboutSectionStats;
 use Filament\Resources\Pages\CreateRecord;
-use Filament\Schemas\Schema;
 
 class CreateHomeSection extends CreateRecord
 {
@@ -20,12 +19,6 @@ class CreateHomeSection extends CreateRecord
 
     protected static string $resource = HomeSectionResource::class;
 
-    public function form(Schema $schema): Schema
-    {
-        return static::getResource()::form($schema)
-            ->statePath('data');
-    }
-
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         [$this->cachedSlides, $data] = $this->extractSlides($data);
@@ -33,7 +26,7 @@ class CreateHomeSection extends CreateRecord
         $this->cachedTranslations = $translations;
 
         if (($data['type'] ?? null) === 'about_snippet') {
-            unset($data['settings']);
+            $data['settings'] = $this->resolveAboutSnippetSettingsPayload($data);
         }
 
         return $this->prepareAboutSnippetSettings($data);

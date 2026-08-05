@@ -34,11 +34,16 @@ final class AboutSnippetContentSchema
     private static function localeSchema(string $locale): array
     {
         return [
-            TextInput::make("translations.{$locale}.title")
-                ->label(__('cms.fields.title'))
-                ->maxLength(255),
             TextInput::make("translations.{$locale}.subtitle")
-                ->label(__('cms.fields.subtitle'))
+                ->label(__('cms.fields.section_eyebrow'))
+                ->maxLength(255)
+                ->helperText(__('cms.fields.about_eyebrow_help')),
+            TextInput::make("translations.{$locale}.title")
+                ->label(__('cms.fields.section_title'))
+                ->maxLength(255)
+                ->helperText(__('cms.fields.about_title_help')),
+            TextInput::make("settings.headings.{$locale}.highlight")
+                ->label(__('cms.fields.section_highlight'))
                 ->maxLength(255),
             Textarea::make("translations.{$locale}.content")
                 ->label(__('cms.fields.content'))

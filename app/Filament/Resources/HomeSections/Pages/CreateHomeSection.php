@@ -6,6 +6,7 @@ use App\Filament\Concerns\SyncsHomeSectionSlides;
 use App\Filament\Concerns\SyncsModelTranslations;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
 use App\Models\HomeSectionTranslation;
+use App\Services\HomePageService;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateHomeSection extends CreateRecord
@@ -15,6 +16,9 @@ class CreateHomeSection extends CreateRecord
 
     protected static string $resource = HomeSectionResource::class;
 
+    /** @var array<string, mixed> */
+    protected array $cachedAboutHeadings = [];
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         [$this->cachedSlides, $data] = $this->extractSlides($data);
@@ -22,6 +26,9 @@ class CreateHomeSection extends CreateRecord
         $this->cachedTranslations = $translations;
 
         if (($data['type'] ?? null) === 'about_snippet') {
+            $this->cachedAboutHeadings = is_array(data_get($data, 'settings.headings'))
+                ? data_get($data, 'settings.headings')
+                : [];
             unset($data['settings']);
         }
 
@@ -32,6 +39,16 @@ class CreateHomeSection extends CreateRecord
     {
         if ($this->record->type === 'hero') {
             $this->syncSlides($this->record, $this->cachedSlides);
+        }
+
+        if ($this->record->type === 'about_snippet' && $this->cachedAboutHeadings !== []) {
+            $existing = is_array($this->record->settings) ? $this->record->settings : [];
+            $this->record->update([
+                'settings' => array_merge($existing, [
+                    'headings' => $this->cachedAboutHeadings,
+                ]),
+            ]);
+            app(HomePageService::class)->clearCache();
         }
 
         $this->syncTranslations(

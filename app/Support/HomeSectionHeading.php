@@ -47,10 +47,10 @@ final class HomeSectionHeading
         $locale ??= app()->getLocale();
 
         $heading = self::defaults($key, $locale);
-        $heading = self::merge($heading, self::cmsOverrides($key, $section, $locale));
         $heading = self::merge($heading, self::fromSettings($key, $locale));
+        $heading = self::merge($heading, self::cmsOverrides($key, $section, $locale));
 
-        if ($key === 'about' && filled($heading['title']) && ! self::settingsFieldFilled($key, 'highlight', $locale)) {
+        if ($key === 'about' && filled($heading['title']) && ! filled(self::cmsOverrides($key, $section, $locale)['highlight'] ?? null)) {
             $cmsTitle = self::cmsOverrides($key, $section, $locale)['title'] ?? '';
 
             if (filled($cmsTitle) && $heading['title'] === $cmsTitle) {
@@ -175,10 +175,15 @@ final class HomeSectionHeading
 
         if ($key === 'about') {
             $translation = $section->translate($locale);
+            $settings = is_array($section->settings) ? $section->settings : [];
+            $highlight = is_array($settings['headings'][$locale] ?? null)
+                ? ($settings['headings'][$locale]['highlight'] ?? null)
+                : null;
 
             return array_filter([
                 'eyebrow' => filled($translation?->subtitle) ? (string) $translation->subtitle : null,
                 'title' => filled($translation?->title) ? (string) $translation->title : null,
+                'highlight' => filled($highlight) ? (string) $highlight : null,
                 'description' => filled($translation?->content) ? (string) $translation->bodyText() : null,
             ], fn ($value) => filled($value));
         }
@@ -225,17 +230,6 @@ final class HomeSectionHeading
         }
 
         return $values;
-    }
-
-    private static function settingsFieldFilled(string $key, string $field, string $locale): bool
-    {
-        $stored = setting('homepage.section_headings', []);
-
-        if (! is_array($stored[$key][$field] ?? null)) {
-            return false;
-        }
-
-        return filled($stored[$key][$field][$locale] ?? null);
     }
 
     /**

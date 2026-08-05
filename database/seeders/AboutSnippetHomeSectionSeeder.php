@@ -52,6 +52,10 @@ class AboutSnippetHomeSectionSeeder extends Seeder
             'type' => 'about_snippet',
             'sort_order' => 2,
             'settings' => [
+                'headings' => [
+                    'ar' => ['highlight' => 'مستقبل المملكة الصناعي'],
+                    'en' => ['highlight' => 'Industrial Future'],
+                ],
                 'years_badge' => [
                     'ar' => [
                         'count' => 25,
@@ -71,14 +75,14 @@ class AboutSnippetHomeSectionSeeder extends Seeder
             ],
             'translations' => [
                 'ar' => [
-                    'title' => 'بناء مستقبل المملكة الصناعي',
+                    'title' => 'بناء',
                     'subtitle' => 'من نحن',
                     'content' => 'الشركة السعودية للصناعات (IKS) شركة سعودية تضامنية تمتلك منشأة تصنيع في المدينة الصناعية الثانية بالدمام. رؤيتنا أن نكون الخيار الأول لحلول تدخل خطوط الأنابيب والتقنيات في السعودية والشرق الأوسط. نقدم منتجات وخدمات كشط خطوط الأنابيب لقطاع النفط والغاز، بالإضافة إلى منتجات البولي يوريثان للتطبيقات تحت البحرية وغير المعدنية في التعدين.',
                     'cta_label' => 'اعرف المزيد',
                     'cta_url' => '/ar/about-us',
                 ],
                 'en' => [
-                    'title' => "Building Saudi Arabia's Industrial Future",
+                    'title' => "Building Saudi Arabia's",
                     'subtitle' => 'Who We Are',
                     'content' => 'IKS for Industries is a Saudi JV-based company with a manufacturing facility at Dammam 2nd Industrial City. Our vision is to be the premier pipe and pipeline intervention solutions provider in Saudi Arabia and the Middle East. We provide pipeline scraping products and services to the Oil & Gas industry, as well as polyurethane-based products for non-metallic subsea and mining applications.',
                     'cta_label' => 'Learn More',

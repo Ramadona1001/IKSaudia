@@ -8,6 +8,7 @@ use App\Filament\Pages\ManageFoundation;
 use App\Filament\Resources\HomeSections\HomeSectionResource;
 use App\Models\HomeSection;
 use App\Models\HomeSectionTranslation;
+use App\Services\HomePageService;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
@@ -17,6 +18,9 @@ class EditHomeSection extends EditRecord
     use SyncsModelTranslations;
 
     protected static string $resource = HomeSectionResource::class;
+
+    /** @var array<string, mixed> */
+    protected array $cachedAboutHeadings = [];
 
     public function mount(int|string $record): void
     {
@@ -57,6 +61,13 @@ class EditHomeSection extends EditRecord
             $data['slides'] = $this->mapSlidesForForm($this->getRecord());
         }
 
+        if ($this->getRecord()->type === 'about_snippet') {
+            $settings = is_array($this->getRecord()->settings) ? $this->getRecord()->settings : [];
+            $data['settings'] = [
+                'headings' => is_array($settings['headings'] ?? null) ? $settings['headings'] : [],
+            ];
+        }
+
         return $data;
     }
 
@@ -69,6 +80,9 @@ class EditHomeSection extends EditRecord
         $this->cachedTranslations = $translations;
 
         if (($data['type'] ?? $this->record?->type) === 'about_snippet') {
+            $this->cachedAboutHeadings = is_array(data_get($data, 'settings.headings'))
+                ? data_get($data, 'settings.headings')
+                : [];
             unset($data['settings']);
         }
 
@@ -79,6 +93,16 @@ class EditHomeSection extends EditRecord
     {
         if ($this->record->type === 'hero') {
             $this->syncSlides($this->record, $this->cachedSlides);
+        }
+
+        if ($this->record->type === 'about_snippet') {
+            $existing = is_array($this->record->settings) ? $this->record->settings : [];
+            $this->record->update([
+                'settings' => array_merge($existing, [
+                    'headings' => $this->cachedAboutHeadings,
+                ]),
+            ]);
+            app(HomePageService::class)->clearCache();
         }
 
         $this->syncTranslations(

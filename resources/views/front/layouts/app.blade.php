@@ -109,6 +109,7 @@
     @include('front.partials.footer')
     @include('front.partials.floating-buttons')
     @include('front.partials.cookie-consent')
+    @stack('modals')
     @include('front.partials.scripts')
 </body>
 </html>

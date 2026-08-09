@@ -572,6 +572,10 @@ function initProductSpecDownload() {
   const form = document.getElementById('product-spec-download-form');
   if (!modalEl || !form || typeof bootstrap === 'undefined') return;
 
+  if (modalEl.parentElement !== document.body) {
+    document.body.appendChild(modalEl);
+  }
+
   const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
   const successBox = document.getElementById('product-spec-success');
   const errorBox = document.getElementById('product-spec-error');

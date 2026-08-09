@@ -124,7 +124,10 @@
         </a>
     </x-front.cta-section>
 
-    @if ($product->hasSpecificationPdf())
+@endsection
+
+@if ($product->hasSpecificationPdf())
+    @push('modals')
         <div class="modal fade product-spec-modal" id="productSpecDownloadModal" tabindex="-1" aria-labelledby="productSpecDownloadModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content product-spec-modal__content">
@@ -173,8 +176,8 @@
                         </form>
                     </div>
                     <div class="modal-footer product-spec-modal__footer">
-                        <button type="button" class="btn-outline-gold" data-bs-dismiss="modal">{{ __('common.close') }}</button>
-                        <button type="submit" form="product-spec-download-form" class="btn-gold" id="product-spec-submit">
+                        <button type="button" class="btn-outline-gold product-spec-modal__btn-close" data-bs-dismiss="modal">{{ __('common.close') }}</button>
+                        <button type="submit" form="product-spec-download-form" class="btn-gold product-spec-modal__btn-submit" id="product-spec-submit">
                             <i class="bi bi-send-fill" aria-hidden="true"></i>
                             <span>{{ __('front.products.spec_request_submit') }}</span>
                         </button>
@@ -182,6 +185,5 @@
                 </div>
             </div>
         </div>
-    @endif
-
-@endsection
+    @endpush
+@endif

@@ -5254,26 +5254,63 @@
 /* ============================================================
    Product spec download modal
    ============================================================ */
-.product-spec-modal__content {
+.product-spec-modal {
+  --spec-modal-text: #0f172a;
+  --spec-modal-muted: #64748b;
+  --spec-modal-label: #334155;
+  --spec-modal-input-bg: #ffffff;
+  --spec-modal-input-border: #94a3b8;
+  --spec-modal-input-text: #0f172a;
+  color-scheme: light;
+  color: var(--spec-modal-text);
+}
+
+.product-spec-modal.show {
+  z-index: 100000;
+}
+
+.product-spec-modal__content,
+.product-spec-modal .modal-content {
   border: none;
   border-radius: 16px;
   overflow: hidden;
-  background: #fff;
+  background: #ffffff !important;
+  color: var(--spec-modal-text) !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
 }
 
 .product-spec-modal__header,
-.product-spec-modal__footer {
+.product-spec-modal__footer,
+.product-spec-modal .modal-header,
+.product-spec-modal .modal-footer {
   border-color: rgba(15, 23, 42, 0.08);
+  background: #ffffff;
+}
+
+.product-spec-modal__footer,
+.product-spec-modal .modal-footer {
+  background: #f8fafc;
+}
+
+.product-spec-modal .btn-close {
+  filter: none;
+  opacity: 0.55;
 }
 
 .product-spec-modal__title {
   font-family: var(--font-head);
   font-size: 1.25rem;
-  color: var(--brand-primary, #0c1f38);
+  color: #0c1f38 !important;
+}
+
+.product-spec-modal__body,
+.product-spec-modal .modal-body {
+  color: var(--spec-modal-text) !important;
+  background: #ffffff;
 }
 
 .product-spec-modal__intro {
-  color: #64748b;
+  color: var(--spec-modal-muted);
   margin-bottom: 18px;
   line-height: 1.6;
 }
@@ -5303,10 +5340,6 @@
   margin-top: 16px;
 }
 
-.product-spec-modal__body {
-  color: #334155;
-}
-
 .product-spec-modal__form .form-label {
   display: block;
   font-family: var(--font-head);
@@ -5314,39 +5347,63 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #475569;
+  color: var(--spec-modal-label) !important;
   margin-bottom: 8px;
 }
 
 .product-spec-modal__form .form-control-custom {
+  display: block;
   width: 100%;
-  background: #f8fafc;
-  border: 1px solid rgba(15, 23, 42, 0.12);
+  min-height: 48px;
+  background-color: var(--spec-modal-input-bg) !important;
+  border: 2px solid var(--spec-modal-input-border) !important;
   border-radius: var(--radius-lg);
   padding: 13px 18px;
-  font-size: 0.9rem;
-  color: var(--c-dark);
+  font-size: 1rem;
+  color: var(--spec-modal-input-text) !important;
+  -webkit-text-fill-color: var(--spec-modal-input-text);
+  caret-color: var(--spec-modal-input-text);
   outline: none;
   transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
   font-family: var(--font-body);
+  pointer-events: auto;
+  opacity: 1;
 }
 
 .product-spec-modal__form .form-control-custom::placeholder {
-  color: #94a3b8;
+  color: #94a3b8 !important;
+  opacity: 1;
 }
 
 .product-spec-modal__form .form-control-custom:focus {
-  border-color: rgba(201, 162, 39, 0.55);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.12);
+  border-color: #c9a227 !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.18) !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a;
+}
+
+.product-spec-modal__form .form-control-custom:disabled {
+  background-color: #f1f5f9 !important;
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b;
+  opacity: 1;
 }
 
 .product-spec-modal__form .form-control-custom.is-invalid {
-  border-color: rgba(239, 68, 68, 0.5);
+  border-color: #ef4444 !important;
 }
 
-.product-spec-modal__footer .btn-outline-gold,
-.product-spec-modal__footer .btn-gold {
+.product-spec-modal__form .form-control-custom:-webkit-autofill,
+.product-spec-modal__form .form-control-custom:-webkit-autofill:hover,
+.product-spec-modal__form .form-control-custom:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #0f172a !important;
+  border: 2px solid #94a3b8 !important;
+}
+
+.product-spec-modal__footer .product-spec-modal__btn-close,
+.product-spec-modal__footer .product-spec-modal__btn-submit {
   min-width: 120px;
 }
    

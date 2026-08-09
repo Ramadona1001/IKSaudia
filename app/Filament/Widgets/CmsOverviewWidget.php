@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\CareerApplication;
 use App\Models\ContactSubmission;
+use App\Models\ProductSpecDownloadRequest;
 use App\Models\Page;
 use App\Models\Project;
 use App\Models\Service;
@@ -28,6 +29,9 @@ class CmsOverviewWidget extends StatsOverviewWidget
             Stat::make(__('cms.widgets.new_enquiries'), ContactSubmission::query()->where('status', 'new')->count())
                 ->description(__('cms.widgets.contact_form'))
                 ->color('warning'),
+            Stat::make('PDF requests', ProductSpecDownloadRequest::query()->where('status', 'pending')->count())
+                ->description('Pending spec downloads')
+                ->color('gray'),
             Stat::make(__('cms.widgets.job_applications'), CareerApplication::query()->where('status', 'new')->count())
                 ->color('danger'),
         ];

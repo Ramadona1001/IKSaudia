@@ -532,6 +532,148 @@ function initSearch() {
 }
 
 /* ============================================================
+   Cookie consent
+   ============================================================ */
+function initCookieConsent() {
+  const banner = document.getElementById('cookie-consent');
+  const acceptBtn = document.querySelector('[data-cookie-accept]');
+  if (!banner || !acceptBtn) return;
+
+  const storageKey = 'ik_cookie_consent';
+
+  function hideBanner() {
+    banner.hidden = true;
+    banner.classList.remove('is-visible');
+  }
+
+  function showBanner() {
+    banner.hidden = false;
+    requestAnimationFrame(() => banner.classList.add('is-visible'));
+  }
+
+  if (localStorage.getItem(storageKey) === 'accepted') {
+    hideBanner();
+    return;
+  }
+
+  showBanner();
+
+  acceptBtn.addEventListener('click', () => {
+    localStorage.setItem(storageKey, 'accepted');
+    hideBanner();
+  });
+}
+
+/* ============================================================
+   Product specification PDF request modal
+   ============================================================ */
+function initProductSpecDownload() {
+  const modalEl = document.getElementById('productSpecDownloadModal');
+  const form = document.getElementById('product-spec-download-form');
+  if (!modalEl || !form || typeof bootstrap === 'undefined') return;
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+  const successBox = document.getElementById('product-spec-success');
+  const errorBox = document.getElementById('product-spec-error');
+  const successText = document.getElementById('product-spec-success-text');
+  const errorText = document.getElementById('product-spec-error-text');
+  const submitBtn = document.getElementById('product-spec-submit');
+  const openBtns = document.querySelectorAll('[data-spec-download-open]');
+  let requestUrl = '';
+
+  const defaultError = document.documentElement.lang === 'ar'
+    ? 'تعذر إرسال الطلب. يرجى التحقق من البيانات والمحاولة مرة أخرى.'
+    : 'We could not submit your request. Please check the form and try again.';
+
+  function resetAlerts() {
+    if (successBox) successBox.hidden = true;
+    if (errorBox) errorBox.hidden = true;
+  }
+
+  function showError(message) {
+    resetAlerts();
+    if (errorBox && errorText) {
+      errorText.textContent = message || defaultError;
+      errorBox.hidden = false;
+    }
+  }
+
+  function showSuccess(message) {
+    resetAlerts();
+    if (successBox && successText) {
+      successText.textContent = message;
+      successBox.hidden = false;
+    }
+    form.querySelectorAll('input:not([type="hidden"]), textarea').forEach(el => {
+      el.disabled = true;
+    });
+    if (submitBtn) submitBtn.disabled = true;
+  }
+
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      requestUrl = btn.dataset.requestUrl || '';
+      form.reset();
+      form.querySelectorAll('input, textarea').forEach(el => { el.disabled = false; });
+      if (submitBtn) submitBtn.disabled = false;
+      resetAlerts();
+      modal.show();
+    });
+  });
+
+  modalEl.addEventListener('hidden.bs.modal', () => {
+    form.reset();
+    form.querySelectorAll('input, textarea').forEach(el => { el.disabled = false; });
+    if (submitBtn) submitBtn.disabled = false;
+    resetAlerts();
+  });
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!requestUrl) return;
+
+    resetAlerts();
+
+    const originalHtml = submitBtn ? submitBtn.innerHTML : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      const label = document.documentElement.lang === 'ar' ? 'جارٍ الإرسال...' : 'Sending...';
+      submitBtn.innerHTML = `<i class="bi bi-arrow-repeat"></i> <span>${label}</span>`;
+    }
+
+    const formData = new FormData(form);
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+    try {
+      const response = await fetch(requestUrl, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          ...(csrf ? { 'X-CSRF-TOKEN': csrf } : {}),
+        },
+        body: formData,
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const firstError = data?.errors ? Object.values(data.errors).flat()[0] : null;
+        throw new Error(firstError || data?.message || defaultError);
+      }
+
+      showSuccess(data.message || defaultError);
+    } catch (error) {
+      showError(error.message || defaultError);
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHtml;
+      }
+    }
+  });
+}
+
+/* ============================================================
    AOS (Animate On Scroll)
    ============================================================ */
 function initAOS() {
@@ -796,6 +938,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollTop();
   initLanguageSwitcher();
   initSearch();
+  initCookieConsent();
+  initProductSpecDownload();
   initAOS();
   initLightbox();
   initRipple();

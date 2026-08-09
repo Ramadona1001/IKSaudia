@@ -12,6 +12,7 @@ use App\Http\Controllers\Web\NewsController;
 use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Web\PartnerController;
 use App\Http\Controllers\Web\ProductController;
+use App\Http\Controllers\Web\ProductSpecDownloadController;
 use App\Http\Controllers\Web\ProjectController;
 use App\Http\Controllers\Web\SearchController;
 use App\Http\Controllers\Web\ServiceController;
@@ -26,6 +27,12 @@ Route::middleware([ResolveWebLocale::class])->group(function (): void {
     Route::get('/products/{slug}', [ProductController::class, 'show'])
         ->where('slug', '[A-Za-z0-9-_]+')
         ->name('products.show');
+    Route::post('/products/{slug}/spec-download-request', [ProductSpecDownloadController::class, 'store'])
+        ->where('slug', '[A-Za-z0-9-_]+')
+        ->middleware('throttle:product-spec')
+        ->name('products.spec-download-request');
+    Route::get('/products/spec-download/{token}', [ProductSpecDownloadController::class, 'download'])
+        ->name('products.spec-download');
 });
 
 Route::get('{legacyPath}', LegacyRedirectController::class)

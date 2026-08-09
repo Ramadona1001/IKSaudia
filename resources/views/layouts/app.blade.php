@@ -41,8 +41,9 @@
     @stack('head')
 </head>
 <body class="min-h-screen flex flex-col bg-navy-950 text-steel-100 antialiased">
-    @if (setting('seo.google_tag_manager_id'))
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ setting('seo.google_tag_manager_id') }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    @php $gtmId = \App\Support\AnalyticsIds::gtmId(setting('seo.google_tag_manager_id')); @endphp
+    @if ($gtmId)
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $gtmId }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @endif
     <div x-data="pageLoader" :class="done && 'is-done'" class="page-loader" aria-hidden="true" x-show="!done" x-transition.opacity.duration.500ms>
         @if ($loaderLogo)

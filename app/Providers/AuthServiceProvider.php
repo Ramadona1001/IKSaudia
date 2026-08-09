@@ -16,6 +16,7 @@ use App\Models\NewsPost;
 use App\Models\Page;
 use App\Models\Partner;
 use App\Models\Product;
+use App\Models\ProductSpecDownloadRequest;
 use App\Models\Project;
 use App\Models\Redirect;
 use App\Models\Service;
@@ -23,6 +24,7 @@ use App\Models\User;
 use App\Policies\CareerPolicy;
 use App\Policies\CmsContentPolicy;
 use App\Policies\ContactSubmissionPolicy;
+use App\Policies\ProductSpecDownloadRequestPolicy;
 use App\Policies\SystemPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -45,6 +47,7 @@ class AuthServiceProvider extends ServiceProvider
         Career::class => CareerPolicy::class,
         CareerApplication::class => CareerPolicy::class,
         ContactSubmission::class => ContactSubmissionPolicy::class,
+        ProductSpecDownloadRequest::class => ProductSpecDownloadRequestPolicy::class,
         Redirect::class => SystemPolicy::class,
         Menu::class => SystemPolicy::class,
         MenuItem::class => SystemPolicy::class,

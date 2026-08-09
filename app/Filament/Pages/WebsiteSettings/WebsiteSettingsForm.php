@@ -168,6 +168,17 @@ final class WebsiteSettingsForm
                 self::imageUpload('general.logo_dark', 'Dark mode logo', 'site-settings/logos'),
                 self::imageUpload('general.seo_default_image', 'Default SEO image', 'site-settings/seo'),
             ]),
+            Section::make('Cookie consent')
+                ->description('Banner shown until the visitor accepts cookies.')
+                ->schema([
+                    Toggle::make('general.cookie_consent_enabled')->label('Show cookie consent banner')->default(true),
+                    ...self::translatableTextarea('general.cookie_consent_message', 'Banner message'),
+                    ...self::translatableText('general.cookie_consent_accept_label', 'Accept button label'),
+                    TextInput::make('general.cookie_consent_policy_url')
+                        ->label('Privacy policy URL (optional)')
+                        ->helperText('Leave empty to use the default privacy policy page.')
+                        ->maxLength(500),
+                ]),
         ];
     }
 
@@ -522,9 +533,15 @@ final class WebsiteSettingsForm
             ]),
             Section::make('Tracking & robots')->columns(2)->schema([
                 TextInput::make('seo.robots')->label('Robots meta')->default('index, follow'),
-                TextInput::make('seo.google_analytics_id')->label('Google Analytics ID'),
-                TextInput::make('seo.google_tag_manager_id')->label('Google Tag Manager ID'),
-                TextInput::make('seo.meta_pixel_id')->label('Meta Pixel ID'),
+                TextInput::make('seo.google_analytics_id')
+                    ->label('Google Analytics ID')
+                    ->helperText('Measurement ID only, e.g. G-XXXXXXXXXX'),
+                TextInput::make('seo.google_tag_manager_id')
+                    ->label('Google Tag Manager ID')
+                    ->helperText('Container ID only, e.g. GTM-XXXXXXX — do not paste the full script snippet.'),
+                TextInput::make('seo.meta_pixel_id')
+                    ->label('Meta Pixel ID')
+                    ->helperText('Numeric pixel ID only.'),
             ]),
             Section::make('Schema.org organization')->collapsed()->schema([
                 KeyValue::make('seo.schema_organization')

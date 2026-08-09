@@ -92,16 +92,16 @@
                                     <h3 class="product-spec-card__title">{{ __('front.products.spec_pdf_title') }}</h3>
                                     <p class="product-spec-card__desc">{{ __('front.products.spec_pdf_desc') }}</p>
                                 </div>
-                                <a
-                                    href="{{ $product->pdfUrl() }}"
+                                <button
+                                    type="button"
                                     class="btn-gold product-spec-card__btn"
-                                    download="{{ $product->specificationPdfDownloadName($locale) }}"
-                                    target="_blank"
-                                    rel="noopener"
+                                    data-spec-download-open
+                                    data-product-slug="{{ $translation?->slug ?? $product->translate('en')?->slug }}"
+                                    data-request-url="{{ route('products.spec-download-request', ['slug' => $translation?->slug ?? $product->translate('en')?->slug]) }}"
                                 >
                                     <i class="bi bi-download" aria-hidden="true"></i>
                                     <span>{{ __('front.products.download_spec_pdf') }}</span>
-                                </a>
+                                </button>
                             </div>
                         @endif
 
@@ -123,5 +123,65 @@
             <span>{{ __('front.products.talk_experts') }}</span>
         </a>
     </x-front.cta-section>
+
+    @if ($product->hasSpecificationPdf())
+        <div class="modal fade product-spec-modal" id="productSpecDownloadModal" tabindex="-1" aria-labelledby="productSpecDownloadModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content product-spec-modal__content">
+                    <div class="modal-header product-spec-modal__header">
+                        <h2 class="modal-title product-spec-modal__title" id="productSpecDownloadModalLabel">
+                            {{ __('front.products.spec_request_title') }}
+                        </h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('common.close') }}"></button>
+                    </div>
+                    <div class="modal-body product-spec-modal__body">
+                        <p class="product-spec-modal__intro">{{ __('front.products.spec_request_intro') }}</p>
+
+                        <div class="product-spec-modal__alert product-spec-modal__alert--success" id="product-spec-success" hidden role="status">
+                            <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                            <span id="product-spec-success-text"></span>
+                        </div>
+
+                        <div class="product-spec-modal__alert product-spec-modal__alert--error" id="product-spec-error" hidden role="alert">
+                            <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                            <span id="product-spec-error-text"></span>
+                        </div>
+
+                        <form id="product-spec-download-form" class="product-spec-modal__form" novalidate>
+                            @csrf
+                            <input type="text" name="website" value="" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true">
+
+                            <div class="form-group">
+                                <label class="form-label" for="spec-name">{{ __('front.products.spec_request_name') }} <span class="text-gold">*</span></label>
+                                <input id="spec-name" name="name" type="text" class="form-control-custom" required maxlength="120">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="spec-email">{{ __('front.products.spec_request_email') }} <span class="text-gold">*</span></label>
+                                <input id="spec-email" name="email" type="email" class="form-control-custom" required maxlength="255">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="spec-phone">{{ __('front.products.spec_request_phone') }} <span class="text-gold">*</span></label>
+                                <input id="spec-phone" name="phone" type="tel" class="form-control-custom" required maxlength="30">
+                            </div>
+
+                            <div class="form-group mb-0">
+                                <label class="form-label" for="spec-company">{{ __('front.products.spec_request_company') }}</label>
+                                <input id="spec-company" name="company" type="text" class="form-control-custom" maxlength="255">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer product-spec-modal__footer">
+                        <button type="button" class="btn-outline-gold" data-bs-dismiss="modal">{{ __('common.close') }}</button>
+                        <button type="submit" form="product-spec-download-form" class="btn-gold" id="product-spec-submit">
+                            <i class="bi bi-send-fill" aria-hidden="true"></i>
+                            <span>{{ __('front.products.spec_request_submit') }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
 @endsection

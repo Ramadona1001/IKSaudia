@@ -42,6 +42,10 @@ return [
         'general.logo_footer' => ['group' => 'general', 'type' => 'image', 'translatable' => false, 'label' => 'Footer logo'],
         'general.logo_dark' => ['group' => 'general', 'type' => 'image', 'translatable' => false, 'label' => 'Dark mode logo'],
         'general.seo_default_image' => ['group' => 'general', 'type' => 'image', 'translatable' => false, 'label' => 'Default SEO image'],
+        'general.cookie_consent_enabled' => ['group' => 'general', 'type' => 'boolean', 'translatable' => false, 'label' => 'Cookie consent banner enabled'],
+        'general.cookie_consent_message' => ['group' => 'general', 'type' => 'textarea', 'translatable' => true, 'label' => 'Cookie consent message'],
+        'general.cookie_consent_accept_label' => ['group' => 'general', 'type' => 'text', 'translatable' => true, 'label' => 'Cookie accept button label'],
+        'general.cookie_consent_policy_url' => ['group' => 'general', 'type' => 'text', 'translatable' => false, 'label' => 'Cookie policy URL (optional)'],
 
         // ── Branding ─────────────────────────────────────────────────────
         'branding.primary_color' => ['group' => 'branding', 'type' => 'text', 'translatable' => false, 'label' => 'Primary color'],

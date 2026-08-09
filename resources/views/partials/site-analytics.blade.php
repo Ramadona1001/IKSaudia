@@ -1,7 +1,9 @@
 @php
-    $gaId = setting('seo.google_analytics_id');
-    $gtmId = setting('seo.google_tag_manager_id');
-    $pixelId = setting('seo.meta_pixel_id');
+    use App\Support\AnalyticsIds;
+
+    $gaId = AnalyticsIds::gaId(setting('seo.google_analytics_id'));
+    $gtmId = AnalyticsIds::gtmId(setting('seo.google_tag_manager_id'));
+    $pixelId = AnalyticsIds::metaPixelId(setting('seo.meta_pixel_id'));
 @endphp
 
 @if ($gtmId)

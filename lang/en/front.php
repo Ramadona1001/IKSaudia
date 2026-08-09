@@ -190,6 +190,23 @@ return [
         'spec_pdf_title' => 'Technical Specifications',
         'spec_pdf_desc' => 'Download the full product datasheet with materials, dimensions, and certifications.',
         'no_products' => 'No products have been published yet. Please check back soon.',
+        'spec_request_title' => 'Request technical specifications',
+        'spec_request_intro' => 'Please share your details. Our team will review your request and email you the PDF download link once approved.',
+        'spec_request_name' => 'Full name',
+        'spec_request_email' => 'Email address',
+        'spec_request_phone' => 'Mobile number',
+        'spec_request_company' => 'Company name',
+        'spec_request_submit' => 'Submit request',
+        'spec_request_success' => 'Thank you. Your request has been submitted and is pending approval. You will receive an email with the download link once approved.',
+        'spec_request_error' => 'We could not submit your request. Please check the form and try again.',
+        'spec_request_not_found' => 'Product specification is not available.',
+    ],
+
+    'cookies' => [
+        'title' => 'Cookie consent',
+        'message' => 'We use cookies to improve your experience on our website. By continuing to browse, you agree to our use of cookies.',
+        'accept' => 'Accept',
+        'learn_more' => 'Learn more',
     ],
 
     'industries' => [

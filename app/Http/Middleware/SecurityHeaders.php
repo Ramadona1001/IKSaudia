@@ -62,8 +62,14 @@ class SecurityHeaders
             return;
         }
 
+        $reportOnly = config('security.csp.report_only', true);
+
         $parts = [];
         foreach ($directives as $name => $sources) {
+            if ($reportOnly && $name === 'upgrade-insecure-requests') {
+                continue;
+            }
+
             if ($sources === []) {
                 $parts[] = $name;
             } else {
@@ -71,7 +77,7 @@ class SecurityHeaders
             }
         }
 
-        $header = config('security.csp.report_only', true)
+        $header = $reportOnly
             ? 'Content-Security-Policy-Report-Only'
             : 'Content-Security-Policy';
 

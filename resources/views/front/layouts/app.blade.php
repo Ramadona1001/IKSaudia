@@ -87,8 +87,9 @@
     @stack('head')
 </head>
 <body dir="{{ $dir }}" data-server-locale class="@yield('body_class') {{ request()->routeIs('home') ? 'is-home' : 'inner-page' }}{{ setting('branding.page_hero_pattern', 'hexagon') === 'none' ? ' site-pattern-none' : '' }}">
-    @if (setting('seo.google_tag_manager_id'))
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ setting('seo.google_tag_manager_id') }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    @php $gtmId = \App\Support\AnalyticsIds::gtmId(setting('seo.google_tag_manager_id')); @endphp
+    @if ($gtmId)
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $gtmId }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @endif
 
     {{-- Skip link --}}
@@ -107,6 +108,7 @@
 
     @include('front.partials.footer')
     @include('front.partials.floating-buttons')
+    @include('front.partials.cookie-consent')
     @include('front.partials.scripts')
 </body>
 </html>

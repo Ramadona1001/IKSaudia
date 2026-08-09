@@ -31,6 +31,16 @@ class SiteSettingsSeeder extends Seeder
                 'logo_footer' => null,
                 'logo_dark' => null,
                 'seo_default_image' => null,
+                'cookie_consent_enabled' => true,
+                'cookie_consent_message' => [
+                    'ar' => 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك على موقعنا. بمتابعة التصفح، فإنك توافق على استخدامنا لملفات تعريف الارتباط.',
+                    'en' => 'We use cookies to improve your experience on our website. By continuing to browse, you agree to our use of cookies.',
+                ],
+                'cookie_consent_accept_label' => [
+                    'ar' => 'موافق',
+                    'en' => 'Accept',
+                ],
+                'cookie_consent_policy_url' => null,
             ],
             'branding' => [
                 'primary_color' => '#0c1f38',

@@ -5302,4 +5302,51 @@
 .product-spec-modal__form .form-group + .form-group {
   margin-top: 16px;
 }
+
+.product-spec-modal__body {
+  color: #334155;
+}
+
+.product-spec-modal__form .form-label {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.product-spec-modal__form .form-control-custom {
+  width: 100%;
+  background: #f8fafc;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 13px 18px;
+  font-size: 0.9rem;
+  color: var(--c-dark);
+  outline: none;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  font-family: var(--font-body);
+}
+
+.product-spec-modal__form .form-control-custom::placeholder {
+  color: #94a3b8;
+}
+
+.product-spec-modal__form .form-control-custom:focus {
+  border-color: rgba(201, 162, 39, 0.55);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.12);
+}
+
+.product-spec-modal__form .form-control-custom.is-invalid {
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.product-spec-modal__footer .btn-outline-gold,
+.product-spec-modal__footer .btn-gold {
+  min-width: 120px;
+}
    

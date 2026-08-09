@@ -153,22 +153,22 @@
 
                             <div class="form-group">
                                 <label class="form-label" for="spec-name">{{ __('front.products.spec_request_name') }} <span class="text-gold">*</span></label>
-                                <input id="spec-name" name="name" type="text" class="form-control-custom" required maxlength="120">
+                                <input id="spec-name" name="name" type="text" class="form-control-custom" placeholder="{{ __('front.products.spec_request_name_placeholder') }}" required maxlength="120" autocomplete="name">
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="spec-email">{{ __('front.products.spec_request_email') }} <span class="text-gold">*</span></label>
-                                <input id="spec-email" name="email" type="email" class="form-control-custom" required maxlength="255">
+                                <input id="spec-email" name="email" type="email" class="form-control-custom" placeholder="{{ __('front.products.spec_request_email_placeholder') }}" required maxlength="255" autocomplete="email">
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="spec-phone">{{ __('front.products.spec_request_phone') }} <span class="text-gold">*</span></label>
-                                <input id="spec-phone" name="phone" type="tel" class="form-control-custom" required maxlength="30">
+                                <input id="spec-phone" name="phone" type="tel" class="form-control-custom" placeholder="{{ __('front.products.spec_request_phone_placeholder') }}" required maxlength="30" autocomplete="tel">
                             </div>
 
                             <div class="form-group mb-0">
                                 <label class="form-label" for="spec-company">{{ __('front.products.spec_request_company') }}</label>
-                                <input id="spec-company" name="company" type="text" class="form-control-custom" maxlength="255">
+                                <input id="spec-company" name="company" type="text" class="form-control-custom" placeholder="{{ __('front.products.spec_request_company_placeholder') }}" maxlength="255" autocomplete="organization">
                             </div>
                         </form>
                     </div>

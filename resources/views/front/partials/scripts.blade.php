@@ -3,6 +3,6 @@
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js" defer></script>
-<script src="{{ asset('assets/front/js/main.js') }}" defer></script>
+<script src="{{ asset_version('assets/front/js/main.js') }}" defer></script>
 
 @stack('scripts')

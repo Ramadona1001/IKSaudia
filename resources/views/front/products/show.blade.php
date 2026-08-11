@@ -152,7 +152,7 @@
 
                         <form id="product-spec-download-form" class="product-spec-modal__form" novalidate>
                             @csrf
-                            <input type="text" name="website" value="" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true">
+                            {{-- <input type="text" name="website" value="" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true"> --}}
 
                             <div class="form-group">
                                 <label class="form-label" for="spec-name">{{ __('front.products.spec_request_name') }} <span class="text-gold">*</span></label>

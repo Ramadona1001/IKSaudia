@@ -12,7 +12,7 @@
 
 @include('front.partials.brand-colors')
 
-<link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/rtl.css') }}">
+<link rel="stylesheet" href="{{ asset_version('assets/front/css/main.css') }}">
+<link rel="stylesheet" href="{{ asset_version('assets/front/css/rtl.css') }}">
 
 @stack('styles')

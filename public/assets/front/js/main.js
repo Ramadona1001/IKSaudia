@@ -582,16 +582,34 @@ function initProductSpecDownload() {
   const successText = document.getElementById('product-spec-success-text');
   const errorText = document.getElementById('product-spec-error-text');
   const submitBtn = document.getElementById('product-spec-submit');
+  const modalFooter = modalEl.querySelector('.product-spec-modal__footer');
   const openBtns = document.querySelectorAll('[data-spec-download-open]');
   let requestUrl = '';
+  const submitBtnOriginalHtml = submitBtn ? submitBtn.innerHTML : '';
 
   const defaultError = document.documentElement.lang === 'ar'
     ? 'تعذر إرسال الطلب. يرجى التحقق من البيانات والمحاولة مرة أخرى.'
     : 'We could not submit your request. Please check the form and try again.';
 
+  const defaultSuccess = document.documentElement.lang === 'ar'
+    ? 'شكرًا لك. تم استلام طلبك وهو قيد المراجعة. ستصلك رسالة بالبريد الإلكتروني برابط التحميل بعد الموافقة.'
+    : 'Thank you. Your request has been submitted and is pending approval. You will receive an email with the download link once approved.';
+
   function resetAlerts() {
     if (successBox) successBox.hidden = true;
     if (errorBox) errorBox.hidden = true;
+  }
+
+  function resetFormState() {
+    form.reset();
+    form.hidden = false;
+    if (modalFooter) modalFooter.hidden = false;
+    form.querySelectorAll('input, textarea').forEach(el => { el.disabled = false; });
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = submitBtnOriginalHtml;
+    }
+    resetAlerts();
   }
 
   function showError(message) {
@@ -604,33 +622,24 @@ function initProductSpecDownload() {
 
   function showSuccess(message) {
     resetAlerts();
+    form.hidden = true;
+    if (modalFooter) modalFooter.hidden = true;
     if (successBox && successText) {
-      successText.textContent = message;
+      successText.textContent = message || defaultSuccess;
       successBox.hidden = false;
     }
-    form.querySelectorAll('input:not([type="hidden"]), textarea').forEach(el => {
-      el.disabled = true;
-    });
     if (submitBtn) submitBtn.disabled = true;
   }
 
   openBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       requestUrl = btn.dataset.requestUrl || '';
-      form.reset();
-      form.querySelectorAll('input, textarea').forEach(el => { el.disabled = false; });
-      if (submitBtn) submitBtn.disabled = false;
-      resetAlerts();
+      resetFormState();
       modal.show();
     });
   });
 
-  modalEl.addEventListener('hidden.bs.modal', () => {
-    form.reset();
-    form.querySelectorAll('input, textarea').forEach(el => { el.disabled = false; });
-    if (submitBtn) submitBtn.disabled = false;
-    resetAlerts();
-  });
+  modalEl.addEventListener('hidden.bs.modal', resetFormState);
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -666,7 +675,11 @@ function initProductSpecDownload() {
         throw new Error(firstError || data?.message || defaultError);
       }
 
-      showSuccess(data.message || defaultError);
+      showSuccess(data.message || defaultSuccess);
+
+      window.setTimeout(() => {
+        modal.hide();
+      }, 2200);
     } catch (error) {
       showError(error.message || defaultError);
       if (submitBtn) {

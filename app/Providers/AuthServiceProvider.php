@@ -20,6 +20,7 @@ use App\Models\ProductSpecDownloadRequest;
 use App\Models\Project;
 use App\Models\Redirect;
 use App\Models\Service;
+use App\Models\ServiceEdge;
 use App\Models\User;
 use App\Policies\CareerPolicy;
 use App\Policies\CmsContentPolicy;
@@ -34,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
     /** @var array<class-string, class-string> */
     protected array $policies = [
         Service::class => CmsContentPolicy::class,
+        ServiceEdge::class => CmsContentPolicy::class,
         Project::class => CmsContentPolicy::class,
         Page::class => CmsContentPolicy::class,
         Industry::class => CmsContentPolicy::class,

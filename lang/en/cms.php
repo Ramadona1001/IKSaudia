@@ -23,6 +23,11 @@ return [
         'product_settings' => 'Product settings',
         'product_spec_pdf' => 'Technical specification (PDF)',
         'product_spec_pdf_help' => 'Upload the product datasheet. A download button appears on the product page when a PDF is attached.',
+        'service_edge_details' => 'Advantage card',
+    ],
+    'nav' => [
+        'service_edge' => 'advantage',
+        'service_edges' => 'Why choose us',
     ],
     'widgets' => [
         'published_pages' => 'Published pages',
@@ -37,6 +42,8 @@ return [
     'fields' => [
         'published' => 'Published',
         'service_publish_help' => 'Service appears on the site only when published and it has a title in at least one language.',
+        'service_edge_publish_help' => 'Shown on the Services page “Why choose us” section when published.',
+        'icon' => 'Icon',
         'publish_at' => 'Publish at',
         'name' => 'Name',
         'title' => 'Title',

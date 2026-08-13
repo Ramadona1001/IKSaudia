@@ -23,6 +23,11 @@ return [
         'product_settings' => 'إعدادات المنتج',
         'product_spec_pdf' => 'المواصفات التقنية (PDF)',
         'product_spec_pdf_help' => 'ارفع ملف المواصفات. يظهر زر التحميل في صفحة المنتج عند إرفاق ملف PDF.',
+        'service_edge_details' => 'بطاقة الميزة',
+    ],
+    'nav' => [
+        'service_edge' => 'ميزة',
+        'service_edges' => 'لماذا تختارنا',
     ],
     'widgets' => [
         'published_pages' => 'صفحات منشورة',
@@ -37,6 +42,8 @@ return [
     'fields' => [
         'published' => 'منشور',
         'service_publish_help' => 'يظهر الخدمة في الموقع فقط عند التفعيل ووجود عنوان بلغة واحدة على الأقل.',
+        'service_edge_publish_help' => 'تظهر في قسم «لماذا تختارنا» في صفحة الخدمات عند النشر.',
+        'icon' => 'الأيقونة',
         'publish_at' => 'تاريخ النشر',
         'name' => 'الاسم',
         'title' => 'العنوان',

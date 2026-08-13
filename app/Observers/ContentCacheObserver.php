@@ -21,6 +21,8 @@ use App\Models\ProductTranslation;
 use App\Models\Project;
 use App\Models\ProjectTranslation;
 use App\Models\Service;
+use App\Models\ServiceEdge;
+use App\Models\ServiceEdgeTranslation;
 use App\Models\ServiceTranslation;
 use App\Services\ClientCatalogService;
 use App\Services\ContentCacheService;
@@ -54,6 +56,7 @@ class ContentCacheObserver
         match ($model::class) {
             Page::class, PageTranslation::class => $this->clearPage($model),
             Service::class, ServiceTranslation::class => $this->cache->forgetServices(),
+            ServiceEdge::class, ServiceEdgeTranslation::class => $this->cache->forgetServiceEdges(),
             HomeSection::class,
             HomeSectionTranslation::class,
             HomeSectionItem::class,

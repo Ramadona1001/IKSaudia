@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Service;
+use App\Models\ServiceEdge;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -47,6 +48,19 @@ class ServiceCatalogService
                 ])
                 ->first()
         );
+    }
+
+    /** @return Collection<int, ServiceEdge> */
+    public function publishedEdges(string $locale): Collection
+    {
+        return Cache::remember("service-edges.published.{$locale}", 3600, function () {
+            return ServiceEdge::query()
+                ->published()
+                ->whereHas('translations', fn ($query) => $query->whereNotNull('title')->where('title', '!=', ''))
+                ->with('translations')
+                ->orderBy('sort_order')
+                ->get();
+        });
     }
 
     public function clearCache(): void

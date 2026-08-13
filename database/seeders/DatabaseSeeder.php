@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             HomeContentSeeder::class,
             PageSeeder::class,
             ServiceSeeder::class,
+            ServiceEdgeSeeder::class,
             ProductSeeder::class,
             IndustrySeeder::class,
             CertificationSeeder::class,

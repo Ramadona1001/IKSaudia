@@ -22,6 +22,8 @@ use App\Models\ProductTranslation;
 use App\Models\Project;
 use App\Models\ProjectTranslation;
 use App\Models\Service;
+use App\Models\ServiceEdge;
+use App\Models\ServiceEdgeTranslation;
 use App\Models\ServiceTranslation;
 use App\Models\SiteSetting;
 use App\Models\SiteSettingTranslation;
@@ -72,6 +74,8 @@ class AppServiceProvider extends ServiceProvider
         PageTranslation::observe($observer);
         Service::observe($observer);
         ServiceTranslation::observe($observer);
+        ServiceEdge::observe($observer);
+        ServiceEdgeTranslation::observe($observer);
         Project::observe($observer);
         ProjectTranslation::observe($observer);
         Industry::observe($observer);

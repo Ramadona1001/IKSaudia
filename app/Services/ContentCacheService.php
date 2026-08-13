@@ -52,6 +52,15 @@ class ContentCacheService
                 Cache::forget("service.{$locale}.{$slug}");
             }
         }
+
+        $this->forgetServiceEdges();
+    }
+
+    public function forgetServiceEdges(): void
+    {
+        foreach ($this->localeCodes() as $locale) {
+            Cache::forget("service-edges.published.{$locale}");
+        }
     }
 
     public function forgetProjects(): void

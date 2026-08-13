@@ -18,6 +18,7 @@ class ServiceController extends Controller
     {
         return view('front.services.index', [
             'services' => $this->services->publishedList($locale),
+            'edges' => $this->services->publishedEdges($locale),
             'locales' => $this->locales->active(),
         ]);
     }

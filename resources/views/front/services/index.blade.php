@@ -31,38 +31,37 @@
     </section>
 
     {{-- Why Choose Us --}}
-    <section class="section-pad services-index-why">
-        <div class="container">
-            <x-front.section-heading
-                :eyebrow="__('front.services.why_eyebrow')"
-                :highlight="__('front.services.why_title')"
-                data-aos="fade-up"
-            />
+    @if (($edges ?? collect())->isNotEmpty())
+        <section class="section-pad services-index-why">
+            <div class="container">
+                <x-front.section-heading
+                    :eyebrow="__('front.services.why_eyebrow')"
+                    :highlight="__('front.services.why_title')"
+                    data-aos="fade-up"
+                />
 
-            <div class="row g-4">
-                @php
-                    $edges = [
-                        ['key' => 'aramco',   'icon' => 'bi-patch-check-fill'],
-                        ['key' => 'workforce','icon' => 'bi-people-fill'],
-                        ['key' => 'safety',   'icon' => 'bi-shield-fill-check'],
-                        ['key' => 'delivery', 'icon' => 'bi-graph-up-arrow'],
-                    ];
-                @endphp
-
-                @foreach ($edges as $i => $edge)
-                    <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
-                        <div class="about-stat-item services-edge-card">
-                            <div class="services-edge-icon">
-                                <i class="bi {{ $edge['icon'] }}" aria-hidden="true"></i>
+                <div class="row g-4">
+                    @foreach ($edges as $edge)
+                        @php $translation = $edge->translate(); @endphp
+                        @if (! $translation?->title)
+                            @continue
+                        @endif
+                        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                            <div class="about-stat-item services-edge-card">
+                                <div class="services-edge-icon">
+                                    <i class="{{ \App\Support\BootstrapIcon::classes($edge->icon, 'bi-patch-check-fill') }}" aria-hidden="true"></i>
+                                </div>
+                                <h4 class="services-edge-title">{{ $translation->title }}</h4>
+                                @if ($translation->description)
+                                    <p class="services-edge-desc">{{ $translation->description }}</p>
+                                @endif
                             </div>
-                            <h4 class="services-edge-title">{{ __('front.services.edge.'.$edge['key'].'.title') }}</h4>
-                            <p class="services-edge-desc">{{ __('front.services.edge.'.$edge['key'].'.desc') }}</p>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     <x-front.cta-section :title="__('front.services.cta_title')" :description="__('front.services.cta_desc')" background="bg-dark1">
         <a href="{{ route('contact', app()->getLocale()) }}" class="btn-gold">

@@ -6,6 +6,7 @@ use App\Jobs\NotifyProductSpecDownloadApproved;
 use App\Jobs\NotifyProductSpecDownloadRequest;
 use App\Models\ProductSpecDownloadRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ProductSpecDownloadService
@@ -18,7 +19,11 @@ class ProductSpecDownloadService
             'status' => 'pending',
         ]);
 
-        NotifyProductSpecDownloadRequest::dispatch($request);
+        $this->notifySafely(
+            fn () => NotifyProductSpecDownloadRequest::dispatchSync($request),
+            'product_spec.request_notify_failed',
+            ['reference' => $request->reference_number],
+        );
 
         return $request;
     }
@@ -34,9 +39,15 @@ class ProductSpecDownloadService
             'reviewed_by' => $reviewer->id,
         ]);
 
-        NotifyProductSpecDownloadApproved::dispatch($request->fresh(['product.translations']));
+        $fresh = $request->fresh(['product.translations']);
 
-        return $request->fresh();
+        $this->notifySafely(
+            fn () => NotifyProductSpecDownloadApproved::dispatchSync($fresh),
+            'product_spec.approved_notify_failed',
+            ['reference' => $fresh?->reference_number],
+        );
+
+        return $fresh;
     }
 
     public function reject(ProductSpecDownloadRequest $request, User $reviewer, ?string $adminNotes = null): ProductSpecDownloadRequest
@@ -60,5 +71,21 @@ class ProductSpecDownloadService
             ->where('download_token', $token)
             ->with(['product'])
             ->first();
+    }
+
+    /**
+     * @param  callable(): mixed  $callback
+     * @param  array<string, mixed>  $context
+     */
+    protected function notifySafely(callable $callback, string $event, array $context = []): void
+    {
+        try {
+            $callback();
+        } catch (\Throwable $exception) {
+            Log::error($event, [
+                ...$context,
+                'error' => $exception->getMessage(),
+            ]);
+        }
     }
 }

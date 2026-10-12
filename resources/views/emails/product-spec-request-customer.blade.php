@@ -1,4 +1,4 @@
-@if ($locale === 'ar')
+@if ($mailLocale === 'ar')
 مرحباً {{ $downloadRequest->name }}،
 
 شكراً لطلبك مواصفات المنتج التقنية.

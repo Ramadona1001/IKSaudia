@@ -14,16 +14,19 @@ class ContactSubmissionCustomerMail extends Mailable
     use Queueable;
     use SerializesModels;
 
+    public string $mailLocale;
+
     public function __construct(
         public ContactSubmission $submission,
         string $locale,
     ) {
-        $this->locale = $locale;
+        $this->mailLocale = $locale;
+        $this->viewData['locale'] = $locale;
     }
 
     public function envelope(): Envelope
     {
-        $subject = $this->locale === 'ar'
+        $subject = $this->mailLocale === 'ar'
             ? '[IK Saudi] تم استلام رسالتك — '.$this->submission->reference_number
             : '[IK Saudi] We received your message — '.$this->submission->reference_number;
 

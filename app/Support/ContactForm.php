@@ -262,6 +262,55 @@ final class ContactForm
         ];
     }
 
+    /**
+     * Every submitted contact field, in form order, with its visible label.
+     *
+     * @return list<array{label: string, value: string}>
+     */
+    public static function submissionLines(\App\Models\ContactSubmission $submission): array
+    {
+        $locale = $submission->locale ?: app()->getLocale();
+        $custom = is_array($submission->custom_fields) ? $submission->custom_fields : [];
+        $values = array_merge([
+            'name' => $submission->name,
+            'email' => $submission->email,
+            'phone' => $submission->phone,
+            'company' => $submission->company,
+            'subject' => $submission->subject,
+            'message' => $submission->message,
+        ], $custom);
+
+        $lines = [];
+        $seen = [];
+
+        foreach (self::fields() as $field) {
+            $key = (string) ($field['key'] ?? '');
+
+            if ($key === '') {
+                continue;
+            }
+
+            $seen[] = $key;
+            $lines[] = [
+                'label' => self::label($field, $locale),
+                'value' => self::displayValue($field, $values[$key] ?? null, $locale),
+            ];
+        }
+
+        foreach ($custom as $key => $raw) {
+            if (in_array((string) $key, $seen, true)) {
+                continue;
+            }
+
+            $lines[] = [
+                'label' => self::labelForKey((string) $key),
+                'value' => self::stringify($raw),
+            ];
+        }
+
+        return $lines;
+    }
+
     private static function labelForKey(string $key): string
     {
         foreach (self::fields() as $field) {
@@ -271,6 +320,36 @@ final class ContactForm
         }
 
         return str($key)->replace('_', ' ')->title()->toString();
+    }
+
+    private static function displayValue(array $field, mixed $raw, string $locale): string
+    {
+        if (! filled($raw)) {
+            return '—';
+        }
+
+        $value = self::stringify($raw);
+
+        if (($field['type'] ?? '') === 'select') {
+            foreach (self::selectOptions($field, $locale) as $option) {
+                if ($option['value'] === $value) {
+                    return $option['label'];
+                }
+            }
+        }
+
+        return $value;
+    }
+
+    private static function stringify(mixed $raw): string
+    {
+        if (is_array($raw)) {
+            return collect($raw)
+                ->map(fn ($item) => is_scalar($item) ? (string) $item : json_encode($item))
+                ->implode(', ');
+        }
+
+        return is_scalar($raw) ? (string) $raw : (string) json_encode($raw);
     }
 
     private static function localizedText(string $settingsKey, string $fallbackKey, string $locale, bool $allowMultiline = false): string

@@ -68,10 +68,7 @@ class ContactSubmissionMailer
     {
         return collect(setting('contact.form_recipients', []))
             ->pluck('email')
-            ->merge([
-                config('mail.contact_notify'),
-                config('mail.from.address'),
-            ])
+            ->push('sales@iksaudi.com')
             ->filter(fn ($email) => filled($email) && filter_var($email, FILTER_VALIDATE_EMAIL))
             ->map(fn ($email) => strtolower((string) $email))
             ->unique()

@@ -14,17 +14,20 @@ class ProductSpecDownloadRequestCustomerMail extends Mailable
     use Queueable;
     use SerializesModels;
 
+    public string $mailLocale;
+
     public function __construct(
         public ProductSpecDownloadRequest $downloadRequest,
         public string $productTitle,
         string $locale,
     ) {
-        $this->locale = $locale;
+        $this->mailLocale = $locale;
+        $this->viewData['locale'] = $locale;
     }
 
     public function envelope(): Envelope
     {
-        $subject = $this->locale === 'ar'
+        $subject = $this->mailLocale === 'ar'
             ? '[IK Saudi] تم استلام طلب المواصفات — '.$this->downloadRequest->reference_number
             : '[IK Saudi] We received your PDF request — '.$this->downloadRequest->reference_number;
 
@@ -35,7 +38,6 @@ class ProductSpecDownloadRequestCustomerMail extends Mailable
     {
         return new Content(
             text: 'emails.product-spec-request-customer',
-            with: ['locale' => $this->locale],
         );
     }
 }

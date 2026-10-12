@@ -17,8 +17,10 @@ class ProductSpecDownloadRequestCustomerMail extends Mailable
     public function __construct(
         public ProductSpecDownloadRequest $downloadRequest,
         public string $productTitle,
-        public string $locale,
-    ) {}
+        string $locale,
+    ) {
+        $this->locale = $locale;
+    }
 
     public function envelope(): Envelope
     {

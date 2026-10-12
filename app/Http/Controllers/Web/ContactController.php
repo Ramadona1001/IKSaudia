@@ -50,12 +50,13 @@ class ContactController extends Controller
             'user_agent' => Str::limit((string) $request->userAgent(), 500),
         ]);
 
-        NotifyContactSubmission::dispatch($submission);
+        $mailError = NotifyContactSubmission::dispatchSync($submission);
 
         return redirect()
             ->route('contact', $locale)
             ->with('contact_success', __('contact.success_reference', [
                 'reference' => $submission->reference_number,
-            ]));
+            ]))
+            ->with('contact_mail_error', is_string($mailError) ? $mailError : null);
     }
 }

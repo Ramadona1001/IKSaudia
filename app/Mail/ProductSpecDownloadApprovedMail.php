@@ -18,8 +18,10 @@ class ProductSpecDownloadApprovedMail extends Mailable
         public ProductSpecDownloadRequest $downloadRequest,
         public string $productTitle,
         public string $downloadUrl,
-        public string $locale,
-    ) {}
+        string $locale,
+    ) {
+        $this->locale = $locale;
+    }
 
     public function envelope(): Envelope
     {

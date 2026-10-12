@@ -106,6 +106,13 @@
                             </div>
                         @endif
 
+                        @if (session('contact_mail_error'))
+                            <div class="contact-alert contact-alert--error" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                                <span>{{ session('contact_mail_error') }}</span>
+                            </div>
+                        @endif
+
                         @if ($errors->any())
                             <div class="contact-alert contact-alert--error" role="alert">
                                 <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>

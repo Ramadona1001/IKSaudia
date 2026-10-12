@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Jobs\NotifyProductSpecDownloadApproved;
-use App\Jobs\NotifyProductSpecDownloadRequest;
 use App\Models\ProductSpecDownloadRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +18,7 @@ class ProductSpecDownloadService
         ]);
 
         $this->notifySafely(
-            fn () => NotifyProductSpecDownloadRequest::dispatchSync($request),
+            fn () => app(ProductSpecDownloadMailer::class)->sendRequest($request),
             'product_spec.request_notify_failed',
             ['reference' => $request->reference_number],
         );
@@ -42,7 +40,7 @@ class ProductSpecDownloadService
         $fresh = $request->fresh(['product.translations']);
 
         $this->notifySafely(
-            fn () => NotifyProductSpecDownloadApproved::dispatchSync($fresh),
+            fn () => app(ProductSpecDownloadMailer::class)->sendApproved($fresh),
             'product_spec.approved_notify_failed',
             ['reference' => $fresh?->reference_number],
         );

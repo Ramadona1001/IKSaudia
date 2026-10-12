@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreContactSubmissionRequest;
-use App\Jobs\NotifyContactSubmission;
+use App\Services\ContactSubmissionMailer;
 use App\Models\ContactSubmission;
 use App\Services\LocaleService;
 use App\Services\Security\SecurityEventLogger;
@@ -50,7 +50,7 @@ class ContactController extends Controller
             'user_agent' => Str::limit((string) $request->userAgent(), 500),
         ]);
 
-        $mailError = NotifyContactSubmission::dispatchSync($submission);
+        $mailError = app(ContactSubmissionMailer::class)->send($submission);
 
         return redirect()
             ->route('contact', $locale)

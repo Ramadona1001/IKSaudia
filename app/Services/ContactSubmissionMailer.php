@@ -1,39 +1,26 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Services;
 
 use App\Mail\ContactSubmissionAdminMail;
 use App\Mail\ContactSubmissionCustomerMail;
 use App\Models\ContactSubmission;
-use App\Services\Security\SecurityEventLogger;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
-class NotifyContactSubmission implements ShouldQueue
+class ContactSubmissionMailer
 {
-    use Queueable;
-
-    public int $tries = 3;
-
-    public int $backoff = 60;
-
-    public function __construct(
-        public ContactSubmission $submission,
-    ) {}
-
-    public function handle(): ?string
+    public function send(ContactSubmission $submission): ?string
     {
-        $locale = $this->submission->locale ?: config('app.locale', 'en');
+        $locale = $submission->locale ?: config('app.locale', 'en');
         $adminRecipients = $this->adminRecipients();
-
         $errors = [];
 
         if (config('mail.default') === 'log') {
             $errors[] = 'MAIL_MAILER is "log", so messages are written to the log instead of being sent.';
         } else {
-            $adminUrl = url('/'.config('cms.admin_path', 'ik-admin').'/contact-submissions/'.$this->submission->id.'/edit');
+            $adminUrl = url('/'.config('cms.admin_path', 'ik-admin').'/contact-submissions/'.$submission->id.'/edit');
 
             if ($adminRecipients === []) {
                 $errors[] = 'No admin recipient is configured.';
@@ -41,24 +28,24 @@ class NotifyContactSubmission implements ShouldQueue
                 try {
                     Mail::to($adminRecipients[0])
                         ->cc(array_slice($adminRecipients, 1))
-                        ->send(new ContactSubmissionAdminMail($this->submission, $adminUrl));
+                        ->send(new ContactSubmissionAdminMail($submission, $adminUrl));
                 } catch (\Throwable $exception) {
                     $errors[] = 'Admin email: '.$exception->getMessage();
                     Log::error('contact.admin_mail_failed', [
-                        'reference' => $this->submission->reference_number,
+                        'reference' => $submission->reference_number,
                         'error' => $exception->getMessage(),
                     ]);
                 }
             }
 
-            if (filled($this->submission->email) && filter_var($this->submission->email, FILTER_VALIDATE_EMAIL)) {
+            if (filled($submission->email) && filter_var($submission->email, FILTER_VALIDATE_EMAIL)) {
                 try {
-                    Mail::to($this->submission->email, $this->submission->name)
-                        ->send(new ContactSubmissionCustomerMail($this->submission, $locale));
+                    Mail::to($submission->email, $submission->name)
+                        ->send(new ContactSubmissionCustomerMail($submission, $locale));
                 } catch (\Throwable $exception) {
                     $errors[] = 'Customer email: '.$exception->getMessage();
                     Log::error('contact.customer_mail_failed', [
-                        'reference' => $this->submission->reference_number,
+                        'reference' => $submission->reference_number,
                         'error' => $exception->getMessage(),
                     ]);
                 }
@@ -66,8 +53,8 @@ class NotifyContactSubmission implements ShouldQueue
         }
 
         if ($errors !== []) {
-            $this->submission->forceFill([
-                'admin_notes' => \Illuminate\Support\Str::limit(implode("\n", $errors), 2000, ''),
+            $submission->forceFill([
+                'admin_notes' => Str::limit(implode("\n", $errors), 2000, ''),
             ])->save();
         }
 
@@ -90,13 +77,5 @@ class NotifyContactSubmission implements ShouldQueue
             ->unique()
             ->values()
             ->all();
-    }
-
-    public function failed(?\Throwable $exception): void
-    {
-        app(SecurityEventLogger::class)->log('contact.notification_failed', [
-            'reference' => $this->submission->reference_number,
-            'error' => $exception?->getMessage(),
-        ]);
     }
 }

@@ -63,7 +63,7 @@ return [
             'host' => env('MAIL_SALES_HOST', env('MAIL_HOST', '127.0.0.1')),
             'port' => env('MAIL_SALES_PORT', env('MAIL_PORT', 587)),
             'encryption' => env('MAIL_SALES_ENCRYPTION', env('MAIL_ENCRYPTION', 'tls')),
-            'username' => env('MAIL_SALES_USERNAME', 'sales@iksaudi.com'),
+            'username' => env('MAIL_SALES_USERNAME', 'sale@iksaudi.com'),
             'password' => env('MAIL_SALES_PASSWORD'),
             'timeout' => (int) env('MAIL_TIMEOUT', 15),
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
@@ -132,7 +132,7 @@ return [
     'contact_notify' => env('MAIL_CONTACT_NOTIFY', 'info@iksaudi.com'),
 
     'contact_from' => [
-        'address' => env('MAIL_CONTACT_FROM_ADDRESS', 'sales@iksaudi.com'),
+        'address' => env('MAIL_CONTACT_FROM_ADDRESS', 'sale@iksaudi.com'),
         'name' => env('MAIL_CONTACT_FROM_NAME', env('MAIL_FROM_NAME', 'IK Saudi')),
     ],
 

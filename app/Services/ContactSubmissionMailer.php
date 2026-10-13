@@ -70,7 +70,7 @@ class ContactSubmissionMailer
     {
         return collect(setting('contact.form_recipients', []))
             ->pluck('email')
-            ->push('sales@iksaudi.com')
+            ->push('sale@iksaudi.com')
             ->filter(fn ($email) => filled($email) && filter_var($email, FILTER_VALIDATE_EMAIL))
             ->map(fn ($email) => strtolower((string) $email))
             ->unique()

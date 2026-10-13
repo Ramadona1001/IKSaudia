@@ -26,7 +26,8 @@ class ContactSubmissionMailer
                 $errors[] = 'No admin recipient is configured.';
             } else {
                 try {
-                    Mail::to($adminRecipients[0])
+                    Mail::mailer('sales')
+                        ->to($adminRecipients[0])
                         ->cc(array_slice($adminRecipients, 1))
                         ->send(new ContactSubmissionAdminMail($submission, $adminUrl));
                 } catch (\Throwable $exception) {
@@ -40,7 +41,8 @@ class ContactSubmissionMailer
 
             if (filled($submission->email) && filter_var($submission->email, FILTER_VALIDATE_EMAIL)) {
                 try {
-                    Mail::to($submission->email, $submission->name)
+                    Mail::mailer('sales')
+                        ->to($submission->email, $submission->name)
                         ->send(new ContactSubmissionCustomerMail($submission, $locale));
                 } catch (\Throwable $exception) {
                     $errors[] = 'Customer email: '.$exception->getMessage();

@@ -57,6 +57,25 @@ return [
             ],
         ],
 
+        'sales' => [
+            'transport' => 'smtp',
+            'scheme' => env('MAIL_SALES_SCHEME', env('MAIL_SCHEME')),
+            'host' => env('MAIL_SALES_HOST', env('MAIL_HOST', '127.0.0.1')),
+            'port' => env('MAIL_SALES_PORT', env('MAIL_PORT', 587)),
+            'encryption' => env('MAIL_SALES_ENCRYPTION', env('MAIL_ENCRYPTION', 'tls')),
+            'username' => env('MAIL_SALES_USERNAME', 'sales@iksaudi.com'),
+            'password' => env('MAIL_SALES_PASSWORD'),
+            'timeout' => (int) env('MAIL_TIMEOUT', 15),
+            'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => filter_var(env('MAIL_ALLOW_SELF_SIGNED', false), FILTER_VALIDATE_BOOL),
+                    'verify_peer' => filter_var(env('MAIL_VERIFY_PEER', true), FILTER_VALIDATE_BOOL),
+                    'verify_peer_name' => filter_var(env('MAIL_VERIFY_PEER_NAME', true), FILTER_VALIDATE_BOOL),
+                ],
+            ],
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],

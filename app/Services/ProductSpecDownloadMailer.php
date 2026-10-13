@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class ProductSpecDownloadMailer
 {
-    public function sendRequest(ProductSpecDownloadRequest $request): void
+    public function sendRequest(ProductSpecDownloadRequest $request): ?string
     {
         $request->loadMissing(['product.translations']);
 
@@ -20,26 +20,23 @@ class ProductSpecDownloadMailer
             ?? $request->product?->translate('en')?->title
             ?? 'Product';
         $adminRecipients = $this->adminRecipients();
+        $errors = [];
 
         if (config('mail.default') === 'log') {
-            Log::info('Product spec download request received', [
-                'reference' => $request->reference_number,
-                'product' => $productTitle,
-                'email' => $request->email,
-                'admin_recipients' => $adminRecipients,
-            ]);
-
-            return;
+            return 'MAIL_MAILER is "log", so messages are written to the log instead of being sent.';
         }
 
         $adminUrl = url('/'.config('cms.admin_path', 'ik-admin').'/product-spec-download-requests/'.$request->id.'/edit');
 
-        if ($adminRecipients !== []) {
+        if ($adminRecipients === []) {
+            $errors[] = 'No admin recipient is configured.';
+        } else {
             try {
                 Mail::to($adminRecipients[0])
                     ->cc(array_slice($adminRecipients, 1))
                     ->send(new ProductSpecDownloadRequestAdminMail($request, $productTitle, $adminUrl));
             } catch (\Throwable $exception) {
+                $errors[] = 'Admin email: '.$exception->getMessage();
                 Log::error('product_spec.admin_mail_failed', [
                     'reference' => $request->reference_number,
                     'error' => $exception->getMessage(),
@@ -47,17 +44,20 @@ class ProductSpecDownloadMailer
             }
         }
 
-        if (filled($request->email)) {
+        if (filled($request->email) && filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             try {
                 Mail::to($request->email, $request->name)
                     ->send(new ProductSpecDownloadRequestCustomerMail($request, $productTitle, $locale));
             } catch (\Throwable $exception) {
+                $errors[] = 'Customer email: '.$exception->getMessage();
                 Log::error('product_spec.customer_mail_failed', [
                     'reference' => $request->reference_number,
                     'error' => $exception->getMessage(),
                 ]);
             }
         }
+
+        return $errors === [] ? null : implode("\n", $errors);
     }
 
     public function sendApproved(ProductSpecDownloadRequest $request): void
@@ -74,16 +74,6 @@ class ProductSpecDownloadMailer
             ?? 'Product';
         $downloadUrl = route('products.spec-download', ['token' => $request->download_token]);
 
-        if (config('mail.default') === 'log') {
-            Log::info('Product spec download approved', [
-                'reference' => $request->reference_number,
-                'email' => $request->email,
-                'download_url' => $downloadUrl,
-            ]);
-
-            return;
-        }
-
         Mail::to($request->email, $request->name)
             ->send(new ProductSpecDownloadApprovedMail($request, $productTitle, $downloadUrl, $locale));
     }
@@ -95,10 +85,7 @@ class ProductSpecDownloadMailer
     {
         return collect(setting('contact.form_recipients', []))
             ->pluck('email')
-            ->merge([
-                config('mail.contact_notify'),
-                config('mail.from.address'),
-            ])
+            ->push('sales@iksaudi.com')
             ->filter(fn ($email) => filled($email) && filter_var($email, FILTER_VALIDATE_EMAIL))
             ->map(fn ($email) => strtolower((string) $email))
             ->unique()

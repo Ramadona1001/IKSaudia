@@ -112,4 +112,9 @@ return [
 
     'contact_notify' => env('MAIL_CONTACT_NOTIFY', 'info@iksaudi.com'),
 
+    'contact_from' => [
+        'address' => env('MAIL_CONTACT_FROM_ADDRESS', 'sales@iksaudi.com'),
+        'name' => env('MAIL_CONTACT_FROM_NAME', env('MAIL_FROM_NAME', 'IK Saudi')),
+    ],
+
 ];

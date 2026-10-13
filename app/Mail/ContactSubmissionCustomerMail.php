@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\ContactSubmission;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -30,7 +31,13 @@ class ContactSubmissionCustomerMail extends Mailable
             ? '[IK Saudi] تم استلام رسالتك — '.$this->submission->reference_number
             : '[IK Saudi] We received your message — '.$this->submission->reference_number;
 
-        return new Envelope(subject: $subject);
+        return new Envelope(
+            from: new Address(
+                (string) config('mail.contact_from.address'),
+                (string) config('mail.contact_from.name'),
+            ),
+            subject: $subject,
+        );
     }
 
     public function content(): Content

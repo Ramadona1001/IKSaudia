@@ -45,6 +45,13 @@ class ProductSpecDownloadController extends Controller
             'user_agent' => \Illuminate\Support\Str::limit((string) $request->userAgent(), 500),
         ]);
 
+        if (filled($submission->mail_error)) {
+            return response()->json([
+                'message' => $submission->mail_error,
+                'reference' => $submission->reference_number,
+            ], 500);
+        }
+
         return response()->json([
             'message' => __('front.products.spec_request_success'),
             'reference' => $submission->reference_number,

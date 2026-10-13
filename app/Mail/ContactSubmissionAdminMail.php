@@ -23,6 +23,10 @@ class ContactSubmissionAdminMail extends Mailable
     public function envelope(): Envelope
     {
         $envelope = new Envelope(
+            from: new Address(
+                (string) config('mail.contact_from.address'),
+                (string) config('mail.contact_from.name'),
+            ),
             subject: '[IK Saudi] Contact: '.$this->submission->reference_number,
         );
 

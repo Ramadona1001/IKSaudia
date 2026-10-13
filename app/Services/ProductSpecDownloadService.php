@@ -17,11 +17,7 @@ class ProductSpecDownloadService
             'status' => 'pending',
         ]);
 
-        $this->notifySafely(
-            fn () => app(ProductSpecDownloadMailer::class)->sendRequest($request),
-            'product_spec.request_notify_failed',
-            ['reference' => $request->reference_number],
-        );
+        $request->mail_error = app(ProductSpecDownloadMailer::class)->sendRequest($request);
 
         return $request;
     }
